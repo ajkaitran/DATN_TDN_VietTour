@@ -1,3 +1,6 @@
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
 const INPUT_FILE = document.querySelector('#upload-files');
 const INPUT_CONTAINER = document.querySelector('#upload-container');
 const FILES_LIST_CONTAINER = document.querySelector('#files-list-container');
