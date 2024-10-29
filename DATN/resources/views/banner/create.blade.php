@@ -29,7 +29,7 @@
 <div class="right-column">
     <div class="formcontent">
         <div class="content p-3">
-            <form action="{{ route('banners.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('banner.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="banner_name">Tên Banner</label>
@@ -77,7 +77,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">Thêm Banner</button>
-                <a href="{{ route('banners.index') }}" class="btn btn-secondary">Quay lại</a>
+                <a href="{{ route('banner.index') }}" class="btn btn-secondary">Quay lại</a>
             </form>
         </div>
     </div>

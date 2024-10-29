@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,40 +17,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['prefix'=> ''], function(){
-    Route::controller(\App\Http\Controllers\HomeController::class)
-        ->name('home.')
-        ->group(function (){
-            Route::get('/','index')->name('index'); 
-        });
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
+Route::prefix('admin')->group(function () {
+    Route::get('login', [AdminController::class, 'login'])->name('admin.login');
+    Route::post('login', [AdminController::class, 'postLogin'])->name('admin.postLogin');
+    Route::middleware('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('register', [AdminController::class, 'register'])->name('admin.register');
+        Route::post('register', [AdminController::class, 'postRegister'])->name('admin.postRegister');
+        Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
+        Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
+        Route::post('signout', [AdminController::class, 'signout'])->name('admin.signout');
+    });
 });
 
-Route::group(['prefix'=> 'admin'], function(){
-    Route::controller(\App\Http\Controllers\AdminController::class)
-        ->name('admin.')
-        ->group(function (){
-            Route::get('login','login')->name('login'); 
-            Route::post('login','postLogin')->name('postLogin'); 
-        });
-    Route::controller(\App\Http\Controllers\AdminController::class)
-        ->name('admin.')
-        ->middleware('admin')
-        ->group(function (){
-            Route::get('/','index')->name('index'); 
-            Route::get('register','register')->name('register'); 
-            Route::post('register','postRegister')->name('postRegister'); 
-            Route::get('change-password', 'changePassword')->name('changePassword')->where('id','[0-9]+');; 
-            Route::put('change-password', 'postChange')->name('postChange')->where('id','[0-9]+');; 
-            Route::post('signout','signout')->name('signout'); 
-        });
-    Route::controller(\App\Http\Controllers\BannerController::class)
-        ->name('banners.')
-        ->group(function (){
-            Route::get('/banners', 'index')->name('index');
-            Route::get('/banners/create', 'create')->name('create');
-            Route::post('/banners', 'store')->name('store');
-            Route::get('/banners/{id}/edit', 'edit')->name('edit');
-            Route::put('/banners/{id}', 'update')->name('update');
-            Route::delete('/banners/{id}', 'destroy')->name('destroy');
-        });
+Route::prefix('admin/banner')->group(function () {
+    Route::get('/', [BannerController::class, 'index'])->name('banner.index');
+    Route::get('/create', [BannerController::class, 'create'])->name('banner.create');
+    Route::post('/store', [BannerController::class, 'store'])->name('banner.store');
+    Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
+    Route::put('/{id}', [BannerController::class, 'update'])->name('banner.update');
+    Route::delete('/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
 });
