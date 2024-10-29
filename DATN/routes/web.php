@@ -32,7 +32,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::prefix('admin/banner')->group(function () {
+Route::prefix('admin/banner')->middleware('admin')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
     Route::get('/create', [BannerController::class, 'create'])->name('banner.create');
     Route::post('/store', [BannerController::class, 'store'])->name('banner.store');
