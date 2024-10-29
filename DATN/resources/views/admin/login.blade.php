@@ -6,7 +6,7 @@ Login
 @section('content')
 <div class="form_admin">
     <a class="logo_form" href="{{route('home.index')}}">
-        <img src="{{url('images/logo_pago.png')}}" alt="logo_papo" style="width: 200px; margin: 15px;">
+        <img src="{{url('images/logo.png')}}" alt="logo_papo" style="width: 200px; margin: 15px;">
     </a>
     @if ($errors->any())
     <div class="alert alert-danger">

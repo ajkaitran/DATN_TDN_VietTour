@@ -20,7 +20,7 @@ class AdminAuthenticate
             return redirect()->route('admin.login')->with('error', 'Bạn cần đăng nhập để truy cập trang này.');
         }
 
-        if (Auth::admin()->role != 1) {
+        if (Auth::user()->role != 1) {
             return redirect()->route('admin.login')->with('error', 'Tài khoản đăng nhập không đủ quyền!');
         }
         return $next($request);

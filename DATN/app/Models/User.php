@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Admin extends Authenticatable
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -19,8 +19,13 @@ class Admin extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'image',
+        'phone',
         'email',
+        'username',
         'password',
+        'role',
+        'status',
     ];
 
     /**
@@ -43,13 +48,13 @@ class Admin extends Authenticatable
     ];
     public function insertDataAdmin($params){
         $params['role'] = 1;
-        $res = Admin::query()->create($params);
+        $res = User::query()->create($params);
         return $res;
     }
     public function loadListAdmin(){
-        $query = Admin::query()
+        $query = User::query()
             ->orderBy('id')
-            ->paginate('5');
+            ->paginate(5);
         return $query;
     }
 }
