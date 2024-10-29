@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,12 +18,12 @@ class AdminController extends Controller
         return view('admin.index');
     }
     public function register(){
-        $objAdmin = new Admin();
+        $objAdmin = new User();
         $this->view['listAdmin']= $objAdmin->loadListAdmin();
         return view('admin.register',$this->view);
     }
     public function postRegister(Request $request){
-        $objAdmin = new Admin();
+        $objAdmin = new User();
         $request->merge(['password'=>Hash::make($request->password)]);
         $res = $objAdmin->insertDataAdmin($request->all());
         if($res){
@@ -56,7 +56,7 @@ class AdminController extends Controller
     
         return redirect()->back()->with('success', 'Mật khẩu đã được thay đổi thành công');
     }
-    public function sigout(){
+    public function signout(){
         Auth::logout();
         return redirect()->route('admin.login');
     }
