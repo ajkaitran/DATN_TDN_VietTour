@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($banners as $banner)
+                    @foreach($banner as $banner)
                     <tr>
                         <td>{{ $banner->id }}</td>
                         <td>{{ $banner->banner_name }}</td>

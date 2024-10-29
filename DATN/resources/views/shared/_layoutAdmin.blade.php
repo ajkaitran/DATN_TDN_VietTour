@@ -75,8 +75,8 @@
                 </a>
                 <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="?controller=Admin&action=AddUser">Thêm tài khoản</a>
-                        <a class="collapse-item" href="?controller=Admin&action=ListUser">Danh sách tài khoản</a>
+                        <a class="collapse-item" href="">Thêm tài khoản</a>
+                        <a class="collapse-item" href="">Danh sách tài khoản</a>
                     </div>
                 </div>
             </li>
@@ -108,6 +108,21 @@
                         <a class="collapse-item" href="">Danh sách danh mục sản phẩm</a>
                         <a class="collapse-item" href="">Thêm mới sản phẩm</a>
                         <a class="collapse-item" href="">Danh sách sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Quản lý quảng cáo</span>
+                </a>
+                <div id="collapsePages2" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{route('banner.index')}}">Danh sách quảng cáo</a>
+                        <a class="collapse-item" href="{{route('banner.create')}}">Thêm mới quảng cáo</a>
                     </div>
                 </div>
             </li>
