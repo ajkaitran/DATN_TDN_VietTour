@@ -23,7 +23,7 @@
 <div class="right-column">
     <div class="formcontent">
         <div class="content p-3">
-            <form action="{{ route('banners.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('banner.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 

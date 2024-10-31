@@ -54,10 +54,10 @@ class BannerController extends Controller
     {
         $banner = Banner::find($id);
         if (!$banner) {
-            return redirect()->route('banners.index')->with('error', 'Banner không tồn tại.');
+            return redirect()->route('banner.index')->with('error', 'Banner không tồn tại.');
         }
         $banner->delete();
-        return redirect()->route('banners.index')->with('success', 'Banner đã được xóa thành công.');
+        return redirect()->route('banner.index')->with('success', 'Banner đã được xóa thành công.');
     }
 
 
@@ -113,6 +113,6 @@ class BannerController extends Controller
         // Lưu các thay đổi
         $banner->save();
 
-        return redirect()->route('banners.index')->with('success', 'Cập nhật banner thành công.');
+        return redirect()->route('banner.index')->with('success', 'Cập nhật banner thành công.');
     }
 }
