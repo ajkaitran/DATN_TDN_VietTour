@@ -24,12 +24,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home.index')}}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="{{url('images/favicon-logo.png')}}" alt="">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center my-3" href="{{route('home.index')}}">
+                <div class="sidebar-brand-icon d-lg-none">
+                    <img src="{{url('images/Logo_VietTour (2).png')}}" style="width: 100%; height: 100px; object-fit: cover;" alt="">
                 </div>
-                <div class="sidebar-brand-text mx-3"><img src="{{url('images/logo_pago.png')}}" style="width: 100px;"
-                        alt="ảnh logo"></div>
+                <div class="sidebar-brand-text mx-3"><img src="{{url('images/Logo_VietTour (1).png')}}" style="width: 100%; object-fit: cover; padding: 15px;" alt="ảnh logo"></div>
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">

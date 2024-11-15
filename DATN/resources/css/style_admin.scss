@@ -31,7 +31,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, #01a9ac, #01dbdf);
+    background: linear-gradient(to right, #38b6ff, #008ee0);
     border-radius: 4px;
 }
 
@@ -155,7 +155,7 @@
 }
 
 .icons {
-    background-color: #01a9ac;
+    background-color: #38b6ff;
     margin-top: -18px;
     margin-left: 7px;
     border-radius: 3px;
@@ -451,17 +451,17 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: hsl(42, 100%, 78%);
+	background: #60c5ff;
 	height: 100vh;
 }
 .main_form .form_admin{
     margin: auto;
-    padding: 50px 20px;
+    padding: 30px 20px;
     width: 30%;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 20px;
     text-align: center;
-    background: hsl(42, 100%, 90%);
+    background: #38b6ff;
 }
 .main_form .form_admin .form_group{
     text-align: start;

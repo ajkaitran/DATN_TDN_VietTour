@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\User\LoginRequest;
 
 class AdminController extends Controller
 {
@@ -35,11 +36,18 @@ class AdminController extends Controller
     public function login(){
         return view('admin.login');
     }
-    public function postLogin(Request $request){
-        if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])){
+    public function postLogin(LoginRequest $request){
+        $login = $request->input('login');
+        $password = $request->input('password');
+
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if(Auth::attempt([$field => $login, 'password' => $password])){
             return redirect()->route('admin.index');
         } else {
-            return redirect()->back()->with('error','Đăng nhập tài khoản không thành công!');
+            return redirect()->back()
+            ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
+            ->withInput($request->only('login'));
         }
     }
     public function changePassword(){
