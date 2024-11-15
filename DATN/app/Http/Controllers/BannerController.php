@@ -10,12 +10,12 @@ class BannerController extends Controller
 {
     public function index()
     {
-        $banners = Banner::all();
-        return view('banners.index', compact('banners'));
+        $banner = Banner::all();
+        return view('banner.index', compact('banner'));
     }
     public function create()
     {
-        return view('banners.create');
+        return view('banner.create');
     }
     public function store(Request $request)
     {
@@ -46,7 +46,7 @@ class BannerController extends Controller
             'slogan' => $request->slogan,
         ]);
 
-        return redirect()->route('banners.index')->with('success', 'Thêm banner thành công.');
+        return redirect()->route('banner.index')->with('success', 'Thêm banner thành công.');
     }
 
 
@@ -65,7 +65,7 @@ class BannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        return view('banners.edit', compact('banner'));
+        return view('banner.edit', compact('banner'));
     }
 
     public function update(Request $request, $id)

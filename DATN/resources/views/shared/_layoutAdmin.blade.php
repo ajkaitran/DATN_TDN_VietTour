@@ -24,12 +24,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home.index')}}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="{{url('images/favicon-logo.png')}}" alt="">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center my-3" href="{{route('home.index')}}">
+                <div class="sidebar-brand-icon d-lg-none">
+                    <img src="{{url('images/Logo_VietTour (2).png')}}" style="width: 100%; height: 100px; object-fit: cover;" alt="">
                 </div>
-                <div class="sidebar-brand-text mx-3"><img src="{{url('images/logo_pago.png')}}" style="width: 100px;"
-                        alt="ảnh logo"></div>
+                <div class="sidebar-brand-text mx-3"><img src="{{url('images/Logo_VietTour (1).png')}}" style="width: 100%; object-fit: cover; padding: 15px;" alt="ảnh logo"></div>
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -75,8 +74,8 @@
                 </a>
                 <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="?controller=Admin&action=AddUser">Thêm tài khoản</a>
-                        <a class="collapse-item" href="?controller=Admin&action=ListUser">Danh sách tài khoản</a>
+                        <a class="collapse-item" href="">Thêm tài khoản</a>
+                        <a class="collapse-item" href="">Danh sách tài khoản</a>
                     </div>
                 </div>
             </li>
@@ -108,6 +107,21 @@
                         <a class="collapse-item" href="">Danh sách danh mục sản phẩm</a>
                         <a class="collapse-item" href="">Thêm mới sản phẩm</a>
                         <a class="collapse-item" href="">Danh sách sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Quản lý quảng cáo</span>
+                </a>
+                <div id="collapsePages2" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{route('banner.index')}}">Danh sách quảng cáo</a>
+                        <a class="collapse-item" href="{{route('banner.create')}}">Thêm mới quảng cáo</a>
                     </div>
                 </div>
             </li>
