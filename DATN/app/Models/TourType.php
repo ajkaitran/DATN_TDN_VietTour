@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Feedback extends Model
+class TourType extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'feedback';
+    protected $table = 'tour_categories';
 
     protected $fillable = [
-        'full_name',
-        'address',
-        'position',
+        'category_type',
+        'name',
+        'home_name',
         'image',
-        'comment',
-        'type',
-        'order',
-        'active'
+        'orde',
+        'show_menu',
+        'active',
+        'show_home',
+        'slug'
     ];
 }

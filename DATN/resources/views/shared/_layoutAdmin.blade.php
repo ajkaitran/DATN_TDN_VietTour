@@ -112,6 +112,33 @@
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
+                    aria-expanded="true" aria-controls="collapseUser">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Quản lý phản hồi</span>
+                </a>
+                <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('feedback.create') }}">Thêm mới phản hồi</a>
+                        <a class="collapse-item" href="{{ route('feedback.index') }}">Danh sách phản hồi</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
+                    aria-expanded="true" aria-controls="collapseUser">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Quản lý tour/combor</span>
+                </a>
+                <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('typetour.index') }}">Loại tour</a>
+                        <a class="collapse-item" href="">Danh mục tour</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -380,6 +407,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    @yield('script')
     @vite([
         'resources/js/app_admin.js',
         'resources/js/template_admin.js'

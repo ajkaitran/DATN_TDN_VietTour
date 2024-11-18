@@ -61,8 +61,8 @@
                         <td>{{ $banner->group_id }}</td>
                         <td>{{ $banner->sort }}</td>
                         <td>
-                            <a href="{{ route('banners.edit', $banner->id) }}" class="btn btn-warning">Sửa</a>
-                            <form action="{{ route('banners.destroy', $banner->id) }}" method="POST" style="display:inline;">
+                            <a href="" class="btn btn-warning">Sửa</a>
+                            <form action="" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa banner này không?')">Xóa</button>
