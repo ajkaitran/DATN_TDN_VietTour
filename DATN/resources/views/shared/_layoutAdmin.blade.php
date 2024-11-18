@@ -5,10 +5,12 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-toast-plugin/dist/jquery.toast.min.css">
     <link rel="stylesheet" href="{{url('font-awesome/css/all.css')}}">
     @vite([
         'resources/css/style_admin.scss',
@@ -58,11 +60,13 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <!-- <h6 class="collapse-header">Custom Components:</h6> -->
+                        <h6 class="collapse-header">Custom Components:</h6>
                         <!-- <a class="collapse-item" href="?controller=Admin&action=UpdatePassword">Đổi mật khẩu</a> -->
                         <a class="collapse-item" href="{{route('admin.register')}}">Quản lý admin</a>
-                        <!-- <a class="collapse-item" href="#">Thông tin chung</a> -->
-                        <!-- <a class="collapse-item" href="#">Đăng xuất</a> -->
+                        <a class="collapse-item" href="#">Thông tin chung</a>
+                        <a class="collapse-item" href="{{ route('admin.signout') }}" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">
+                            Đăng xuất
+                        </a>
                     </div>
                 </div>
             </li>
@@ -98,15 +102,16 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages1"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Quản lý sản phẩm</span>
+                    <span>Quản lý Tour/Combo</span>
                 </a>
                 <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Thêm mới danh mục sản phẩm</a>
-                        <a class="collapse-item" href="">Danh sách danh mục sản phẩm</a>
-                        <a class="collapse-item" href="">Thêm mới sản phẩm</a>
-                        <a class="collapse-item" href="">Danh sách sản phẩm</a>
+                        <a class="collapse-item" href="{{route('tourType.index')}}">Loại Tour</a>
+                        <a class="collapse-item" href="{{route('tourCategory.index')}}">Danh mục Tour</a>
+                        <a class="collapse-item" href="{{route('tour.index')}}">Danh sách Tour</a>
+                        <a class="collapse-item" href="{{route('combo.index')}}">Danh sách Combo</a>
+                        <a class="collapse-item" href="{{route('startPlace.index')}}">Điểm xuất phát</a>
                     </div>
                 </div>
             </li>
@@ -310,7 +315,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                                <img class="img-profile rounded-circle" src="{{url('images/favicon.png')}}">
+                                <img class="img-profile rounded-circle" src="{{url('images/avt.jpg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -328,10 +333,6 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <!-- <a class="dropdown-item" href="{{route('admin.signout')}}" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a> -->
                                 <form action="{{route('admin.signout')}}" method="POST">
                                     @csrf
                                     <button class="dropdown-item" type="submit" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?')">
@@ -370,16 +371,14 @@
         <!-- End of Content Wrapper -->
 
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     @vite([
         'resources/js/app_admin.js',
         'resources/js/template_admin.js'

@@ -6,7 +6,7 @@
     Quản lý Admin
 </h2>
 @if ($errors->any())
-<div class="alert alert-danger">
+<div class="alert alert-danger my-3">
     <ul>
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -52,33 +52,53 @@
         </div>
     </form>
 </div>
-<div class="right-column">
-    <div class="formcontent">
-        <div class="content p-3">
-            <table class="table table-strped mt-4">
-                <thead class="thead">
-                    <tr>
-                        <th scope="col">STT</th>
-                        <th scope="col">Tên đăng nhập</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Hoạt động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($listAdmin as $items)
-                    <tr>
-                        <td>{{$items->id}}</td>
-                        <td>{{$items->username}}</td>
-                        <td>{{$items->email}}</td>
-                        <td>
-                            <a href="{{route('admin.changePassword',['id'=>$items->id])}}" class="btn btn-warning">Đổi mật khẩu</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+<div class="box_content">
+    <div class="content p-3">
+        <table class="table table-strped mt-4">
+            <thead>
+                <tr>
+                    <th style="width: 50px;" scope="col">STT</th>
+                    <th style="width: 150px;" scope="col">Tên</th>
+                    <th style="width: 200px; text-align: start" scope="col">Tài khoản</th>
+                    <th style="width: 200px;" scope="col">Hình ảnh</th>
+                    <th style="width: 120px;" scope="col">Hoạt động</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($listAdmin as $index => $items)
+                <tr data-id="{{ $items->id }}">
+                    <td>{{$listAdmin->firstItem() + $index}}</td>
+                    <td>{{$items->username}}</td>
+                    <td>
+                        <select id="role" class="form-control">
+                            @foreach($roles as $key => $value)
+                            <option value="{{ $key }}" {{ $items->role == $key ? 'selected' : '' }}>{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        @if(!isset($items->image))
+                        <strong>NO PHOTO</strong>
+                        @else
+                            <img src="{{Storage::url($items->image)}}" style="width: 150px; height: 50px; object-fit: cover">
+                        @endif
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled {{ $items->status == 1 ? 'checked' : '' }}>
+                    </td>
+                    <td class="d-flex justify-content-around py-4">
+                        <a class="btn btn-primary" href="javascript:;" onclick="updateUser({{ $items->id }})">Cập nhật</a>
+                        <a href="{{route('admin.changePassword',['id'=>$items->id])}}" class="btn btn-warning">Đổi mật khẩu</a>
+                        <a class="btn btn-danger" href="javascript:;" onclick="deleteUser({{ $items->id }})">Xóa</a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        {{$listAdmin->links()}}
     </div>
 </div>
+
 
 @endsection
