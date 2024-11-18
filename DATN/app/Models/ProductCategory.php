@@ -15,16 +15,15 @@ class ProductCategory extends Model
         'name',
         'city',
         'image',
-        'cover_image',
         'url',
         'sort',
         'active',
         'hot',
         'parent_id',
         'hotline',
-        'body',
+        'meta_title',
+        'meta_description',
         'type',
-        'temp_city',
         'time_get_temp',
     ];
 }
