@@ -5,6 +5,8 @@
 <h2 class="title_page">
     Đổi mật khẩu
 </h2>
+
+<!-- Hiển thị thông báo lỗi và thành công -->
 @if ($errors->any())
 <div class="alert alert-danger">
     <ul>
@@ -14,7 +16,6 @@
     </ul>
 </div>
 @endif
-
 
 @if (session('success'))
 <div class="alert alert-success">
@@ -26,22 +27,24 @@
     {{ session('error') }}
 </div>
 @endif
+
 <div class="box_content">
-    <form action="{{ route('admin.postChange') }}" method="post">
+    <form action="{{ route('admin.postChange') }}" method="POST">
         @csrf
         @method('PUT')
-        <div class="row ">
+
+        <div class="row">
             <div class="col-6 mx-auto">
                 <div class="form-group d-flex">
-                    <label for="" class="form_ext">Current Password</label>
+                    <label for="current_password" class="form_ext">Mật khẩu hiện tại</label>
                     <input type="password" class="input-text form-control w-75" name="current_password">
                 </div>
                 <div class="form-group d-flex">
-                    <label for="" class="form_ext">New Password</label>
+                    <label for="new_password" class="form_ext">Mật khẩu mới</label>
                     <input type="password" class="input-text form-control w-75" name="new_password">
                 </div>
                 <div class="form-group d-flex">
-                    <label for="" class="form_ext">Confirm New Password</label>
+                    <label for="new_password_confirmation" class="form_ext">Xác nhận mật khẩu mới</label>
                     <input type="password" class="input-text form-control w-75" name="new_password_confirmation">
                 </div>
                 <div class="form-group">

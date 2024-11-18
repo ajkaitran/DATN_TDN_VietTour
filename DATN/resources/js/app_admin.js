@@ -91,45 +91,60 @@ const removeFile = () => {
 
 fileUpload();
 removeFile();
-ClassicEditor
-  .create(document.querySelector('#editor'))
-  .catch(error => {
-    console.error(error);
-  });
+
+CKEDITOR.replace( 'editor' );
+CKEDITOR.replace( 'editor1' );
+CKEDITOR.replace( 'editor2' );
+// CKEDITOR.replace( 'editor3' );
 
 
-$(document).ready(function () {
-  $('#productForm').validate({
-    rules: {
-      // Define validation rules for each form field
-      dm: {
-        required: true
-      },
-      ten: {
-        required: true
-      },
-      gia: {
-        required: true,
-        number: true
-      }
-    },
-    messages: {
-      // Define custom error messages for each field
-      dm: {
-        required: "Xin vui lòng chọn danh mục"
-      },
-      ten: {
-        required: "Xin vui lòng nhập tên"
-      },
-      gia: {
-        required: "Xin vui lòng nhập giá",
-        number: "Xin vui lòng chỉ nhập số"
-      },
-    },
-    // Submit the form via AJAX if it's valid
-    submitHandler: function (form) {
-      form.submit();
+  function updateUser(id) {
+    let row = $('tr[data-id="' + id + '"]');
+    let role = row.find('select#role').val();
+    let status = row.find('input#status').prop('checked') ? 1 : 0;
+
+    $.post("{{ route('admin.quickUpdate') }}", { 
+        id: id, 
+        role: role, 
+        status: status, 
+        _token: '{{ csrf_token() }}' 
+    }, function (response) {
+        if (response.success) {
+            $.toast({
+                text: response.message,
+                position: 'bottom-right',
+                icon: 'success',
+            });
+        } else {
+            $.toast({
+                text: response.message,
+                position: 'bottom-right',
+                icon: 'error',
+            });
+        }
+    });
+}
+
+function deleteUser(id) {
+    if (confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) {
+        $.post("{{ route('admin.destroy') }}", { 
+            id: id, 
+            _token: '{{ csrf_token() }}' 
+        }, function (response) {
+            if (response.success) {
+                $('tr[data-id="' + id + '"]').fadeOut();
+                $.toast({
+                    text: response.message,
+                    position: 'bottom-right',
+                    icon: 'success',
+                });
+            } else {
+                $.toast({
+                    text: response.message,
+                    position: 'bottom-right',
+                    icon: 'error',
+                });
+            }
+        });
     }
-  });
-
-});
+}

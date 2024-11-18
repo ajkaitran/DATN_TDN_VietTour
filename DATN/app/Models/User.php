@@ -57,4 +57,17 @@ class User extends Authenticatable
             ->paginate(5);
         return $query;
     }
+    public function loadIdUser($id){
+        $query = User::query()->find($id);
+        return $query;
+    }
+    public function updateDataUser($params, $id){
+        $res = User::query()->find($id)->update($params);
+        return $res;
+    }
+
+    public function deleteDataUser($id){
+        $res = User::query()->find($id)->delete();
+        return $res;
+    }
 }
