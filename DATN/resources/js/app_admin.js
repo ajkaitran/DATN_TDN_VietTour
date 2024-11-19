@@ -92,59 +92,71 @@ const removeFile = () => {
 fileUpload();
 removeFile();
 
-CKEDITOR.replace( 'editor' );
-CKEDITOR.replace( 'editor1' );
-CKEDITOR.replace( 'editor2' );
+CKEDITOR.replace('editor');
+CKEDITOR.replace('editor1');
+CKEDITOR.replace('editor2');
 // CKEDITOR.replace( 'editor3' );
 
 
-  function updateUser(id) {
-    let row = $('tr[data-id="' + id + '"]');
-    let role = row.find('select#role').val();
-    let status = row.find('input#status').prop('checked') ? 1 : 0;
+function updateUser(id) {
+  let row = $('tr[data-id="' + id + '"]');
+  let role = row.find('select#role').val();
+  let status = row.find('input#status').prop('checked') ? 1 : 0;
 
-    $.post("{{ route('admin.quickUpdate') }}", { 
-        id: id, 
-        role: role, 
-        status: status, 
-        _token: '{{ csrf_token() }}' 
-    }, function (response) {
-        if (response.success) {
-            $.toast({
-                text: response.message,
-                position: 'bottom-right',
-                icon: 'success',
-            });
-        } else {
-            $.toast({
-                text: response.message,
-                position: 'bottom-right',
-                icon: 'error',
-            });
-        }
-    });
+  $.post("{{ route('admin.quickUpdate') }}", {
+    id: id,
+    role: role,
+    status: status,
+    _token: '{{ csrf_token() }}'
+  }, function (response) {
+    if (response.success) {
+      $.toast({
+        text: response.message,
+        position: 'bottom-right',
+        icon: 'success',
+      });
+    } else {
+      $.toast({
+        text: response.message,
+        position: 'bottom-right',
+        icon: 'error',
+      });
+    }
+  });
 }
 
 function deleteUser(id) {
-    if (confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) {
-        $.post("{{ route('admin.destroy') }}", { 
-            id: id, 
-            _token: '{{ csrf_token() }}' 
-        }, function (response) {
-            if (response.success) {
-                $('tr[data-id="' + id + '"]').fadeOut();
-                $.toast({
-                    text: response.message,
-                    position: 'bottom-right',
-                    icon: 'success',
-                });
-            } else {
-                $.toast({
-                    text: response.message,
-                    position: 'bottom-right',
-                    icon: 'error',
-                });
-            }
+  if (confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) {
+    $.post("{{ route('admin.destroy') }}", {
+      id: id,
+      _token: '{{ csrf_token() }}'
+    }, function (response) {
+      if (response.success) {
+        $('tr[data-id="' + id + '"]').fadeOut();
+        $.toast({
+          text: response.message,
+          position: 'bottom-right',
+          icon: 'success',
         });
-    }
+      } else {
+        $.toast({
+          text: response.message,
+          position: 'bottom-right',
+          icon: 'error',
+        });
+      }
+    });
+  }
 }
+
+$(document).ready(function () {
+  $('#upload-files').on('change', function () {
+    const previewImage = document.getElementById('preview-image');
+
+    if (this.files.length === 0) {
+      previewImage.style.display = 'block';
+    } else {
+      previewImage.style.display = 'none';
+    }
+  });
+});

@@ -3,7 +3,7 @@
 
 @section('content')
     <h2 class="title_page">
-        Thêm Loại Tour
+        Thêm danh mục Tour
     </h2>
     @if ($errors->any())
         <div class="alert alert-danger my-3">
@@ -27,8 +27,8 @@
         </div>
     @endif
     <div class="box_content">
-        <a class="box_link" href="{{ route('tourType.index') }}">Danh mục tour</a>
-        <form action="{{ route('tourCategory.store') }}" method="post">
+        <a class="box_link" href="{{ route('tourCategory.index') }}">Danh mục tour</a>
+        <form action="{{ route('tourCategory.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row mx-3">
                 <div class="col-8">
@@ -45,7 +45,7 @@
                         <div class="w-75">
                             <label class="form__container" id="upload-container">Choose or Drag & Drop Files
                                 <input class="form__file" id="upload-files" type="file" accept="image/*" name="image"
-                                    value="{{ old('image') }}" />
+                                    multiple value="{{ old('image') }}" />
                             </label>
                             <div class="form__files-container" id="files-list-container"></div>
                         </div>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="form_check">
                         <label for="" class="form_ext w-45">Hoạt động</label>
-                        <input class="w-75" type="checkbox" name="active" name="active" value="1"
+                        <input class="w-75" type="checkbox" name="active" value="1"
                             {{ old('active') ? 'checked' : '' }}>
                     </div>
                     <div class="form_check">

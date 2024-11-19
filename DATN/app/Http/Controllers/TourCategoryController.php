@@ -32,7 +32,9 @@ class TourCategoryController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $response = $this->tourCategoryService->store($request->all());
+        $data = $request->all();
+        $data['image'] = $request->file('image');
+        $response = $this->tourCategoryService->store($data);
         if (!$response) {
             return redirect()->route('tourCategory.create')->with('error', 'Created failed!');
         }
@@ -50,9 +52,10 @@ class TourCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
-        return view('tourCategory.edit');
+        $category = ProductCategory::find($id);
+        return view('tourCategory.edit', compact('category'));
     }
 
     /**
@@ -60,14 +63,24 @@ class TourCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->all();
+        $data['image'] = $request->file('image');
+        $response = $this->tourCategoryService->update($id, $data);
+        if (!$response) {
+            return redirect()->route('tourCategory.edit', $id)->with('error', 'Updated failed!');
+        }
+        return redirect()->route('tourCategory.index')->with('success', 'Updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $response = $this->tourCategoryService->destroy($id);
+        if (!$response) {
+            return redirect()->route('tourCategory.index')->with('error', 'Deleted failed!');
+        }
+        return redirect()->route('tourCategory.index')->with('success', 'Deleted successfully!');
     }
 }

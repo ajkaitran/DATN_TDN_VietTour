@@ -4,16 +4,16 @@ $orange: #e67e22;
 $orange1: #ff8f3b;
 $orange2: #ff5900;
 $red: #e74c3c;
-$blur: #F4F5F5;
+$blur: #f4f5f5;
 $blue: #38b6ff;
 $blue1: #0065df;
 $blue2: #00b6f5;
 $blue3: #4ed3ff;
 $black: #011027;
 $white: #fff;
-$gray: #6F6F6F;
+$gray: #6f6f6f;
 $yellow: #f1c40f;
-$brown: #C9A654;
+$brown: #c9a654;
 $clouds: #ecf0f1;
 $dark: #091923;
 $darkHover: #243654;
@@ -62,7 +62,7 @@ $warning: $yellow;
 }
 
 @mixin before($width, $height) {
-    content: '';
+    content: "";
     position: absolute;
     width: $width;
     height: $height;
@@ -76,7 +76,7 @@ $warning: $yellow;
 
 @mixin text-center {
     left: 50%;
-    transform: translateX(-50%)
+    transform: translateX(-50%);
 }
 
 @mixin truncate($value) {
@@ -125,11 +125,11 @@ $warning: $yellow;
         border-radius: 5px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
-    
+
     .left {
         margin-left: 30px;
         margin-top: 7px;
-    
+
         .icons {
             color: #fff;
             font-size: 25px;
@@ -141,14 +141,14 @@ $warning: $yellow;
             background: linear-gradient(to right, #38b6ff, #008ee0);
             border-radius: 4px;
         }
-    
+
         h2 {
             font-size: 25px;
             margin-top: 10px;
             color: black;
         }
     }
-    
+
     .box {
         margin-left: 10px;
         margin-top: 40px;
@@ -159,36 +159,36 @@ $warning: $yellow;
         position: relative;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
-    
+
     .cart {
         display: flex;
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .top {
         display: flex;
         flex-direction: column;
         justify-content: end;
         align-items: end;
         border-bottom: 1px solid gray;
-    
+
         a {
             color: gray;
         }
     }
-    
+
     .bot {
         display: flex;
         justify-content: start;
         align-items: center;
         gap: 10px;
-    
+
         a {
             color: gray;
         }
     }
-    
+
     .icon {
         font-size: 35px;
         position: absolute;
@@ -201,35 +201,35 @@ $warning: $yellow;
         justify-content: center;
         align-items: center;
         border-radius: 4px;
-    
+
         &.icon1 {
             background: linear-gradient(to right, #01a9ac, #01dbdf);
         }
-    
+
         &.icon2 {
             background: linear-gradient(to right, #ac015f, #dd419c);
         }
-    
+
         &.icon3 {
             background: linear-gradient(to right, #01ac2f, #3de285);
         }
-    
+
         &.icon4 {
             background: linear-gradient(to right, #e9e502, #eaff30);
         }
-    
+
         &.icon5 {
             background: linear-gradient(to right, #3a22f3, #4d7bc9);
         }
-    
+
         &.icon6 {
             background: linear-gradient(to right, #d50e0e, #f85858);
         }
-    
+
         &.icon7 {
             background: linear-gradient(to right, #f59f36, #febd61);
         }
-    
+
         &.icon8 {
             background: linear-gradient(to right, #33e1ea, #7edaea);
         }
@@ -256,7 +256,7 @@ $warning: $yellow;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 45px 10px 20px;
     margin-top: 25px;
-    .box_link{
+    .box_link {
         position: absolute;
         top: -10px;
         left: 2%;
@@ -267,7 +267,7 @@ $warning: $yellow;
         font-size: 18px;
         border-radius: 5px;
         transition: all 0.3s;
-        &:hover{
+        &:hover {
             top: -15px;
             background-color: $blue1;
         }
@@ -281,72 +281,76 @@ $warning: $yellow;
     padding: 10px;
     list-style: none;
     margin: 0;
-  
+
     li {
-      margin: 0 5px;
-  
-      /* Các nút phân trang */
-      a, span {
-        display: inline-block;
-        padding: 6px 12px;
-        font-size: 14px;
-        color: #007bff;
-        text-decoration: none;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #f8f9fa;
-        transition: background-color 0.3s ease, color 0.3s ease;
-  
-        &:hover {
-          background-color: #007bff;
-          color: #fff;
+        margin: 0 5px;
+
+        /* Các nút phân trang */
+        a,
+        span {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            &:hover {
+                background-color: #007bff;
+                color: #fff;
+            }
         }
-      }
-  
-      /* Nút hiện tại */
-      &.active {
-        a, span {
-          background-color: #007bff;
-          color: #fff;
-          border-color: #007bff;
-          font-weight: bold;
+
+        /* Nút hiện tại */
+        &.active {
+            a,
+            span {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+                font-weight: bold;
+            }
         }
-      }
-  
-      /* Nút Disabled */
-      &.disabled {
-        a, span {
-          color: #6c757d;
-          border-color: #ddd;
-          pointer-events: none;
+
+        /* Nút Disabled */
+        &.disabled {
+            a,
+            span {
+                color: #6c757d;
+                border-color: #ddd;
+                pointer-events: none;
+            }
         }
-      }
     }
-  
+
     /* Dẹp hơn */
-    a, span {
-      font-size: 12px;
-      padding: 5px 10px;
+    a,
+    span {
+        font-size: 12px;
+        padding: 5px 10px;
     }
-  
+
     li {
-      font-size: 12px;
+        font-size: 12px;
     }
-  }
-  
-.form-group{
+}
+
+.form-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 15px;
 }
-.form_check{
+.form_check {
     margin-bottom: 1rem;
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 15px;
-    height: calc(1.5em + .75rem + 2px);
+    height: calc(1.5em + 0.75rem + 2px);
 }
 .form_ext {
     width: 100%;
@@ -373,27 +377,25 @@ $warning: $yellow;
 .w-65 {
     width: 65%;
 }
-table{
+table {
     text-align: center;
-    thead{
+    thead {
         height: 50px;
         background-color: $blue;
         color: white;
     }
-    tbody{
-        tr{
+    tbody {
+        tr {
             height: 75px;
         }
-        
     }
-    td{
-        vertical-align: middle!important;
+    td {
+        vertical-align: middle !important;
     }
 }
-input[type=checkbox]{
+input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    
 }
 //upload-file
 .form__container {
@@ -472,8 +474,6 @@ input[type=checkbox]{
 }
 //end
 
-
-
 // Form Login Styles
 .main_form {
     user-select: none;
@@ -520,4 +520,10 @@ input[type=checkbox]{
             }
         }
     }
+}
+
+.object-fit-cover {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
 }
