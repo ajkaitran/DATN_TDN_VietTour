@@ -47,7 +47,7 @@
                         </select>
                         @error('group_id') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
-        
+        <div class="div"></div>
                     <!-- Tên Banner -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="banner_name">Tên Banner</label>
