@@ -347,7 +347,7 @@ $warning: $yellow;
 .form_check {
     margin-bottom: 1rem;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 15px;
     height: calc(1.5em + 0.75rem + 2px);
