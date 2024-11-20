@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('start_places', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->nullable();
-            $table->integer('sort');
-            $table->boolean('active');
-            $table->boolean('hot');
             $table->string('title', 100)->nullable();
             $table->text('body')->nullable();
+            $table->boolean('active');
+            $table->boolean('hot');
             $table->timestamps();
         });
     }

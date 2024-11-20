@@ -34,11 +34,23 @@
             <div class="col-8 mx-auto">
                 <div class="form-group">
                     <label for="" class="form_ext w-25">Điểm xuất phát</label>
-                    <input type="text" class="form-control w-75" name="" value="{{ old('') }}">
+                    <input type="text" class="form-control w-75" name="name" value="{{ old('name') }}">
+                </div>
+                <div class="form-group">
+                    <label for="" class="form_ext w-25">Tiêu đề</label>
+                    <input type="text" class="form-control w-75" name="title" value="{{ old('title') }}">
+                </div>
+                <div class="form-group">
+                    <label for="" class="form_ext w-25">Nôi dung</label>
+                    <input type="text" class="form-control w-75" name="body" value="{{ old('body') }}">
                 </div>
                 <div class="form_check">
-                    <label for="" class="form_ext w-25">Hoạt động</label>
-                    <input type="checkbox" name="" value="{{ old('') }}">
+                    <label for="hot" class="form_ext w-25">Hot</label>
+                    <input type="checkbox" id="hot" name="hot" value="1" {{ old('hot') ? 'checked' : '' }}>
+                </div>
+                <div class="form_check">
+                    <label for="hot" class="form_ext w-25">Hoạt động</label>
+                    <input type="checkbox" id="hot" name="active" value="1" {{ old('active') ? 'checked' : '' }}>
                 </div>
                 <div class="mx-auto">
                     <button type="submit" class="btn btn-success">Thêm mới</button>

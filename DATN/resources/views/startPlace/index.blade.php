@@ -35,26 +35,38 @@
                 <tr>
                     <th scope="col">STT</th>
                     <th scope="col">Điểm xuất phát</th>
-                    <th scope="col">Hoạt động</th>
+                    <th scope="col">Tiêu đề</th>
+                    <th scope="col">Nội dung</th>
+                    <th scope="col">Hot</th>
+                    <th scope="col">Kich hoat</th>
+                    <th scope="col">Hành động</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @for($i = 0; $i < 5; $i++)
+                @foreach ($startPlaces as $startPlace)
                 <tr>
-                    <td>1</td>
-                    <td>name1</td>
+                    <td>{{ $startPlace->id }}</td>
+                    <td>{{ $startPlace->name }}</td>
+                    <td>{{ $startPlace->title }}</td>
+                    <td>{{ $startPlace->body }}</td>
                     <td>
-                        <input type="checkbox">
-                        {{-- <input type="checkbox" {{ $items->status == 1 ? 'checked' : '' }} > --}}
+                        <input type="checkbox" {{ $startPlace->hot === 1 ? 'checked' : '' }}>
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="">Cập nhật</a>
-                        <a class="btn btn-warning" href="">Sửa</a>
-                        <a class="btn btn-danger" href="">Xóa</a>
+                        <input type="checkbox" {{ $startPlace->active === 1 ? 'checked' : '' }}>
+                    </td>
+                    <td>
+                        <form action="{{route('startPlace.destroy', $startPlace->id )}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <a class="btn btn-primary" href="">Cập nhật</a>
+                            <a class="btn btn-warning" href="{{route('startPlace.edit', $startPlace->id)}}">Sửa</a>
+                            <button type="submit" onclick="return confirm('Bạn có muốn xóa không ?')" class="btn btn-danger">Xóa</button>
+                        </form>
                     </td>
                 </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
