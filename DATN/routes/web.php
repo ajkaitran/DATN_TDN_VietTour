@@ -8,6 +8,7 @@ use App\Http\Controllers\TourTypeController;
 use App\Http\Controllers\TourCategoryController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\ComboController;
+use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\StartPlaceController;
 
 /*
@@ -51,11 +52,9 @@ Route::prefix('admin/banner')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/tourType')->middleware('admin')->group(function () {
     Route::get('/', [TourTypeController::class, 'index'])->name('tourType.index');
-    Route::get('/create', [TourTypeController::class, 'create'])->name('tourType.create');
-    Route::post('/store', [TourTypeController::class, 'store'])->name('tourType.store');
-    Route::get('/{id}/edit', [TourTypeController::class, 'edit'])->name('tourType.edit');
-    Route::put('/{id}', [TourTypeController::class, 'update'])->name('tourType.update');
-    Route::delete('/{id}', [TourTypeController::class, 'destroy'])->name('tourType.destroy');
+    Route::match(['GET', 'POST'], '/create', [TourTypeController::class, 'create'])->name('tourType.create');
+    Route::match(['GET', 'POST'], '/edit/{id}', [TourTypeController::class, 'edit'])->name('tourType.edit');
+    Route::get('/{id}', [TourTypeController::class, 'destroy'])->name('tourType.destroy');
 });
 Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
     Route::get('/', [TourCategoryController::class, 'index'])->name('tourCategory.index');
@@ -88,4 +87,10 @@ Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
     Route::get('/{id}/edit', [StartPlaceController::class, 'edit'])->name('startPlace.edit');
     Route::put('/{id}', [StartPlaceController::class, 'update'])->name('startPlace.update');
     Route::delete('/{id}', [StartPlaceController::class, 'destroy'])->name('startPlace.destroy');
+});
+Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
+    Route::get('/', [FeedBackController::class, 'index'])->name('feedback.index');
+    Route::match(['GET', 'POST'], '/create', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::match(['GET', 'POST'], '/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
+    Route::get('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
 });

@@ -131,6 +131,20 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Quản lý phản hồi</span>
+                </a>
+                <div id="collapsePages2" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="">Thêm mới phản hồi</a>
+                        <a class="collapse-item" href="{{route('feedback.index')}}">Danh sách phản hồi</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="?controller=Admin&action=Comment">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Quản lý bình luận</span>
