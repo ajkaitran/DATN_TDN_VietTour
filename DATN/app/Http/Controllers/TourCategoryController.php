@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\CategoryTour\StoreRequest;
 use App\Models\ProductCategory;
+use App\Models\ProductCategoryType;
 use App\Service\Admin\TourCategoryService;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class TourCategoryController extends Controller
     public function index()
     {
         $data = ProductCategory::all();
+        $typeTour = ProductCategoryType::all();
         return view('tourCategory.index', compact('data'));
     }
 
@@ -24,7 +26,9 @@ class TourCategoryController extends Controller
      */
     public function create()
     {
-        return view('tourCategory.create');
+        $categories = ProductCategory::all();
+        $typeTour = ProductCategoryType::all();
+        return view('tourCategory.create', compact('categories', 'typeTour'));
     }
 
     /**
@@ -55,7 +59,9 @@ class TourCategoryController extends Controller
     public function edit(int $id)
     {
         $category = ProductCategory::find($id);
-        return view('tourCategory.edit', compact('category'));
+        $categories = ProductCategory::all();
+        $typeTour = ProductCategoryType::all();
+        return view('tourCategory.edit', compact('category', 'categories', 'typeTour'));
     }
 
     /**
