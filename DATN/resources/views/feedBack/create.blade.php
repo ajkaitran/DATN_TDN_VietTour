@@ -27,13 +27,13 @@
 </div>
 @endif
 <div class="box_content">
-    <a class="box_link" href="{{ route('feedback.index') }}">Danh sách tour</a>
+    <a class="box_link" href="{{ route('feedback.index') }}">Danh sách phản hồi</a>
     <form action="{{ route('feedback.create') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row mx-3">
-            <div class="col-8">
+            <div class="col-8 mx-auto">
                 <div class="form-group">
-                    <label for="type">Loại Phản Hồi</label>
+                    <label class="form_ext w-25" for="type">Loại Phản Hồi</label>
                     <select class="form-control w-75" id="type" name="type" required>
                         <option value="0" {{ old('type') == '0' ? 'selected' : '' }}>Khách hàng nói về chúng tôi</option>
                         <option value="1" {{ old('type') == '1' ? 'selected' : '' }}>Khách hàng tiêu biểu</option>
@@ -68,11 +68,11 @@
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label for="order">Thứ Tự</label>
+                    <label class="form_ext w-25" for="order">Thứ Tự</label>
                     <input type="number" class="form-control w-75" name="order" value="">
                 </div>
-                <div class="form-group">
-                    <label for="active">Hoạt động</label>
+                <div class="form_check">
+                    <label class="form_ext w-25" for="active">Hoạt động</label>
                     <input type="hidden" name="active" value="0"> <!-- Giá trị mặc định -->
                     <input type="checkbox" name="active" id="active" value="1" {{ old('active', 1) ? 'checked' : '' }}> <!-- Giá trị mặc định là checked -->
                 </div>

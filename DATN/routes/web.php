@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\TourTypeController;
 use App\Http\Controllers\TourCategoryController;
@@ -41,7 +42,14 @@ Route::prefix('admin')->group(function () {
         Route::match(['get', 'post'], 'signout', [AdminController::class, 'signout'])->name('admin.signout');
     });
 });
-
+Route::prefix('admin/article')->middleware('admin')->group(function () {
+    Route::get('/', [ArticleController::class, 'index'])->name('article.index');
+    Route::get('/create', [ArticleController::class, 'create'])->name('article.create');
+    Route::post('/store', [ArticleController::class, 'store'])->name('article.store');
+    Route::get('/{id}/edit', [ArticleController::class, 'edit'])->name('article.edit');
+    Route::put('/{id}', [ArticleController::class, 'update'])->name('article.update');
+    Route::delete('/{id}', [ArticleController::class, 'destroy'])->name('article.destroy');
+});
 Route::prefix('admin/banner')->middleware('admin')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
     Route::get('/create', [BannerController::class, 'create'])->name('banner.create');

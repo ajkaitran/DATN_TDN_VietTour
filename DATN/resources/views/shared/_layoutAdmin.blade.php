@@ -120,9 +120,38 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Quản lý quảng cáo</span>
+                    <span>Quản lý bài viết</span>
                 </a>
                 <div id="collapsePages2" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{route('article.index')}}">Danh sách bài viết</a>
+                        <a class="collapse-item" href="{{route('article.create')}}">Thêm mới bài viết</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Quản lý phản hồi</span>
+                </a>
+                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{route('feedback.index')}}">Danh sách phản hồi</a>
+                        <a class="collapse-item" href="{{route('feedback.create')}}">Thêm mới phản hồi</a>
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Quản lý quảng cáo</span>
+                </a>
+                <div id="collapsePages4" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{route('banner.index')}}">Danh sách quảng cáo</a>
@@ -131,21 +160,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Quản lý phản hồi</span>
-                </a>
-                <div id="collapsePages2" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Thêm mới phản hồi</a>
-                        <a class="collapse-item" href="{{route('feedback.index')}}">Danh sách phản hồi</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="?controller=Admin&action=Comment">
+                <a class="nav-link collapsed" href="{{route('feedback.index')}}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Quản lý bình luận</span>
                 </a>

@@ -20,61 +20,85 @@
 </div>
 @endif
 
-<div class="right-column">
-    <div class="formcontent">
-        <div class="content p-3">
-            <form action="{{ route('banners.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                
-                <div class="mb-3">
-                    <label for="banner_name" class="form-label">Tên Banner</label>
-                    <input type="text" class="form-control" name="banner_name" value="{{ old('banner_name', $banner->banner_name) }}" required>
-                </div>
+<div class="box_content">
+    <a class="box_link" href="{{route('banner.index')}}">Danh sách quảng cáo</a>
+    <div class="content px-3">
+        <form action="{{ route('banner.update', $idBanner->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="row mx-3">
+                <div class="col-8 mx-auto">
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="banner_group">Vị trí quảng cáo</label>
+                        <select class="form-control w-75" name="banner_group" id="banner_group">
+                            <option selected disabled>Chọn vị trí banner</option>
+                            @foreach ($bannerGroup as $key => $value)
+                            <option value="{{ $key }}" {{ $idBanner->banner_group == $key ? 'selected' : '' }}>{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!-- Tên Banner -->
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="banner_name">Tên Banner</label>
+                        <input type="text" class="form-control w-75" id="banner_name" name="banner_name" value="{{ old('banner_name', $idBanner->banner_name) }}">
+                    </div>
 
-                <div class="mb-3">
-                    <label for="slogan" class="form-label">Slogan</label>
-                    <input type="text" class="form-control" name="slogan" value="{{ old('slogan', $banner->slogan) }}">
-                </div>
+                    <!-- URL -->
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="url">URL</label>
+                        <input type="url" class="form-control w-75" id="url" name="url" value="{{ old('url', $idBanner->url) }}">
+                    </div>
 
-                <div class="mb-3">
-                    <label for="url" class="form-label">URL</label>
-                    <input type="url" class="form-control" name="url" value="{{ old('url', $banner->url) }}" required>
-                </div>
+                    <!-- Hình Ảnh -->
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="image">Hình Ảnh</label>
+                        <div class="w-75">
+                            <input type="file" id="image" name="image" accept="image/*">
+                            @if ($idBanner->image)
+                                <div class="mt-2">
+                                    <img src="{{ asset('storage/' . $idBanner->image) }}" alt="Hình ảnh hiện tại" width="200">
+                                </div>
+                            @endif
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="image" class="form-label">Hình Ảnh</label>
-                    <input type="file" class="form-control" name="image">
-                    <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->banner_name }}" width="100" class="mt-2">
-                </div>
+                    <!-- Hình Ảnh Mobile -->
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="image_mobile">Hình Ảnh Mobile</label>
+                        <div class="w-75">
+                            <input type="file" id="image_mobile" name="image_mobile" accept="image/*">
+                            @if ($idBanner->image_mobile)
+                                <div class="mt-2">
+                                    <img src="{{ asset('storage/' . $idBanner->image_mobile) }}" alt="Hình ảnh mobile hiện tại" width="200">
+                                </div>
+                            @endif
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="image_mobile" class="form-label">Hình Ảnh Mobile</label>
-                    <input type="file" class="form-control" name="image_mobile">
-                    <img src="{{ asset('storage/' . $banner->image_mobile) }}" alt="{{ $banner->banner_name }} Mobile" width="100" class="mt-2">
-                </div>
+                    <!-- Trạng Thái -->
+                    <div class="form_check">
+                        <label class="form_ext w-25" for="active">Trạng Thái</label>
+                        <input type="checkbox" id="active" name="active" value="1" {{ old('active', $idBanner->active) ? 'checked' : '' }}>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="active" class="form-label">Trạng Thái</label>
-                    <select class="form-select" name="active">
-                        <option value="1" {{ $banner->active ? 'selected' : '' }}>Kích hoạt</option>
-                        <option value="0" {{ !$banner->active ? 'selected' : '' }}>Không kích hoạt</option>
-                    </select>
-                </div>
+                    <!-- Sắp xếp -->
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="sort">Sắp xếp</label>
+                        <input type="number" class="form-control w-75" id="sort" name="sort" value="{{ old('sort', $idBanner->sort) }}">
+                    </div>
 
-                <div class="mb-3">
-                    <label for="group_id" class="form-label">Group ID</label>
-                    <input type="number" class="form-control" name="group_id" value="{{ old('group_id', $banner->group_id) }}">
+                    <!-- Slogan -->
+                    <div class="form-group">
+                        <label class="form_ext w-25" for="slogan">Slogan</label>
+                        <input type="text" class="form-control w-75" id="slogan" name="slogan" value="{{ old('slogan', $idBanner->slogan) }}">
+                    </div>
+        
+                    <!-- Buttons -->
+                    <button type="submit" class="btn btn-success">Cập nhật</button>
                 </div>
-
-                <div class="mb-3">
-                    <label for="sort" class="form-label">Sort</label>
-                    <input type="number" class="form-control" name="sort" value="{{ old('sort', $banner->sort) }}">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Cập Nhật</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
+
 @endsection

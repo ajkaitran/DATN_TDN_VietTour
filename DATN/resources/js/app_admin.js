@@ -95,7 +95,15 @@ removeFile();
 CKEDITOR.replace('editor');
 CKEDITOR.replace('editor1');
 CKEDITOR.replace('editor2');
-// CKEDITOR.replace( 'editor3' );
+CKEDITOR.replace('editor3');
+CKEDITOR.replace('editor4');
+CKEDITOR.replace('editor5');
+CKEDITOR.replace('editor6');
+CKEDITOR.replace('editor7');
+CKEDITOR.replace('editor8');
+CKEDITOR.replace('editor9');
+CKEDITOR.replace('editor10');
+CKEDITOR.replace('editor11');
 
 
 function updateUser(id) {
@@ -159,4 +167,95 @@ $(document).ready(function () {
       previewImage.style.display = 'none';
     }
   });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Hiển thị hình ảnh khi chọn tệp trên desktop
+  document.getElementById('upload-files').addEventListener('change', function(event) {
+      var desktopShow = document.querySelector('.desktop-show');
+      desktopShow.innerHTML = '';  // Xóa tất cả ảnh trước đó
+
+      // Duyệt qua tất cả các tệp được chọn
+      Array.from(event.target.files).forEach(function(file, index) {
+          var reader = new FileReader();
+
+          reader.onload = function(e) {
+              // Tạo HTML cho mỗi ảnh đã chọn
+              var imageContainer = document.createElement('div');
+              imageContainer.classList.add('form__image-container');
+              imageContainer.setAttribute('data-index', index);
+
+              var imgElement = document.createElement('img');
+              imgElement.classList.add('form__image');
+              imgElement.src = e.target.result;
+              imgElement.alt = file.name;
+
+              var removeButton = document.createElement('span');
+              removeButton.classList.add('js-remove-image');
+              // removeButton.textContent = 'X';
+
+              // Tạo sự kiện click trên toàn bộ phần tử ảnh (image container)
+              imageContainer.addEventListener('click', function() {
+                  imageContainer.remove();  // Xóa ảnh khi click vào phần tử chứa ảnh
+              });
+
+              imageContainer.appendChild(imgElement);
+              imageContainer.appendChild(removeButton);
+              desktopShow.appendChild(imageContainer);  // Thêm vào phần hiển thị
+          };
+
+          reader.readAsDataURL(file);
+      });
+  });
+
+  // Hiển thị hình ảnh khi chọn tệp trên mobile
+  document.getElementById('image_mobile').addEventListener('change', function(event) {
+      var mobileShow = document.querySelector('.mobile-show');
+      mobileShow.innerHTML = '';  // Xóa tất cả ảnh trước đó
+
+      var file = event.target.files[0];
+      if (file) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+              // Tạo HTML cho ảnh đã chọn trên mobile
+              var imageContainer = document.createElement('div');
+              imageContainer.classList.add('form__image-container');
+              imageContainer.setAttribute('data-index', 0);
+
+              var imgElement = document.createElement('img');
+              imgElement.classList.add('form__image');
+              imgElement.src = e.target.result;
+              imgElement.alt = file.name;
+
+              var removeButton = document.createElement('span');
+              removeButton.classList.add('js-remove-image');
+              // removeButton.textContent = 'X';
+
+              // Tạo sự kiện click trên toàn bộ phần tử ảnh (image container)
+              imageContainer.addEventListener('click', function() {
+                  imageContainer.remove();  // Xóa ảnh khi click vào phần tử chứa ảnh
+              });
+
+              imageContainer.appendChild(imgElement);
+              imageContainer.appendChild(removeButton);
+              mobileShow.appendChild(imageContainer);  // Thêm vào phần hiển thị
+          };
+          reader.readAsDataURL(file);
+      }
+  });
+});
+
+document.getElementById('TimeDetail').addEventListener('change', function () {
+  // Ẩn tất cả các nhóm `data-count`
+  document.querySelectorAll("[data-count]").forEach(function (el) {
+      el.style.display = 'none';
+  });
+
+  // Hiển thị các nhóm tương ứng với giá trị được chọn
+  var num = this.options[this.selectedIndex].getAttribute('data-time');
+  for (var i = 1; i <= num; i++) {
+      document.querySelectorAll("[data-count='" + i + "']").forEach(function (el) {
+          el.style.display = 'block';
+      });
+  }
 });

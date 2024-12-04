@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
     public function index()
     {
-        return view('admin.article.index');
+        return view('article.index');
     }
 
     public function create()
     {
-        return view('admin.article.create');
+        return view('article.create');
     }
 
     public function store(Request $request)
     {
-        return view('admin.article.show');
+        return view('article.show');
     }
 
     public function edit()
     {
-        return view('admin.article.edit');
+        return view('article.edit');
     }
 }

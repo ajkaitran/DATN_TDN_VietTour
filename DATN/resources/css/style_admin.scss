@@ -358,7 +358,9 @@ $warning: $yellow;
     line-height: 22px;
     margin: 0;
 }
-
+.cke_chrome {
+    width: 74.5%!important;
+}
 .ck.ck-editor {
     width: 100% !important;
 }
@@ -376,6 +378,9 @@ $warning: $yellow;
 }
 .w-65 {
     width: 65%;
+}
+p{
+    margin: 0!important;
 }
 table {
     text-align: center;
@@ -396,6 +401,63 @@ table {
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
+}
+input[type="text"] {
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    border: 1px solid #d1d3e2;
+    padding: .375rem .75rem;
+    outline: none;
+}
+
+.tbody-item-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3px;
+    p{
+        text-align: start;
+    }
+}
+.tbody-item-flex{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.p_check{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.box_article{
+    width: 100%;
+    height: 600px;
+    border: 1px solid #d1d3e2;
+    padding: 15px;
+    overflow: auto; /* Cho phép cuộn khi nội dung tràn */
+    scrollbar-width: none; /* Ẩn thanh cuộn (Firefox) */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn (IE/Edge cũ) */
+    &::-webkit-scrollbar {
+        display: none; /* Không hiển thị thanh cuộn */
+    }
+    h5{
+        border-bottom: 1px solid #d1d3e2;
+        padding-bottom: 10px;
+    }
+
+    ul{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 0;
+        li{
+            list-style-type: none;
+        }
+        lable{
+            display: flex;
+            align-items: center;
+        }
+    }
 }
 //upload-file
 .form__container {

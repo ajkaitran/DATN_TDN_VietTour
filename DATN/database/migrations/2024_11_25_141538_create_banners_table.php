@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('banner_name', 100);
+            $table->integer('banner_group');
+            $table->string('banner_name', 100)->nullable();
             $table->string('url', 500)->nullable();
             $table->string('image')->nullable();
             $table->string('image_mobile')->nullable();
             $table->boolean('active');
-            $table->integer('group_id');
             $table->integer('sort');
             $table->string('slogan', 400)->nullable();
             $table->timestamps();

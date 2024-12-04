@@ -28,7 +28,7 @@
 @endif
 
 <div class="box_content">
-    <a class="box_link" href="{{ route('feedback.create') }}">Thêm danh mục tour</a>
+    <a class="box_link" href="{{ route('feedback.create') }}">Thêm phản hồi</a>
     <div class="content px-3">
         <table class="table table-strped">
             <thead class="thead">

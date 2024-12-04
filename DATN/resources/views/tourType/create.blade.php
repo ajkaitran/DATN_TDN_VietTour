@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="order">Thứ tự hiển thị</label>
+                    <label class="form_ext w-25" for="order">Thứ tự hiển thị</label>
                     <input type="number" name="order" id="" class="form-control w-75" value="{{ old('order') }}">
                 </div>
                 <div class="form-group">

@@ -5,114 +5,137 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Admin\Banner\StoreBannerRequest;
+use App\Http\Requests\Admin\Banner\UpdateBannerRequest;
 
 class BannerController extends Controller
 {
     public function index()
     {
-        $banner = Banner::all();
-        return view('banner.index', compact('banner'));
+        $objBanner = new Banner();
+        $this->view['listBanner']= $objBanner->loadListBanner();
+        return view('banner.index',$this->view);
+    }
+    public function uploadFile($file){
+        $fileName = time().'_'.$file->getClientOriginalName();
+        return $file->storeAs('AnhQuangCao',$fileName,'public');
     }
     public function create()
     {
-        return view('banner.create');
+        $this->view['bannerGroup'] = [
+            1 => 'Banner slide',
+            2 => 'Ưu đãi',
+            3 => 'Đối tác',
+            4 => 'Góc báo trí',
+            5 => 'Cam kết',
+            6 => 'Lý do chọn chúng tôi',
+        ];
+        return view('banner.create', $this->view);
     }
-    public function store(Request $request)
+    public function store(StoreBannerRequest $request)
     {
-        $request->validate([
-            'banner_name' => 'required|string|max:255',
-            'url' => 'nullable|url',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_mobile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'active' => 'required|boolean',
-            'group_id' => 'required|integer',
-            'sort' => 'required|integer',
-            'slogan' => 'nullable|string|max:255',
-        ]);
-
-        // Lưu hình ảnh
-        $imagePath = $request->file('image')->store('images/banners');
-        $imageMobilePath = $request->file('image_mobile')->store('images/banners/mobile');
-
-        // Tạo mới banner
-        Banner::create([
-            'banner_name' => $request->banner_name,
-            'url' => $request->url,
-            'image' => $imagePath,
-            'image_mobile' => $imageMobilePath,
-            'active' => $request->active,
-            'group_id' => $request->group_id,
-            'sort' => $request->sort,
-            'slogan' => $request->slogan,
-        ]);
-
-        return redirect()->route('banner.index')->with('success', 'Thêm banner thành công.');
-    }
-
-
-    public function destroy($id)
-    {
-        $banner = Banner::find($id);
-        if (!$banner) {
-            return redirect()->route('banners.index')->with('error', 'Banner không tồn tại.');
+        $data = $request->validated();
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $data['image'] = $this->uploadFile($request->file('image'));
         }
-        $banner->delete();
-        return redirect()->route('banners.index')->with('success', 'Banner đã được xóa thành công.');
+        if ($request->hasFile('image_mobile') && $request->file('image_mobile')->isValid()) {
+            $data['image_mobile'] = $this->uploadFile($request->file('image_mobile'));
+        }
+        $data['banner_group'] = $request->input('banner_group');
+        $banner = new Banner();
+        $res = $banner->insertDataBanner($data);
+        if ($res) {
+            return redirect()->back()->with('success', 'Sản phẩm được thêm thành công');
+        }
+
+        return redirect()->back()->with('error', 'Sản phẩm không thêm thành công');
     }
 
 
-    public function edit($id)
-    {
-        $banner = Banner::findOrFail($id);
 
-        return view('banner.edit', compact('banner'));
+    public function edit(int $id)
+    {
+        $objTable = new Banner();
+        $this->view['idBanner']=$objTable->loadIdBanner($id);
+        $this->view['bannerGroup'] = [
+            1 => 'Banner slide',
+            2 => 'Ưu đãi',
+            3 => 'Đối tác',
+            4 => 'Góc báo trí',
+            5 => 'Cam kết',
+            6 => 'Lý do chọn chúng tôi',
+        ];
+        return view('banner.edit',$this->view);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateBannerRequest $request, $id)
     {
-        // Validate dữ liệu
-        $request->validate([
-            'banner_name' => 'required|string|max:255',
-            'slogan' => 'nullable|string|max:255',
-            'url' => 'required|url',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'active' => 'required|boolean',
-            'group_id' => 'nullable|integer',
-            'sort' => 'nullable|integer',
-        ]);
+        $objTable = new Banner();
+        $idCheck = $objTable->loadIdBanner($id);
 
-        // Tìm banner theo ID
-        $banner = Banner::findOrFail($id);
+        if ($idCheck) {
+            $data = $request->except(['image', 'image_mobile']);
 
-        // Cập nhật thông tin banner
-        $banner->banner_name = $request->banner_name;
-        $banner->slogan = $request->slogan;
-        $banner->url = $request->url;
-        $banner->active = $request->active;
-        $banner->group_id = $request->group_id;
-        $banner->sort = $request->sort;
-
-        // Nếu có hình ảnh mới, lưu trữ và cập nhật đường dẫn
-        if ($request->hasFile('image')) {
-            // Xóa hình ảnh cũ nếu có
-            if ($banner->image) {
-                Storage::delete($banner->image);
+            // Xử lý `image`
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $data['image'] = $this->uploadFile($request->file('image'));
+                $imageOld = $idCheck->image;
+            } else {
+                $data['image'] = $idCheck->image;
             }
-            $banner->image = $request->file('image')->store('images/banners', 'public');
-        }
 
-        if ($request->hasFile('image_mobile')) {
-            // Xóa hình ảnh cũ nếu có
-            if ($banner->image_mobile) {
-                Storage::delete($banner->image_mobile);
+            // Xử lý `image_mobile`
+            if ($request->hasFile('image_mobile') && $request->file('image_mobile')->isValid()) {
+                $data['image_mobile'] = $this->uploadFile($request->file('image_mobile'));
+                $imageMobileOld = $idCheck->image_mobile;
+            } else {
+                $data['image_mobile'] = $idCheck->image_mobile;
             }
-            $banner->image_mobile = $request->file('image_mobile')->store('images/banners', 'public');
+
+            $res = $objTable->updateDataBanner($data, $id);
+
+            if ($res) {
+                // Xóa file cũ `image` nếu có
+                if ($request->hasFile('image') && isset($imageOld) && Storage::disk('public')->exists($imageOld)) {
+                    Storage::disk('public')->delete($imageOld);
+                }
+
+                // Xóa file cũ `image_mobile` nếu có
+                if ($request->hasFile('image_mobile') && isset($imageMobileOld) && Storage::disk('public')->exists($imageMobileOld)) {
+                    Storage::disk('public')->delete($imageMobileOld);
+                }
+
+                return redirect()->back()->with('success', 'Chỉnh sửa sản phẩm thành công');
+            } else {
+                return redirect()->back()->with('error', 'Chỉnh sửa sản phẩm không thành công');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Không tìm thấy id');
         }
-
-        // Lưu các thay đổi
-        $banner->save();
-
-        return redirect()->route('banners.index')->with('success', 'Cập nhật banner thành công.');
     }
+    
+    public function destroy(int $id)
+    {
+        $objTable = new Banner();
+        $idCheck = $objTable->loadIdBanner($id);
+        $imageOld = $idCheck->image;
+        $imageMobileOld = $idCheck->image_mobile;
+        if($idCheck){
+            $res = $objTable->deleteDataBanner($id);
+            if($res){
+                if(Storage::disk('public')->exists($imageOld)){
+                    Storage::disk('public')->delete($imageOld);
+                }
+                if(Storage::disk('public')->exists($imageMobileOld)){
+                    Storage::disk('public')->delete($imageMobileOld);
+                }
+                return redirect()->back()->with('success','Xóa sản phẩm thành công');
+            }else{
+                return redirect()->back()->with('error','Xóa sản phẩm không thành công');
+            }
+        }else{
+            return redirect()->back()->with('error','Không tìm thấy id');
+        }
+    }
+
 }

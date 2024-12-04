@@ -35,45 +35,39 @@
                 <div class="col-8 mx-auto">
                     <!-- Vị trí quảng cáo -->
                     <div class="form-group">
-                        <label class="form_ext w-25" for="group_id">Vị trí quảng cáo</label>
-                        <select class="form-control w-75" name="group_id" id="group_id">
+                        <label class="form_ext w-25" for="banner_group">Vị trí quảng cáo</label>
+                        <select class="form-control w-75" name="banner_group" id="banner_group">
                             <option selected disabled>Chọn vị trí banner</option>
-                            <option value="1" {{ old('group_id') == 1 ? 'selected' : '' }}>Banner slide</option>
-                            <option value="2" {{ old('group_id') == 2 ? 'selected' : '' }}>Ưu đãi</option>
-                            <option value="3" {{ old('group_id') == 3 ? 'selected' : '' }}>Đối tác</option>
-                            <option value="4" {{ old('group_id') == 4 ? 'selected' : '' }}>Góc báo trí</option>
-                            <option value="5" {{ old('group_id') == 5 ? 'selected' : '' }}>Cam kết</option>
-                            <option value="6" {{ old('group_id') == 6 ? 'selected' : '' }}>Lý do chọn chúng tôi</option>
+                            @foreach ($bannerGroup as $key => $value)
+                                <option value="{{ $key }}" {{ old('banner_group') == $key ? 'selected' : '' }}>
+                                    {{ $value }}
+                                </option>
+                            @endforeach
                         </select>
-                        @error('group_id') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
         
                     <!-- Tên Banner -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="banner_name">Tên Banner</label>
-                        <input type="text" class="form-control w-75" id="banner_name" name="banner_name" required value="{{ old('banner_name') }}">
-                        @error('banner_name') <span class="text-danger">{{ $message }}</span> @enderror
+                        <input type="text" class="form-control w-75" id="banner_name" name="banner_name" value="{{ old('banner_name') }}">
                     </div>
         
                     <!-- URL -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="url">URL</label>
                         <input type="url" class="form-control w-75" id="url" name="url" value="{{ old('url') }}">
-                        @error('url') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
         
-                    <!-- Hình Ảnh -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="image">Hình Ảnh</label>
                         <div class="w-75">
                             <label class="form__container" for="image" id="upload-container">Choose or Drag & Drop Files
                                 <input class="form__file" id="upload-files" type="file" accept="image/*" name="image" multiple="multiple">
                             </label>
-                            <div class="form__files-container" id="files-list-container"></div>
-                            @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="desktop-show"></div> <!-- Hiển thị ảnh trên desktop -->
                         </div>
                     </div>
-        
+                    
                     <!-- Hình Ảnh Mobile -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="image_mobile">Hình Ảnh Mobile</label>
@@ -81,30 +75,27 @@
                             <label class="form__container" for="image_mobile">Choose or Drag & Drop Files
                                 <input class="form__file" id="image_mobile" type="file" accept="image/*" name="image_mobile">
                             </label>
-                            <div class="form__files-container" id="files-list-container"></div>
-                            @error('image_mobile') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="mobile-show"></div> <!-- Hiển thị ảnh trên mobile -->
                         </div>
                     </div>
+                    
         
                     <!-- Trạng Thái -->
                     <div class="form_check">
                         <label class="form_ext w-25" for="active">Trạng Thái</label>
                         <input type="checkbox" id="active" name="active" value="1" {{ old('active') == 1 ? 'checked' : '' }}>
-                        @error('active') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
         
                     <!-- Sắp xếp -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="sort">Sắp xếp</label>
-                        <input type="number" class="form-control w-75" id="sort" name="sort" required value="{{ old('sort') }}">
-                        @error('sort') <span class="text-danger">{{ $message }}</span> @enderror
+                        <input type="number" class="form-control w-75" id="sort" name="sort" value="{{ old('sort') }}">
                     </div>
         
                     <!-- Slogan -->
                     <div class="form-group">
                         <label class="form_ext w-25" for="slogan">Slogan</label>
                         <input type="text" class="form-control w-75" id="slogan" name="slogan" value="{{ old('slogan') }}">
-                        @error('slogan') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
         
                     <!-- Buttons -->
