@@ -4,22 +4,28 @@ import './App.css'
 import { useRoutes } from 'react-router-dom';
 import Layout from './admin/layout';
 import 'slick-carousel';
-import Banner from './user/component/Banner';
 import Home from './user/Home';
+import GetTourById from './user/GetTourById';
+import BookTour from './user/BookTour';
+import InternationalTour from './user/InternationalTour';
 
 const routeConfig = [
   {
-    path: "/admin",
-    element: <Layout />
+    path: "/Order",
+    element: <BookTour/>
   },
   {
     path:"/home",
     element:< Home/>
   },
   {
-    path: "/Banner",
-    element: < Banner />
-  }
+    path: "/tour",
+    element: < GetTourById />
+  },
+  {
+    path: "/Tour-quoc-te",
+    element: <InternationalTour />
+  },
   
 ];
 function App() {
