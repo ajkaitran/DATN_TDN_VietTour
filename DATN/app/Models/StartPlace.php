@@ -13,7 +13,6 @@ class StartPlace extends Model
 
     protected $fillable = [
         'name',
-        'sort',
         'active',
         'hot',
         'title',

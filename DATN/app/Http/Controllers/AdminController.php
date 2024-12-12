@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use App\Http\Requests\Admin\User\ChangePasswordRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -18,7 +19,8 @@ class AdminController extends Controller
     {
         $this->view = [];
     }
-    public function index(){
+    public function index()
+    {
         return view('admin.index');
     }
     public function register()
@@ -37,38 +39,42 @@ class AdminController extends Controller
         return view('admin.register', $this->view);
     }
 
-    public function postRegister(RegisterRequest  $request){
+    public function postRegister(RegisterRequest  $request)
+    {
         $objAdmin = new User();
         if ($request->role == 0 && User::where('role', 0)->exists()) {
             return redirect()->back()->with('error', 'Tài khoản có quyền admin đã tồn tại!');
         }
-        $request->merge(['password'=>Hash::make($request->password)]);
+        $request->merge(['password' => Hash::make($request->password)]);
         $res = $objAdmin->insertDataAdmin($request->all());
-        if($res){
-            return redirect()->back()->with('success','Đăng ký tài khoản thành công!');
+        if ($res) {
+            return redirect()->back()->with('success', 'Đăng ký tài khoản thành công!');
         } else {
-            return redirect()->back()->with('error','Đăng ký tài khoản không thành công!');
+            return redirect()->back()->with('error', 'Đăng ký tài khoản không thành công!');
         }
     }
-    public function uploadFile($file){
-        $fileName = time().'_'.$file->getClientOriginalName();
-        return $file->storeAs('AnhTaiKhoan',$fileName,'public');
+    public function uploadFile($file)
+    {
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        return $file->storeAs('AnhTaiKhoan', $fileName, 'public');
     }
-    public function login(){
+    public function login()
+    {
         return view('admin.login');
     }
-    public function postLogin(LoginRequest $request){
+    public function postLogin(LoginRequest $request)
+    {
         $login = $request->input('login');
         $password = $request->input('password');
 
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if(Auth::attempt([$field => $login, 'password' => $password])){
+        if (Auth::attempt([$field => $login, 'password' => $password])) {
             return redirect()->route('admin.index');
         } else {
             return redirect()->back()
-            ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
-            ->withInput($request->only('login'));
+                ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
+                ->withInput($request->only('login'));
         }
     }
     public function changePassword()
@@ -81,7 +87,7 @@ class AdminController extends Controller
         if (!Hash::check($request->current_password, Auth::user()->password)) {
             return redirect()->back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
         }
-        
+
         $admin = Auth::user();
         $admin->password = Hash::make($request->new_password);
         $admin->save();
@@ -119,11 +125,11 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Xóa tài khoản không thành công.');
         }
     }
-    
+
     public function signout(Request $request)
     {
         if (Auth::check()) {
-            \Log::info('User logged out', ['user_id' => Auth::id(), 'ip' => $request->ip()]);
+            Log::info('User logged out', ['user_id' => Auth::id(), 'ip' => $request->ip()]);
             Auth::logout();
             return redirect()->route('admin.login')->with('success', 'Bạn đã đăng xuất thành công!');
         }
