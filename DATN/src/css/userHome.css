@@ -6,12 +6,12 @@
 
 .location {
     width: calc(33.33% - 20px);
-    /* Chia cột thành 3 cột trên mỗi hàng */
+    
     margin-bottom: 20px;
-    /* Khoảng cách giữa các dòng */
-}
+    
+} 
 
 .title {
     text-align: center;
     margin-top: 10px;
-}
+} 

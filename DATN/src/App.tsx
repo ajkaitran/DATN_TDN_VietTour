@@ -1,13 +1,15 @@
-import './css/admin.css'
-import './css/style_admin.scss'
+// import './css/admin.css'
+// import './css/style_admin.scss'
+// import './css/style_main.scss'
 import './App.css'
 import { useRoutes } from 'react-router-dom';
-import Layout from './admin/layout';
-import 'slick-carousel';
+// import 'slick-carousel';
 import Home from './user/Home';
 import GetTourById from './user/GetTourById';
 import BookTour from './user/BookTour';
+import DetailTour from './user/DetailTour';
 import InternationalTour from './user/InternationalTour';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const routeConfig = [
   {
@@ -25,6 +27,10 @@ const routeConfig = [
   {
     path: "/Tour-quoc-te",
     element: <InternationalTour />
+  },
+  {
+    path: "/Detail",
+    element: <DetailTour />
   },
   
 ];
