@@ -82,11 +82,9 @@ Route::prefix('admin/tour')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/combo')->middleware('admin')->group(function () {
     Route::get('/', [ComboController::class, 'index'])->name('combo.index');
-    Route::get('/create', [ComboController::class, 'create'])->name('combo.create');
-    Route::post('/store', [ComboController::class, 'store'])->name('combo.store');
-    Route::get('/{id}/edit', [ComboController::class, 'edit'])->name('combo.edit');
-    Route::put('/{id}', [ComboController::class, 'update'])->name('combo.update');
-    Route::delete('/{id}', [ComboController::class, 'destroy'])->name('combo.destroy');
+    Route::match(['GET', 'POST'],'/create', [ComboController::class, 'create'])->name('combo.create');
+    Route::match(['GET', 'POST'],'/edit/{id}', [ComboController::class, 'edit'])->name('combo.edit');
+    Route::get('/{id}', [ComboController::class, 'destroy'])->name('combo.destroy');
 });
 Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
     Route::get('/', [StartPlaceController::class, 'index'])->name('startPlace.index');
