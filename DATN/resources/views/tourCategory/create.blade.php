@@ -76,18 +76,22 @@
                     <div class="form-group">
                         <label for="" class="form_ext w-45">Loại tour</label>
                         <select class="form-control w-75" aria-label="Default select example" name="type">
-                            <option value="1">Tour</option>
-                            <option value="2">Combo</option>
-                            <option value="3">Visa/Hộ chiếu</option>
+                            @foreach ($typeTour as $type)
+                                <option value="{{ $type->id }}" {{ old('type') == $type->id ? 'selected' : '' }}>
+                                    {{ $type->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="" class="form_ext w-45">Danh mục tour</label>
                         <select class="form-control  w-75" aria-label="Default select example" name="parent_id">
-                            <option value="">Danh mục chính</option>
-                            <option value="1">Tour</option>
-                            <option value="2">Combo</option>
-                            <option value="3">Visa/Hộ chiếu</option>
+                            <option value="" {{ old('parent_id') == null ? 'selected' : '' }}>Danh mục chính
+                            </option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form_check">
