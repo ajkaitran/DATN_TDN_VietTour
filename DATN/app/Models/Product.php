@@ -46,6 +46,7 @@ class Product extends Model
         'url',                     // URL chi tiết
         'title',                   // Tiêu đề
         'detailed_description',    // Mô tả chi tiết
+    ];
 
     /**
      * Quan hệ với bảng danh mục tour.

@@ -37,4 +37,14 @@ class ProductSchedule extends Model
         'url_book_tour',
         'email',
     ];
+
+    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_code');
+    }
+
+    public function product_category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ProductCategory::class, 'product_category_id');
+    }
 }
