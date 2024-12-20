@@ -58,14 +58,14 @@
                             <label class="form_ext w-25" for="">Danh Mục Tour</label>
                             <div class=" tbody-item-flex w-75">
                                 <select class="form-control w-50" name="main_category_id" id="">
-                                    <option selected disabled>Chọn danh mục chính</option>
-                                    <option value="1">Tour</option>
-                                    <option value="2">Combor</option>
-                                    <option value="3">Visa/Hộ Chiếu</option>
+                                    <option selected >Chọn danh mục cha</option>
+                                    @foreach ($parentCategories as $categories)
+                                        <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                                    @endforeach
                                 </select>
                                 <select class="form-control w-50" name="product_category_id" id="product_category_id">
                                     <option selected disabled>Chọn danh mục tour</option>
-                                    @foreach ($categories as $categories)
+                                    @foreach ($childCategories as $categories)
                                         <option value="{{ $categories->id }}">{{ $categories->name }}</option>
                                     @endforeach
                                 </select>

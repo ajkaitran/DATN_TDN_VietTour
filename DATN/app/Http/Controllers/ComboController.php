@@ -35,7 +35,8 @@ class ComboController extends Controller
     public function create(StoreComboRequest $request)
     {
         $tourtype = ProductCategoryType::whereNull('deleted_at')->get();
-        $categories = ProductCategory::all();
+        $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
+        $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
         $startplace = StartPlace::all();
 
         if ($request->isMethod('POST')) {
@@ -78,7 +79,7 @@ class ComboController extends Controller
         }
 
         // Trả về view tạo mới combo với dữ liệu danh mục tour và loại tour
-        return view('combo.create', compact('categories', 'tourtype', 'startplace'));
+        return view('combo.create', compact('parentCategories', 'childCategories', 'tourtype', 'startplace'));
     }
 
     /**
