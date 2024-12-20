@@ -2,7 +2,7 @@
 @section('title', 'Thêm Banner')
 
 @section('content')
-    <h2 class="title_page">Thêm Combo</h2>
+    <h2 class="title_page">Thêm tour</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -27,9 +27,9 @@
     @endif
 
     <div class="box_content">
-        <a class="box_link" href="{{ route('combo.index') }}">Danh sách Combo</a>
+        <a class="box_link" href="{{ route('tour.index') }}">Danh sách tour</a>
         <div class="content px-3">
-            <form action="{{ route('combo.create') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('tour.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row mx-3">
                     <div class="col-8">
@@ -64,7 +64,7 @@
                                     @endforeach
                                 </select>
                                 <select class="form-control w-50" name="product_category_id" id="product_category_id">
-                                    <option selected disabled>Chọn danh mục tour</option>
+                                    <option selected disabled>Chọn danh mục con</option>
                                     @foreach ($childCategories as $categories)
                                         <option value="{{ $categories->id }}">{{ $categories->name }}</option>
                                     @endforeach
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form_ext w-25" for="">Tên Combo</label>
+                            <label class="form_ext w-25" for="">Tên tour</label>
                             <input type="text" class="form-control w-75" name="name" value="">
                         </div>
                         <div class="form-group">
@@ -80,12 +80,12 @@
                             <textarea class="form-control w-75" cols="20" rows="4" name="description"></textarea>
                         </div>
                         <div class="form-group">
-                            <label class="form_ext w-25" for="">Mã Combo</label>
-                            <input type="" class="form-control w-75" name="product_code" value="">
+                            <label class="form_ext w-25" for="">Mã tour</label>
+                            <input type="text" class="form-control w-75" name="product_code" value="">
                         </div>
                         <div class="form-group">
                             <label class="form_ext w-25" for="">Điểm Tham Quan</label>
-                            <input type="url" class="form-control w-75" name="attractions" value="">
+                            <input type="text" class="form-control w-75" name="attractions" value="">
                         </div>
                         <div class="form-group">
                             <label class="form_ext w-25" for="image">Hình Ảnh</label>
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="" class="form_ext w-25">Combo Có Gì Đắc Sắc</label>
+                            <label for="" class="form_ext w-25">tour Có Gì Đắc Sắc</label>
                             <textarea type="text" class="form-control w-75" id="editor11" name="highlights"></textarea>
                         </div>
                         <div class="form-group">
