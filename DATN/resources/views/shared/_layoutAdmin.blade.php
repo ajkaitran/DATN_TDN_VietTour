@@ -160,7 +160,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('feedback.index')}}">
+                <a class="nav-link collapsed" href="{{route('comment.index')}}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Quản lý bình luận</span>
                 </a>

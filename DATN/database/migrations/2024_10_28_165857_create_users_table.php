@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('username', 255)->unique();
             $table->string('password');
             $table->integer('role')->default('1')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(0);//sang cmt
             $table->rememberToken();
             $table->timestamps();
         });

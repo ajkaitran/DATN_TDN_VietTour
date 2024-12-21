@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('start_places', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->nullable();
-            $table->string('title', 100)->nullable();
-            $table->text('body')->nullable();
-            $table->boolean('active');
-            $table->boolean('hot');
-            $table->softDeletes();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('article_id')->constrained()->onDelete('cascade');
+            $table->tinyInteger('status')->default(0);//sang cmt
+
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -28,7 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('start_places');
+        Schema::dropIfExists('comments');
     }
-
 };

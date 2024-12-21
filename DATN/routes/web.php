@@ -9,6 +9,7 @@ use App\Http\Controllers\TourTypeController;
 use App\Http\Controllers\TourCategoryController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\ComboController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\StartPlaceController;
 
@@ -98,4 +99,9 @@ Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::match(['GET', 'POST'], '/create', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
     Route::get('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
+});
+
+Route::prefix('admin/comments')->middleware('admin')->group(function() {
+    Route::get('/', [CommentController::class, 'index'])->name('comment.index');
+    
 });
