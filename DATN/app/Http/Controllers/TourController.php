@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Tour\StoreTourRequest;
+use App\Models\Itinerary;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductCategoryType;
 use App\Models\ProductSchedule;
 use App\Models\StartPlace;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TourController extends Controller
 {
@@ -20,7 +22,7 @@ class TourController extends Controller
         $tours = Product::whereNull('deleted_at')->get(); // Lấy danh sách tour tour
         $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
         $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
-        return view('tour.index', compact('tours','parentCategories', 'childCategories'));
+        return view('tour.index', compact('tours', 'parentCategories', 'childCategories'));
     }
 
     /**
@@ -78,24 +80,62 @@ class TourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
-        $categoryTour = ProductCategory::all();
-        $tour = ProductSchedule::find($id);
-        return view('tour.edit', compact('tour', 'categoryTour'));
-    }
+        $tours = Product::find($id);
+        $category = ProductCategory::findOrFail($id); // Lấy danh mục cần chỉnh sửa
+        $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
+        $childCategories = ProductCategory::whereNotNull('parent_id')->get();
+        $types = ProductCategoryType::all();
+        $startPlaces = StartPlace::all();
+        $itineraries = Itinerary::where('product_id', $id)->orderBy('day')->get();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(StoreTourRequest $request, string $id)
-    {
-        $active = isset($request->active) ? 1 : 0;
-        ProductSchedule::find($id)->update([
-            ...$request->all(),
-            'active' => $active
-        ]);
-        return redirect()->route('tour.index')->with('success', 'Cập nhật tour thành công');
+        if ($request->post()) {
+            $param = $request->except('_token'); // Lấy tất cả dữ liệu, trừ _token
+
+            // Loại bỏ các trường TimeDetail, TimeDetailName, TimeDetailBody
+            unset($param['TimeDetail'], $param['TimeDetailName'], $param['TimeDetailBody']);
+
+            // Xử lý hình ảnh
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $resultDl = Storage::delete('/public/' . $tours->image);
+                if ($resultDl) {
+                    $param['image'] = uploadFile('Combo', $request->file('image'));
+                }
+            } else {
+                $param['image'] = $tours->image;
+            }
+
+            // Cập nhật thông tin Combo
+            $result = Product::where('id', $id)->update($param);
+
+            // Lưu lịch trình
+            $selectedDays = $request->input('TimeDetail', 0);
+
+            for ($i = 1; $i <= $selectedDays; $i++) {
+                $title = $request->input("TimeDetailName.$i");
+                $description = $request->input("TimeDetailBody.$i");
+
+                // Tìm hoặc tạo mới lịch trình
+                Itinerary::updateOrCreate(
+                    ['product_id' => $id, 'day' => $i],
+                    ['title' => $title, 'description' => $description]
+                );
+            }
+
+            // Xóa lịch trình thừa nếu số ngày giảm
+            Itinerary::where('product_id', $id)
+                ->where('day', '>', $selectedDays)
+                ->delete();
+
+            // Hiển thị thông báo và quay lại trang danh sách
+            if ($result) {
+                session()->flash('success', 'Sửa phản hồi thành công');
+                return redirect()->route('tour.index');
+            }
+        }
+
+        return view('tour.edit', compact('tours','category', 'parentCategories', 'childCategories', 'types', 'startPlaces', 'itineraries'));
     }
 
     /**

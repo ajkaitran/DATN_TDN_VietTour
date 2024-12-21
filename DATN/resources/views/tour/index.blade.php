@@ -27,7 +27,7 @@
 @endif
 
 <div class="box_content">
-    <a class="box_link" href="{{ route('tour.create') }}">Thêm Combo</a>
+    <a class="box_link" href="{{ route('tour.create') }}">Thêm Tour</a>
     <div class="content px-3">
         <table class="table table-striped mt-4">
             <thead class="thead">

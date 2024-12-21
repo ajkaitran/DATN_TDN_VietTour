@@ -75,8 +75,7 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
     Route::match(['GET', 'POST'],'/create', [TourController::class, 'create'])->name('tour.create');
-    Route::get('/{id}/edit', [TourController::class, 'edit'])->name('tour.edit');
-    Route::put('/{id}', [TourController::class, 'update'])->name('tour.update');
+    Route::match(['GET', 'POST'],'/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
     Route::delete('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
 });
 Route::prefix('admin/combo')->middleware('admin')->group(function () {
