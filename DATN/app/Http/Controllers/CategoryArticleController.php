@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\CategoryArticle\StoreRequest;
+use App\Http\Requests\Admin\CategoryArticle\StoreCategoryArticleRequest;
 use App\Models\ArticleCategory;
-use Illuminate\Http\Request;
 
 class CategoryArticleController extends Controller
 {
@@ -26,7 +25,7 @@ class CategoryArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(StoreCategoryArticleRequest $request)
     {
         $active = $request->input('category_active') ? 1 : 0;
 
@@ -58,7 +57,7 @@ class CategoryArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreRequest $request, string $id)
+    public function update(StoreCategoryArticleRequest $request, string $id)
     {
         $active = $request->input('category_active') ? 1 : 0;
 
