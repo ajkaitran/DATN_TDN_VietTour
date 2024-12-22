@@ -110,7 +110,6 @@
                         <a class="collapse-item" href="{{route('tourType.index')}}">Loại Tour</a>
                         <a class="collapse-item" href="{{route('tourCategory.index')}}">Danh mục Tour</a>
                         <a class="collapse-item" href="{{route('tour.index')}}">Danh sách Tour</a>
-                        <a class="collapse-item" href="{{route('combo.index')}}">Danh sách Combo</a>
                         <a class="collapse-item" href="{{route('startPlace.index')}}">Điểm xuất phát</a>
                     </div>
                 </div>
