@@ -108,11 +108,10 @@
                 <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('tourType.index') }}">Loại Tour</a>
-                        <a class="collapse-item" href="{{ route('tourCategory.index') }}">Danh mục Tour</a>
-                        <a class="collapse-item" href="{{ route('tour.index') }}">Danh sách Tour</a>
-                        <a class="collapse-item" href="{{ route('combo.index') }}">Danh sách Combo</a>
-                        <a class="collapse-item" href="{{ route('startPlace.index') }}">Điểm xuất phát</a>
+                        <a class="collapse-item" href="{{route('tourType.index')}}">Loại Tour</a>
+                        <a class="collapse-item" href="{{route('tourCategory.index')}}">Danh mục Tour</a>
+                        <a class="collapse-item" href="{{route('tour.index')}}">Danh sách Tour</a>
+                        <a class="collapse-item" href="{{route('startPlace.index')}}">Điểm xuất phát</a>
                     </div>
                 </div>
             </li>

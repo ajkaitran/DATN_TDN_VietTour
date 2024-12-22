@@ -143,7 +143,9 @@ class TourController extends Controller
      */
     public function destroy(string $id)
     {
-        ProductSchedule::find($id)->delete();
-        return redirect()->route('tour.index')->with('success', 'Xóa tour thành công');
+        Product::where('id', $id)->delete();
+        Itinerary::where('product_id', $id)->delete();
+        session()->flash('success', 'Xóa tour thành công ');
+        return redirect()->route('tour.index');
     }
 }
