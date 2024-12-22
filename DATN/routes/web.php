@@ -5,10 +5,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CategoryArticleController;
 use App\Http\Controllers\TourTypeController;
 use App\Http\Controllers\TourCategoryController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\ComboController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\StartPlaceController;
 
@@ -74,10 +76,15 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
+
     Route::match(['GET', 'POST'],'/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'],'/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
+    Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
+    Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
+    Route::delete('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
 });
+
 Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
     Route::get('/', [StartPlaceController::class, 'index'])->name('startPlace.index');
     Route::get('/create', [StartPlaceController::class, 'create'])->name('startPlace.create');
@@ -91,4 +98,17 @@ Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::match(['GET', 'POST'], '/create', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
     Route::get('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
+});
+
+Route::prefix('admin/comments')->middleware('admin')->group(function () {
+    Route::get('/', [CommentController::class, 'index'])->name('comment.index');
+});
+
+Route::prefix('admin/articleCategory')->middleware('admin')->group(function () {
+    Route::get('/', [CategoryArticleController::class, 'index'])->name('categoryArticle.index');
+    Route::get('/create', [CategoryArticleController::class, 'create'])->name('categoryArticle.create');
+    Route::post('/store', [CategoryArticleController::class, 'store'])->name('categoryArticle.store');
+    Route::get('/{id}/edit', [CategoryArticleController::class, 'edit'])->name('categoryArticle.edit');
+    Route::put('/{id}', [CategoryArticleController::class, 'update'])->name('categoryArticle.update');
+    Route::delete('/{id}', [CategoryArticleController::class, 'destroy'])->name('categoryArticle.destroy');
 });
