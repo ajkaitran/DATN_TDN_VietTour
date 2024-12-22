@@ -23,4 +23,9 @@ class Article extends Model
         'show_footer',
         'url',
     ];
+
+    public function articleCategory()
+    {
+        return $this->belongsTo(ArticleCategory::class, 'article_category_id');
+    }
 }
