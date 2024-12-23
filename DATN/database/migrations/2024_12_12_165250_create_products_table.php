@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_type_id'); // Loại tour
             $table->integer('main_category_id'); // danh mục chính
             $table->unsignedBigInteger('product_category_id'); // Mã danh mục tour mà sản phẩm thuộc về (liên kết với bảng product_categories)
-            $table->string('name', 100); // Tên combo tour
+            $table->string('name', 500); // Tên combo tour
             $table->string('description', 1000)->nullable(); // Trích dẫn ngắn mô tả về tour (ví dụ: mô tả ngắn gọn về combo)
             $table->string('product_code', 50)->nullable(); // Mã combo tour (mã sản phẩm duy nhất)
             $table->text('attractions')->nullable(); // Điểm tham quan của tour
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('star')->default(0); // Đánh giá sao của khách sạn hoặc dịch vụ tour
             $table->integer('price')->nullable(); // Giá tour (hoặc combo) gốc
             $table->integer('sale_off')->nullable(); // Giá khuyến mãi hoặc giảm giá
-            $table->string('hotline', 15)->nullable(); // Số hotline liên hệ
+            $table->string('hotline', 10)->nullable(); // Số hotline liên hệ
             $table->text('package_price')->nullable(); // Chi tiết giá tour trọn gói
             $table->text('price_included')->nullable(); // Những dịch vụ và chi phí đã bao gồm trong tour
             $table->text('price_excluded')->nullable(); // Những dịch vụ và chi phí không bao gồm trong tour
@@ -42,15 +42,17 @@ return new class extends Migration
             $table->boolean('hot')->default(0); // Xác định tour này có được làm nổi bật không (ví dụ: tour hot)
             $table->boolean('home_page')->default(0); // Combo tour hiển thị trang chủ
             $table->boolean('active')->default(0); // Trạng thái tour còn hoạt động hay không
-            $table->string('tags', 255)->nullable(); // Từ khóa tìm kiếm cho tour (dễ dàng tìm kiếm trên website)
-            $table->string('url', 500)->nullable(); // URL dẫn đến trang chi tiết tour sản phẩm
-            $table->string('title', 255)->nullable(); // Tiêu đề của combo tour
+            $table->string('tags', 500)->nullable(); // Từ khóa tìm kiếm cho tour (dễ dàng tìm kiếm trên website)
+            $table->string('url', 1000)->nullable(); // URL dẫn đến trang chi tiết tour sản phẩm
+            $table->string('title', 500)->nullable(); // Tiêu đề của combo tour
             $table->text('detailed_description')->nullable(); // Mô tả chi tiết về tour
+            $table->unsignedBigInteger('article_id');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('start_places_id')->references('id')->on('start_places')->onDelete('cascade');
             $table->foreign('category_type_id')->references('id')->on('product_categories_type')->onDelete('cascade');
             $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
         });
     }
 

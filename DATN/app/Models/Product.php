@@ -45,7 +45,8 @@ class Product extends Model
         'tags',                    // Từ khóa tìm kiếm
         'url',                     // URL chi tiết
         'title',                   // Tiêu đề
-        'detailed_description',    // Mô tả chi tiết
+        'detailed_description', // mô tả ch tiết
+        'article_id'  // bài viết
     ];
 
     /**
@@ -71,5 +72,8 @@ class Product extends Model
     {
         return $this->belongsTo(StartPlace::class, 'start_places_id');
 
+    }
+    public function article(){
+        return $this->belongsTo(Article::class, 'article_id');
     }
 }

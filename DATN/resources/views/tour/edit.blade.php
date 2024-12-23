@@ -42,9 +42,6 @@
                                 {{ $tours->start_places_id == $place->id ? 'selected' : '' }}>{{ $place->name }}
                             </option>
                             @endforeach
-                            {{-- <option value="1">Hà Nội</option>
-                                <option value="2">Miền Tung</option>
-                                <option value="3">Miền Nam</option> --}}
                         </select>
                     </div>
                     <div class="form-group">
@@ -65,7 +62,7 @@
                             <select class="form-control w-50" name="main_category_id" id="main_category_id">
                                 <option selected>Chọn danh mục cha</option>
                                 @foreach ($parentCategories as $parent)
-                                <option value="{{ $parent->id }}" {{ $category->parent_id == $parent->id ? 'selected' : '' }}>
+                                <option value="{{ $parent->id }}" {{ $tours->main_category_id == $parent->id ? 'selected' : '' }}>
                                     {{ $parent->name }}
                                 </option>
                                 @endforeach
@@ -75,7 +72,7 @@
                             <select class="form-control w-50" name="product_category_id" id="product_category_id">
                                 <option selected disabled>Chọn danh mục con</option>
                                 @foreach ($childCategories as $child)
-                                <option value="{{ $child->id }}" {{ $category->id == $child->id ? 'selected' : '' }}>
+                                <option value="{{ $child->id }}" {{ $tours->product_category_id == $child->id ? 'selected' : '' }}>
                                     {{ $child->name }}
                                 </option>
                                 @endforeach
@@ -258,15 +255,18 @@
             <div class="col-4">
                 <div class="box_article">
                     <h5><strong>Bài Viết</strong></h5>
-                    <input class="my-2" type="text" name="" id=""
-                        placeholder="Nhập từ Khóa...">
-                    <ul>
-                        @for ($i = 1; $i < 15; $i++)
-                            <li>
-                            <label><input type="checkbox" name="ArticleId" value="33"> Ghé thăm cố trấn
-                                Lệ Giang - nơi được mệnh danh là cổ trấn đẹp nhất Trung Quốc</label>
-                            </li>
-                            @endfor
+                    <!-- Ô tìm kiếm -->
+                    <input class="my-2 form-control" type="text" id="searchArticle" placeholder="Nhập từ khóa...">
+                    <!-- Danh sách bài viết -->
+                    <ul id="articleList">
+                        @foreach ($articles as $article)
+                        <li>
+                            <label>
+                                <input type="checkbox" name="article_id" value="{{ $article->id }}"{{ $tours->article_id == $article->id ? 'checked' : ''}}>
+                                {{ $article->body }}
+                            </label>
+                        </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -277,3 +277,25 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchArticle');
+        const articles = document.querySelectorAll('#articleList li');
+
+        if (searchInput && articles) {
+            searchInput.addEventListener('input', function() {
+                const keyword = this.value.trim().toLowerCase(); // Loại bỏ khoảng trắng thừa
+                articles.forEach(article => {
+                    const title = article.textContent.trim().toLowerCase();
+                    if (title.includes(keyword)) {
+                        article.style.display = ''; // Hiển thị bài viết
+                    } else {
+                        article.style.display = 'none'; // Ẩn bài viết không khớp
+                    }
+                });
+            });
+        }
+    });
+</script>

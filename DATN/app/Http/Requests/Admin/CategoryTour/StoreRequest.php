@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
             'name' => 'required|string',
             'city' => 'required|string',
             'hotline' => 'required|string',
-            'url' => 'required|string|url',
+            //'url' => 'required|string|url',
             'meta_description' => 'required|string',
             'meta_title' => 'required|string',
         ];
@@ -37,10 +37,10 @@ class StoreRequest extends FormRequest
             'name.required' => 'Vui lòng nhập tên danh mục',
             'city.required' => 'Vui lòng nhập tên thành phố',
             'hotline.required' => 'Vui lòng nhập số hotline',
-            'url.required' => 'Vui lòng nhập url',
+            //'url.required' => 'Vui lòng nhập url',
             'meta_description.required' => 'Vui lòng nhập mô tả',
             'meta_title.required' => 'Vui lòng nhập tiêu đề',
-            'url.url' => 'Vui lòng nhập url hợp lệ',
+            //'url.url' => 'Vui lòng nhập url hợp lệ',
         ];
     }
 }

@@ -82,19 +82,28 @@
                     </td>
                     <td>
                         <div class="tbody-item-column">
-                            <strong>{{ $tour->type->name ?? 'Không xác định' }}</strong>
-                            @foreach($parentCategories as $parent)
-                            <div>            
+                            <strong>{{ $tour->type->name ?? 'Không xác định' }}</strong> <!-- Hiển thị loại tour -->
+
+                            <!-- Hiển thị tên danh mục cha -->
+                            @foreach($ProductCategories as $parent)
+                            @if ($tour->main_category_id == $parent->id)
+                            <div>
                                 <strong>{{ $parent->name }}</strong> <!-- Tên danh mục cha -->
-                                <ul>
-                                    @foreach($childCategories->where('parent_id', $parent->id) as $child)
-                                    <strong>{{ $child->name }}</strong> <!-- Tên danh mục con -->
-                                    @endforeach
-                                </ul>
                             </div>
+                            @endif
                             @endforeach
+                            <!-- Hiển thị tên danh mục con -->
+                             @foreach($ProductCategories as $child)
+                             @if ($tour->product_category_id == $child->id)
+                             <div>
+                                 <strong>{{ $child->name }}</strong> <!-- Tên danh mục con -->
+                             </div>
+                             @endif
+                             @endforeach
+                        </div>
                         </div>
                     </td>
+
                     <td>
                         <input type="checkbox" name="" {{ $tour->active == 1 ? 'checked' : '' }}>
                     </td>

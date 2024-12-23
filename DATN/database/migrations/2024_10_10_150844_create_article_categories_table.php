@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('category_sort');
             $table->boolean('category_active');
             $table->integer('parent_id')->nullable();
-            $table->integer('type_post');
+            $table->string('type_post');
             $table->timestamps();
         });
     }
