@@ -31,7 +31,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('login', [AdminController::class, 'postLogin'])->name('admin.postLogin');
-    Route::middleware('admin')->group(function () {
+   // Route::middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
         Route::get('register', [AdminController::class, 'register'])->name('admin.register');
         Route::post('register', [AdminController::class, 'postRegister'])->name('admin.postRegister');
@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function () {
         Route::post('quick-update', [AdminController::class, 'quickUpdate'])->name('admin.quickUpdate');
         Route::delete('destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
         Route::match(['get', 'post'], 'signout', [AdminController::class, 'signout'])->name('admin.signout');
-    });
+  //  });
 });
 Route::prefix('admin/article')->middleware('admin')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('article.index');

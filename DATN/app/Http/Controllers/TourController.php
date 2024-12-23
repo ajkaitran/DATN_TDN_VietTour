@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Tour\StoreTourRequest;
+use App\Models\Article;
 use App\Models\Itinerary;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -20,9 +21,9 @@ class TourController extends Controller
     public function index()
     {
         $tours = Product::whereNull('deleted_at')->get(); // Lấy danh sách tour tour
-        $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
-        $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
-        return view('tour.index', compact('tours', 'parentCategories', 'childCategories'));
+        $ProductCategories = ProductCategory::all(); // Danh mục cha
+        // $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
+        return view('tour.index', compact('tours', 'ProductCategories'));
     }
 
     /**
@@ -33,6 +34,8 @@ class TourController extends Controller
         $tourtype = ProductCategoryType::whereNull('deleted_at')->get();
         $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
         $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
+        $articles = Article::all();
+        // $selectedArticles = $tours->articles->pluck('id')->toArray(); 
         $startplace = StartPlace::all();
 
         if ($request->isMethod('POST')) {
@@ -75,7 +78,7 @@ class TourController extends Controller
         }
 
         // Trả về view tạo mới tour với dữ liệu danh mục tour và loại tour
-        return view('tour.create', compact('parentCategories', 'childCategories', 'tourtype', 'startplace'));
+        return view('tour.create', compact('parentCategories', 'childCategories', 'tourtype', 'startplace','articles'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -83,11 +86,12 @@ class TourController extends Controller
     public function edit(Request $request, $id)
     {
         $tours = Product::find($id);
-        $category = ProductCategory::findOrFail($id); // Lấy danh mục cần chỉnh sửa
+        // $category = ProductCategory::findOrFail($id); // Lấy danh mục cần chỉnh sửa
         $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
-        $childCategories = ProductCategory::whereNotNull('parent_id')->get();
+        $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
         $types = ProductCategoryType::all();
         $startPlaces = StartPlace::all();
+        $articles = Article::all();
         $itineraries = Itinerary::where('product_id', $id)->orderBy('day')->get();
 
         if ($request->post()) {
@@ -135,7 +139,7 @@ class TourController extends Controller
             }
         }
 
-        return view('tour.edit', compact('tours','category', 'parentCategories', 'childCategories', 'types', 'startPlaces', 'itineraries'));
+        return view('tour.edit', compact('tours', 'parentCategories', 'childCategories', 'types', 'startPlaces', 'itineraries','articles'));
     }
 
     /**

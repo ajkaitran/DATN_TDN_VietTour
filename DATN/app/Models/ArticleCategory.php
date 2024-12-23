@@ -11,7 +11,16 @@ class ArticleCategory extends Model
 
     protected $table = 'article_categories';
 
-    protected $fillable = ['category_name', 'url', 'category_sort', 'category_active', 'parent_id', 'type_post', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'category_name',
+        'url',
+        'category_sort',
+        'category_active',
+        'parent_id',
+        'type_post',
+        'created_at',
+        'updated_at'
+    ];
 
     public function articles()
     {
