@@ -1,0 +1,31 @@
+{
+  "banner": [
+    {
+      "id": 1,
+      "image":"https://images.pexels.com/photos/27101105/pexels-photo-27101105/free-photo-of-d-ng-phong-c-nh-b-u-tr-i-hoang-hon.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+    },
+    {
+      "id": 2,
+      "image": "https://images.pexels.com/photos/27101105/pexels-photo-27101105/free-photo-of-d-ng-phong-c-nh-b-u-tr-i-hoang-hon.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+    },
+    {
+      "id": 3,
+      "image": "https://images.pexels.com/photos/27101105/pexels-photo-27101105/free-photo-of-d-ng-phong-c-nh-b-u-tr-i-hoang-hon.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+    }
+  ],
+  "tours": [
+    {
+      "id": 1,
+      "name": "Tour Hàn Quốc: Hà Nội - Busan - Cố Đô Gyeongju - Seoul 6N5Đ",
+      "price":"18900000Đ" 
+    },
+    {
+      "id":2,
+      "name":"Tour Hàn Quốc: Hà Nội - Seoul - Nami - Everland - Painter Show 5N4Đ",
+      "price":"18900000Đ"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

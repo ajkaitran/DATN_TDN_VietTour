@@ -25,7 +25,12 @@ class TourController extends Controller
         // $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
         return view('tour.index', compact('tours', 'ProductCategories'));
     }
-
+    public function listTour()
+    {   
+        
+        $items = Product::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
+        return response()->json($items); // Trả về dữ liệu dưới dạng JSON
+    }
     /**
      * Show the form for creating a new resource.
      */

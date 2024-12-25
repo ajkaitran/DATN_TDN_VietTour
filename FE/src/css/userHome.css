@@ -1,0 +1,17 @@
+.slide_4 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.location {
+    width: calc(33.33% - 20px);
+    
+    margin-bottom: 20px;
+    
+} 
+
+.title {
+    text-align: center;
+    margin-top: 10px;
+} 
