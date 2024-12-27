@@ -45,10 +45,10 @@ class BannerController extends Controller
         $banner = new Banner();
         $res = $banner->insertDataBanner($data);
         if ($res) {
-            return redirect()->back()->with('success', 'Sản phẩm được thêm thành công');
+            return redirect()->back()->with('success', 'Quảng cáo được thêm thành công');
         }
 
-        return redirect()->back()->with('error', 'Sản phẩm không thêm thành công');
+        return redirect()->back()->with('error', 'Quảng cáo không thêm thành công');
     }
 
 
@@ -105,9 +105,9 @@ class BannerController extends Controller
                     Storage::disk('public')->delete($imageMobileOld);
                 }
 
-                return redirect()->back()->with('success', 'Chỉnh sửa sản phẩm thành công');
+                return redirect()->back()->with('success', 'Chỉnh sửa quảng cáo thành công');
             } else {
-                return redirect()->back()->with('error', 'Chỉnh sửa sản phẩm không thành công');
+                return redirect()->back()->with('error', 'Chỉnh sửa quảng cáo không thành công');
             }
         } else {
             return redirect()->back()->with('error', 'Không tìm thấy id');
@@ -129,9 +129,9 @@ class BannerController extends Controller
                 if(Storage::disk('public')->exists($imageMobileOld)){
                     Storage::disk('public')->delete($imageMobileOld);
                 }
-                return redirect()->back()->with('success','Xóa sản phẩm thành công');
+                return redirect()->back()->with('success','Xóa quảng cáo thành công');
             }else{
-                return redirect()->back()->with('error','Xóa sản phẩm không thành công');
+                return redirect()->back()->with('error','Xóa quảng cáo không thành công');
             }
         }else{
             return redirect()->back()->with('error','Không tìm thấy id');
