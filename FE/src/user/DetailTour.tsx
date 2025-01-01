@@ -2,6 +2,7 @@ import React from 'react'
 import Header from './component/Header'
 import Footer from './component/Footer'
 import { Link } from 'react-router-dom'
+import Feedback from './component/Feedback'
 
 
 const DetailTour = () => {
@@ -123,27 +124,7 @@ const DetailTour = () => {
                               <p className="text-center text-gray-800"> Việt Tour - Đơn vị tổ chức tour du lịch hàng đầu!</p>
                           </div>
                       </div>
-                      <div className="flex flex-col w-full  p-4">
-                          <div className="flex items-center justify-between mb-4">
-                              <div className="flex items-center">
-                                  <span className="text-lg font-semibold mr-2">0</span>
-                                  <span className="text-gray-500">/5</span>
-                                  <div className="flex ml-2">
-                                      <i className="fas fa-star text-orange-400"></i>
-                                      <i className="fas fa-star text-orange-400"></i>
-                                      <i className="fas fa-star text-orange-400"></i>
-                                      <i className="fas fa-star text-orange-400"></i>
-                                      <i className="fas fa-star text-orange-400"></i>
-                                  </div>
-                              </div>
-                              <button className="bg-gradient-to-r from-blue-500 to-blue-300 text-white py-2 px-4 rounded">
-                                  ĐÁNH GIÁ CỦA KHÁCH HÀNG
-                              </button>
-                          </div>
-                          <button className="bg-orange-500 text-white py-2 px-4 rounded self-end">
-                              Viết đánh giá
-                          </button>
-                      </div>
+                      <Feedback/>
                       <div className="flex flex-col w-full  p-4 mt-4 md:mt-0">
                           <button className="bg-gradient-to-r from-blue-500 to-blue-300 text-white py-2 px-4 rounded mb-4">
                               CÂU HỎI THƯỜNG GẶP

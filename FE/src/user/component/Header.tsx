@@ -68,7 +68,6 @@ const Header: React.FC = () => {
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     return (
         <header>
             <div className="header ">
