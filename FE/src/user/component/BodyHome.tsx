@@ -14,6 +14,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { BannerHomeImage,Banner2} from '../../images/image';
 //import slideShow
 import { settings1,settings2,settings3,settings4 } from './SlideShow';
+import SearchTour from '../SearchTour';
 
 const BodyHome: React.FC = () => {
     //Get Banner from API
@@ -33,21 +34,6 @@ const BodyHome: React.FC = () => {
     useEffect(() => {
         fetchBannersFromAPI();
     }, []);
-    // GET location from API
-    const [locations, setLocations] = useState([]);
-
-    const fetchLocationsFromAPI = async () => {
-        try {
-            const response = await fetch('https://example.com/api/locations');
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
-            setLocations(data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
     // Search Tour
     
     return (
@@ -130,7 +116,7 @@ const BodyHome: React.FC = () => {
                             {[...Array(8)].map((_, i) => (
                                 <div key={i} className="my-3">
                                     <div className="tour_card bg-white border border-gray-200 rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-                                        <Link to='#' className="tour_img block">
+                                        <Link to='/Detail' className="tour_img block">
                                             <img src={BannerHomeImage} alt="Tour" className="w-full h-40 object-cover" />
                                         </Link>
                                         <div className="tour_content p-4">
@@ -174,7 +160,7 @@ const BodyHome: React.FC = () => {
                         {[...Array(8)].map((_, i) => (
                             <div key={i} className="my-3">
                                 <div className="tour_card bg-white border border-gray-200 rounded-lg overflow-hidden transition-transform transform hover:scale-105">
-                                    <Link to='#' className="tour_img block">
+                                    <Link to='Detail' className="tour_img block">
                                         <img src={BannerHomeImage} alt="Tour" className="w-full h-40 object-cover" />
                                     </Link>
                                     <div className="tour_content p-4">

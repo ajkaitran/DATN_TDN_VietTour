@@ -29,3 +29,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/tour/list', [TourController::class, 'listTour']);
+Route::post('/feedback', [eedBackController::class,'store']);

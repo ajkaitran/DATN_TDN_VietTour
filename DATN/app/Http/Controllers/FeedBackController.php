@@ -27,6 +27,18 @@ class FeedBackController extends Controller
         }
         return view('feedback.create');
     }
+    public function store(Request $request)
+    {
+        $param = $request->all();
+
+        $feedback = Feedback::create($param);
+
+        if ($feedback) {
+            return response()->json(['message' => 'Thêm mới phản hồi thành công', 'data' => $feedback], 201);
+        } else {
+            return response()->json(['message' => 'Có lỗi xảy ra khi thêm phản hồi'], 500);
+        }
+    }
     public function edit(StoreRequest $request, $id){
         // dd();
         $feedback = Feedback::find($id);

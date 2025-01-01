@@ -8,8 +8,10 @@ import Home from './user/Home';
 import GetTourById from './user/GetTourById';
 import BookTour from './user/BookTour';
 import DetailTour from './user/DetailTour';
-import InternationalTour from './user/InternationalTour';
+import InternationalTour from './user/TourQuocTe';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import TourNoiDia from './user/TourNoiDia';
+import SearchTour from './user/SearchTour';
 
 const routeConfig = [
   {
@@ -25,8 +27,16 @@ const routeConfig = [
     element: < GetTourById />
   },
   {
+    path: "/search-tour",
+    element: <SearchTour/>
+  },
+  {
     path: "/Tour-quoc-te",
     element: <InternationalTour />
+  },
+  {
+    path: "/Tour-noi-dia",
+    element: <TourNoiDia />
   },
   {
     path: "/Detail",
