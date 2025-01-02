@@ -7,6 +7,9 @@ const Feedback = () => {
         setIsFeedbackActive(!isFeedbackActive);
         
     };
+    const handleHeaderClick = (event: any) => {
+        event.stopPropagation();
+    };
     useEffect(() => {
             const handleClickOutside = () => {
                 setIsFeedbackActive(false);
@@ -36,11 +39,11 @@ const Feedback = () => {
                       ĐÁNH GIÁ CỦA KHÁCH HÀNG
                   </button>
               </div>
-              <button onClick={handleFeedBackClick} className={"bg-orange-500 text-white py-2 px-4 rounded self-end ${isUserActive ? 'active' : ''}"}>
+              <button onClick={handleFeedBackClick} className={`bg-orange-500 text-white py-2 px-4 rounded self-end`}>
                   Viết đánh giá
               </button>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="bg-white p-6 rounded-lg shadow-lg" style={{ display: isFeedbackActive ? 'block' : 'none' }} onClick={handleHeaderClick}>
               <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <button className="text-gray-500"><i className="fas fa-times"></i></button>
@@ -51,11 +54,9 @@ const Feedback = () => {
                   <input type="text" placeholder="Số điện thoại" className="w-1/2 p-2 border rounded-md" />
               </div>
               <div className="flex items-center mb-4">
-                  <span className="text-yellow-500"><i className="fas fa-star"></i></span>
-                  <span className="text-gray-300"><i className="fas fa-star"></i></span>
-                  <span className="text-gray-300"><i className="fas fa-star"></i></span>
-                  <span className="text-gray-300"><i className="fas fa-star"></i></span>
-                  <span className="text-gray-300"><i className="fas fa-star"></i></span>
+                  {[...Array(5)].map((star, index) => (
+                      <span key={index} className={index === 0 ? "text-yellow-500" : "text-gray-300"}><i className="fas fa-star"></i></span>
+                  ))}
               </div>
               <button className="bg-green-500 text-white p-2 rounded-md mb-4">Chọn ảnh...</button>
               <p className="text-gray-500 text-sm mb-4">- Chọn ảnh để upload: gif, png, jpg, jpeg nhỏ hơn 4MB, tối đa 10 ảnh</p>
