@@ -27,6 +27,12 @@ class Banner extends Model
             ->paginate('5');
         return $query;
     }
+    public function loadListSlide(){
+        $query = Banner::query()
+            ->orderBy('id')
+            ->paginate('5');
+        return $query;
+    }
     public function insertDataBanner($params){
         $params['active'] = 1;
         $params['sort'] = 1;
