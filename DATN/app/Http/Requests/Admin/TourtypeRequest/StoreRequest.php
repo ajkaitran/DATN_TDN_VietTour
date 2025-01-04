@@ -36,7 +36,6 @@ class StoreRequest extends FormRequest
                             'show_menu' => 'nullable|boolean',
                             'active' => 'nullable|boolean',
                             'show_home' => 'nullable|boolean',
-                            'slug' => 'required|string',
                         ];
                         break;
                 endswitch;
@@ -51,8 +50,6 @@ class StoreRequest extends FormRequest
             'image.image' => 'Ảnh phải là tệp hình ảnh.',
             'image.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg, gif.',
             'image.max' => 'Dung lượng ảnh không được vượt quá 2MB.',
-            'slug.required' => 'Slug là bắt buộc.',
-            'slug.unique' => 'Slug này đã tồn tại.',
         ];
     }
 }
