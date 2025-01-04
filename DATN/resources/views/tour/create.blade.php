@@ -78,11 +78,11 @@
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Mã tour</label>
-                        <input type="" class="form-control w-75" name="product_code" value="">
+                        <input type="" class="form-control w-75" name="product_code" value="">7[6]
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Điểm Tham Quan</label>
-                        <input type="url" class="form-control w-75" name="attractions" value="">
+                        <input type="" class="form-control w-75" name="attractions" value="">
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="image">Hình Ảnh</label>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Phương Tiện Di Chuyển</label>
-                        <input type="text" class="form-control w-75" name="schedule" value="">
+                        <input type="text" class="form-control w-75" name="transport" value="">
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Khách Sạn Mấy Sao</label>
@@ -246,7 +246,7 @@
                         <li>
                             <label>
                                 <input type="checkbox" name="article_id" value="{{ $article->id }}">
-                                {{ $article->body }}
+                                {{ $article->subject }}
                             </label>
                         </li>
                         @endforeach

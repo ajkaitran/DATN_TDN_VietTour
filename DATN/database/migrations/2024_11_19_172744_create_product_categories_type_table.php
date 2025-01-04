@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('show_menu')->default(0); // Hiển thị trên Menu
             $table->boolean('active')->default(1); // Trạng thái hoạt động
             $table->boolean('show_home')->default(0); // Hiển thị trên Home
-            $table->string('slug', 150)->unique(); // Đường dẫn
+            $table->string('slug', 150)->nullable(); // Đường dẫn
             $table->timestamps();
             $table->softDeletes();
         });
