@@ -53,12 +53,14 @@
                     <div class="form-group">
                         <label class="form_ext w-25" for="image">Hình Ảnh</label>
                         <div class="w-75">
-                            <input type="file" id="image" name="image" accept="image/*">
-                            @if ($idBanner->image)
-                                <div class="mt-2">
-                                    <img src="{{ asset('storage/' . $idBanner->image) }}" alt="Hình ảnh hiện tại" width="200">
-                                </div>
-                            @endif
+                            <label class="form__container" for="image" id="upload-container">Choose or Drag & Drop Files
+                                <input class="form__file" id="upload-files" type="file" accept="image/*" name="image" multiple="multiple">
+                            </label>
+                            <div class="desktop-show">
+                                @if ($idBanner->image)
+                                <img src="{{ asset('storage/' . $idBanner->image) }}" alt="Hình ảnh hiện tại" width="200">
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -66,12 +68,15 @@
                     <div class="form-group">
                         <label class="form_ext w-25" for="image_mobile">Hình Ảnh Mobile</label>
                         <div class="w-75">
-                            <input type="file" id="image_mobile" name="image_mobile" accept="image/*">
-                            @if ($idBanner->image_mobile)
-                                <div class="mt-2">
-                                    <img src="{{ asset('storage/' . $idBanner->image_mobile) }}" alt="Hình ảnh mobile hiện tại" width="200">
-                                </div>
-                            @endif
+                            <label class="form__container" for="image_mobile">Choose or Drag & Drop Files
+                                <input class="form__file" id="image_mobile" type="file" accept="image/*" name="image_mobile">
+                            </label>
+                            <div class="mobile-show">
+                                @if ($idBanner->image_mobile)
+                                <img src="{{ asset('storage/' . $idBanner->image_mobile) }}" alt="Hình ảnh mobile hiện tại" width="200">
+                                @endif
+
+                            </div>
                         </div>
                     </div>
 

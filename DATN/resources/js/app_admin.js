@@ -106,56 +106,56 @@ CKEDITOR.replace('editor10');
 CKEDITOR.replace('editor11');
 
 
-function updateUser(id) {
-  let row = $('tr[data-id="' + id + '"]');
-  let role = row.find('select#role').val();
-  let status = row.find('input#status').prop('checked') ? 1 : 0;
+// function updateUser(id) {
+//   let row = $('tr[data-id="' + id + '"]');
+//   let role = row.find('select#role').val();
+//   let status = row.find('input#status').prop('checked') ? 1 : 0;
 
-  $.post("{{ route('admin.quickUpdate') }}", {
-    id: id,
-    role: role,
-    status: status,
-    _token: '{{ csrf_token() }}'
-  }, function (response) {
-    if (response.success) {
-      $.toast({
-        text: response.message,
-        position: 'bottom-right',
-        icon: 'success',
-      });
-    } else {
-      $.toast({
-        text: response.message,
-        position: 'bottom-right',
-        icon: 'error',
-      });
-    }
-  });
-}
+//   $.post("{{ route('admin.quickUpdate') }}", {
+//     id: id,
+//     role: role,
+//     status: status,
+//     _token: '{{ csrf_token() }}'
+//   }, function (response) {
+//     if (response.success) {
+//       $.toast({
+//         text: response.message,
+//         position: 'bottom-right',
+//         icon: 'success',
+//       });
+//     } else {
+//       $.toast({
+//         text: response.message,
+//         position: 'bottom-right',
+//         icon: 'error',
+//       });
+//     }
+//   });
+// }
 
-function deleteUser(id) {
-  if (confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) {
-    $.post("{{ route('admin.destroy') }}", {
-      id: id,
-      _token: '{{ csrf_token() }}'
-    }, function (response) {
-      if (response.success) {
-        $('tr[data-id="' + id + '"]').fadeOut();
-        $.toast({
-          text: response.message,
-          position: 'bottom-right',
-          icon: 'success',
-        });
-      } else {
-        $.toast({
-          text: response.message,
-          position: 'bottom-right',
-          icon: 'error',
-        });
-      }
-    });
-  }
-}
+// function deleteUser(id) {
+//   if (confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) {
+//     $.post("{{ route('admin.destroy') }}", {
+//       id: id,
+//       _token: '{{ csrf_token() }}'
+//     }, function (response) {
+//       if (response.success) {
+//         $('tr[data-id="' + id + '"]').fadeOut();
+//         $.toast({
+//           text: response.message,
+//           position: 'bottom-right',
+//           icon: 'success',
+//         });
+//       } else {
+//         $.toast({
+//           text: response.message,
+//           position: 'bottom-right',
+//           icon: 'error',
+//         });
+//       }
+//     });
+//   }
+// }
 
 $(document).ready(function () {
   $('#upload-files').on('change', function () {

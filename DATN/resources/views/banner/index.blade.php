@@ -33,7 +33,7 @@
             <thead class="thead">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Tên Banner</th>
+                    <th scope="col">Loại Banner</th>
                     <th scope="col">Hình Ảnh</th>
                     <th scope="col">Hình Ảnh Mobile</th>
                     <th scope="col">Trạng Thái</th>
@@ -44,7 +44,7 @@
                 @foreach($listBanner as $banner)
                 <tr>
                     <td>{{ $banner->id }}</td>
-                    <td>{{ $banner->banner_name }}</td>
+                    <td>{{ $bannerGroup[$banner->banner_group] ?? 'Không xác định' }}</td>
                     <td>
                         <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->banner_name }}" width="100">
                     </td>
