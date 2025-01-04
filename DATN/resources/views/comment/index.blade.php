@@ -15,7 +15,6 @@
 </div>
 @endif
 
-
 @if (session('success'))
 <div class="alert alert-success">
     {{ session('success') }}
@@ -29,6 +28,22 @@
 
 <div class="box_content">
     <div class="content p-3">
+        <!-- Form bộ lọc -->
+        <form method="GET" action="{{ route('comment.index') }}" class="form-inline mb-3">
+            <label for="article_id" class="mr-2">Lọc theo bài viết:</label>
+            <select name="article_id" id="article_id" class="form-control mr-2">
+                <option value="">Tất cả bài viết</option>
+                @foreach($articles as $article)
+                <option value="{{ $article->id }}" 
+                    {{ request('article_id') == $article->id ? 'selected' : '' }}>
+                    {{ $article->subject }}
+                </option>
+                @endforeach
+            </select>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </form>
+
+        <!-- Bảng hiển thị bình luận -->
         <table class="table table-strped mt-4">
             <thead>
                 <tr>
@@ -51,10 +66,10 @@
                     <td>{{$items->content}}</td>
 
                     <td>
-                        <input type="checkbox"  {{ $items->status == 1 ? 'checked' : '' }}>
+                        <input type="checkbox" {{ $items->status == 1 ? 'checked' : '' }}>
                     </td>
                     <td class="d-flex justify-content-around py-4">
-                        <a class="btn btn-primary" href="#" >Cập nhật</a>
+                        <a class="btn btn-primary" href="#">Cập nhật</a>
                     </td>
                 </tr>
                 @endforeach
@@ -63,6 +78,4 @@
         {{$listComment->links()}}
     </div>
 </div>
-
-
 @endsection
