@@ -64,7 +64,7 @@ class TourController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(StoreTourRequest $request)
     {
         $tourtype = ProductCategoryType::whereNull('deleted_at')->get();
         $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
@@ -118,7 +118,7 @@ class TourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)
+    public function edit(StoreTourRequest $request, $id)
     {
         $tours = Product::find($id);
         // $category = ProductCategory::findOrFail($id); // Lấy danh mục cần chỉnh sửa

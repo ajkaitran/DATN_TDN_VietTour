@@ -14,6 +14,14 @@ class BannerController extends Controller
     {
         $objBanner = new Banner();
         $this->view['listBanner']= $objBanner->loadListBanner();
+        $this->view['bannerGroup'] = [
+            1 => 'Banner slide',
+            2 => 'Ưu đãi',
+            3 => 'Đối tác',
+            4 => 'Góc báo trí',
+            5 => 'Cam kết',
+            6 => 'Lý do chọn chúng tôi',
+        ];
         return view('banner.index',$this->view);
     }
     public function uploadFile($file){

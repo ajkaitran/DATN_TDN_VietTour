@@ -4,9 +4,9 @@
 @section("content")
 <section class="banner">
     <div class="slide_banner">
-        @for ($i = 0; $i < 4; $i++)
-            <img src="{{ url('images/Banner_home_1.jpg') }}">
-        @endfor
+        @foreach($listBanner1 as $banner)
+            <img src="{{ asset('storage/' . $banner->image) }}" alt="hình ảnh" width="100">
+        @endforeach
     </div>
     <div class="banner_content">
         <div class="title_banner">
@@ -23,9 +23,9 @@
     <div class="container">
         <h2 class="title_index title">Ưu đãi hấp dẫn</h2>
         <div class="slide_banner mt-4">
-            @for ($i = 0; $i < 4; $i++)
-                <img src="{{ url('images/Banner_home_1.jpg') }}">
-            @endfor
+            @foreach($listBanner2 as $banner)
+            <img src="{{ asset('storage/' . $banner->image) }}" alt="hình ảnh" width="100">
+            @endforeach
         </div>
     </div>
 </section>
@@ -67,8 +67,8 @@
                         <img src="{{ url('images/Banner_home_1.jpg') }}">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name" href="#">Tour Hàn Quốc: Seoul - Nami - Everland - Bukchon 5N4Đ</a>
-                        <div class="tour_star">
+                        <a class="tour_name title_name" href="#">Tour Hàn Quốc: Seoul - Nami - Everland - Bukchon 5N4Đ</a>
+                        <div class="star">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                             <div class="col-5 d-flex justify-content-end align-items-center">
-                                <a class="btn_hover" href="#">
+                                <a class="btn_card" href="#">
                                     <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
                                 </a>
                             </div>

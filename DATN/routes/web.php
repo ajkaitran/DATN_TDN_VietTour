@@ -25,13 +25,18 @@ use App\Http\Controllers\StartPlaceController;
 |
 */
 
-
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
-
+Route::prefix('/')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('register', [HomeController::class, 'register'])->name('home.modal.register');
+    Route::post('register', [HomeController::class, 'postRegister'])->name('home.modal.postRegister');
+    Route::get('login', [HomeController::class, 'login'])->name('home.modal.login');
+    Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
+    Route::match(['get', 'post'], 'signout', [HomeController::class, 'signout'])->name('home.modal.signout');
+});
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('login', [AdminController::class, 'postLogin'])->name('admin.postLogin');
-   // Route::middleware('admin')->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
         Route::get('register', [AdminController::class, 'register'])->name('admin.register');
         Route::post('register', [AdminController::class, 'postRegister'])->name('admin.postRegister');
@@ -42,7 +47,7 @@ Route::prefix('admin')->group(function () {
         Route::post('quick-update', [AdminController::class, 'quickUpdate'])->name('admin.quickUpdate');
         Route::delete('destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
         Route::match(['get', 'post'], 'signout', [AdminController::class, 'signout'])->name('admin.signout');
-  //  });
+    });
 });
 Route::prefix('admin/article')->middleware('admin')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('article.index');
@@ -77,8 +82,8 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
 
-    Route::match(['GET', 'POST'],'/create', [TourController::class, 'create'])->name('tour.create');
-    Route::match(['GET', 'POST'],'/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
+    Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
+    Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
     Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
@@ -95,9 +100,11 @@ Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::get('/', [FeedBackController::class, 'index'])->name('feedback.index');
-    Route::match(['GET', 'POST'], '/create', [FeedbackController::class, 'create'])->name('feedback.create');
-    Route::match(['GET', 'POST'], '/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
-    Route::get('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
+    Route::get('/create', [FeedBackController::class, 'create'])->name('feedback.create');
+    Route::post('/store', [FeedBackController::class, 'store'])->name('feedback.store');
+    Route::get('/{id}/edit', [FeedBackController::class, 'edit'])->name('feedback.edit');
+    Route::put('/{id}', [FeedBackController::class, 'update'])->name('feedback.update');
+    Route::delete('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
 });
 
 Route::prefix('admin/comments')->middleware('admin')->group(function () {

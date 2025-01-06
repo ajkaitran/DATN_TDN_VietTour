@@ -96,16 +96,20 @@ class AdminController extends Controller
     }
     public function quickUpdate(Request $request)
     {
-        $user = User::find($request->id);
-        if (!$user) {
-            return response()->json(['success' => false, 'message' => 'Người dùng không tồn tại!']);
+        $id = $request->input('id');
+        $role = $request->input('role');
+        $status = $request->input('status');
+
+        $user = User::find($id);
+        if ($user) {
+            $user->role = $role;
+            $user->status = $status;
+            $user->save();
+
+            return response()->json(['success' => true]);
         }
 
-        $user->role = $request->role;
-        $user->status = $request->status ? 1 : 0;
-        $user->save();
-
-        return response()->json(['success' => true, 'message' => 'Cập nhật thành công!']);
+        return response()->json(['success' => false]);
     }
     public function destroy(string $id)
     {

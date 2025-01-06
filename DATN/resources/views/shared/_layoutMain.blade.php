@@ -46,18 +46,22 @@
                     <i class="fa-solid fa-user fs-4"></i>
                 </button>
                 <ul class="header_user">
+                    @guest
                     <li class="user_item">
-                        <a class="user_link" href="#">Đăng Nhập</a>
+                        <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng Nhập</a>
                     </li>
                     <li class="user_item">
-                        <a class="user_link" href="#">Đăng Ký</a>
+                        <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalRegister">Đăng Ký</a>
                     </li>
+                    @else
                     <li class="user_item">
                         <a class="user_link" href="#">Thông Tin Chung</a>
                     </li>
                     <li class="user_item">
-                        <a class="user_link" href="#">Đăng Xuất</a>
+                        <a class="user_link" href="{{ route('home.modal.signout') }}"
+                        onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">Đăng Xuất</a>
                     </li>
+                    @endguest
                 </ul>
             </div>
             <a class="header_contact" href="tel:1900 4692">
@@ -67,7 +71,7 @@
         </div>
         <div class="header_search ">
             <div class="close-btn">
-                <i class="fa-solid fa-xmark"></i>
+                <i class="fa-solid fa-xmark fs-3"></i>
             </div>
             <h2 class="text-green">Tìm kiếm</h2>
             <form class="search-form" method="get">
@@ -76,6 +80,8 @@
             </form>
         </div>
     </header>
+    @include('home.modal.login')
+    @include('home.modal.register')
     <main class="main_form">
         @yield("content")
     </main>
