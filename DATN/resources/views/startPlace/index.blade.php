@@ -50,17 +50,21 @@
                     <td>{{ $startPlace->name }}</td>
                     <td>{{ $startPlace->title }}</td>
                     <td>{{ $startPlace->body }}</td>
+                    <form action="{{route('startPlace.update', $startPlace->id )}}" method="post">
+                        @csrf
+                        @method('PUT')
                     <td>
-                        <input type="checkbox" {{ $startPlace->hot === 1 ? 'checked' : '' }}>
+                        <input type="checkbox" name="hot" value="1" {{ $startPlace->hot === 1 ? 'checked' : '' }}>
                     </td>
                     <td>
-                        <input type="checkbox" {{ $startPlace->active === 1 ? 'checked' : '' }}>
+                        <input type="checkbox" name="active" value="1" {{ $startPlace->active === 1 ? 'checked' : '' }}>
                     </td>
                     <td>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
                         <form action="{{route('startPlace.destroy', $startPlace->id )}}" method="post">
                             @csrf
                             @method('DELETE')
-                            <a class="btn btn-primary" href="">Cập nhật</a>
                             <a class="btn btn-warning" href="{{route('startPlace.edit', $startPlace->id)}}">Sửa</a>
                             <button type="submit" onclick="return confirm('Bạn có muốn xóa không ?')" class="btn btn-danger">Xóa</button>
                         </form>
