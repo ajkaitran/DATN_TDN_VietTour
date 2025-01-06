@@ -5,7 +5,7 @@ import './App.css'
 import { useRoutes } from 'react-router-dom';
 // import 'slick-carousel';
 import Home from './user/Home';
-import GetTourById from './user/GetTourById';
+import GetTourById from './user/GetTourByCate';
 import BookTour from './user/BookTour';
 import DetailTour from './user/DetailTour';
 import InternationalTour from './user/TourQuocTe';

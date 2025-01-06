@@ -2,7 +2,7 @@
 import { Banner2,Logo_TV1Image } from "../images/image"
 import Footer from "./component/Footer"
 import Header from "./component/Header"
-const GetTourById = () => {
+const GetTourByCate = () => {
   return (
           <div className="body">
               <Header/>
@@ -83,4 +83,4 @@ const GetTourById = () => {
   )
 }
 
-export default GetTourById
+export default GetTourByCate
