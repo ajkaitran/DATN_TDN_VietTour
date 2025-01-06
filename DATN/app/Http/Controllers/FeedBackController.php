@@ -4,68 +4,77 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\FeedbackRequest\StoreRequest;
 use App\Models\Feedback;
+use App\Service\Common\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class FeedBackController extends Controller
 {
-    public function index(){
+
+    public function __construct(private ImageService $imageService) {}
+
+    public function index()
+    {
         $feedback = Feedback::whereNull('deleted_at')->get();
         return view('feedback.index', compact('feedback'));
     }
-    public function create(StoreRequest $request){
-        if($request->isMethod('POST')){
-            $param = $request->except('_token');
-            if($request->hasFile('image') && $request->file('image')->isValid()){
-                $param['image'] = uploadFile('FeedBack', $request->file('image'));
-            }
-            $feedback = Feedback::create($param);
-            if($feedback->id){
-                session()->flash('success', 'Thêm mới phản hồi thành công');
-                return redirect()->route('feedback.index');
-            }
-        }
+    public function create()
+    {
         return view('feedback.create');
     }
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $param = $request->all();
+        $active = $request->input('active') ? 1 : 0;
+        $imageName = $this->imageService->uploadImage($request->file('image'), 'feedback');
+        $response = Feedback::create([
+            ...$request->all(),
+            'image' => $imageName ?? null,
+            'active' => $active,
+        ]);
 
-        $feedback = Feedback::create($param);
-
-        if ($feedback) {
-            return response()->json(['message' => 'Thêm mới phản hồi thành công', 'data' => $feedback], 201);
-        } else {
-            return response()->json(['message' => 'Có lỗi xảy ra khi thêm phản hồi'], 500);
+        if (!$response) {
+            return redirect()->route('feedback.create')->with('error', 'Created failed!');
         }
+
+        return redirect()->route('feedback.index')->with('success', 'Created successfully!');
     }
-    public function edit(StoreRequest $request, $id){
-        // dd();
+    public function edit($id)
+    {
         $feedback = Feedback::find($id);
-        // dd($feedback);
-        if($request->post()){
-            $param = $request->except('_token');
-            if($request->hasFile('image') && $request->file('image')->isValid()){
-                $resultDl = Storage::delete('/public/'.$feedback->image);
-                if($resultDl){
-                    $param['image'] = uploadFile('FeedBack', $request->file('image'));
-                }
-            }else{
-                $param['image'] = $feedback->image;
-            }
-            $result = Feedback::where('id', $id)
-            ->update($param);
-            if($result){
-                session()->flash('success', 'Sửa phản hồi thành công');
-                return redirect()->route('feedback.index');
-            }
-        }
         return view('feedback.edit', compact('feedback'));
     }
-    public function destroy($id){
-        Feedback::where('id', $id)->delete();
-        session()->flash('success', 'Xóa phản hồi thành công');
-        return redirect()->route('feedback.index');
+
+    public function update(StoreRequest $request, $id)
+    {
+        $feedback = Feedback::find($id);
+        $active = $request->input('active') ? 1 : 0;
+        if ($request->hasFile('image')) {
+            $this->imageService->deleteImage($feedback->image, 'feedback');
+            $imageName = $this->imageService->uploadImage($request->file('image'), 'feedback');
+        } else {
+            $imageName = $feedback->image;
+        }
+        $response = Feedback::where('id', $id)->update([
+            'full_name' => $request->full_name,
+            'address' => $request->address,
+            'position' => $request->position,
+            'comment' => $request->comment,
+            'type' => $request->type,
+            'image' => $imageName ?? null,
+            'active' => $active,
+        ]);
+
+        if (!$response) {
+            return redirect()->route('feedback.edit', $id)->with('error', 'Updated failed!');
+        }
+
+        return redirect()->route('feedback.index')->with('success', 'Updated successfully!');
+    }
+    public function destroy($id)
+    {
+        $feedback = Feedback::find($id);
+        $this->imageService->deleteImage($feedback->image, 'feedback');
+        $feedback->delete();
+        return redirect()->route('feedback.index')->with('success', 'Deleted successfully!');
     }
 }
-
