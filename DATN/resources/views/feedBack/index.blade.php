@@ -45,10 +45,10 @@
                 <tbody>
                     @foreach ($feedback as $item)
                         <tr>
-                            <td>{{ $item->order }}</td>
+                            <td>{{ $item->id }}</td>
                             <td><img src="{{ Storage::url('feedback/' . $item->image) }}" style="width: 100px;" /></td>
-                            <td>{{ $item->full_name }}</td>
-                            <td>{{ $item->comment }}</td>
+                            <td>{{ $item->full_name  }}</td>
+                            <td>{{ $item->comment  ?? ''}}</td>
                             <td>{{ $item->type == 0 ? 'Khách hàng nói về chúng tôi' : 'Khách hàng tiêu biểu' }}</td>
                             <td>
                                 <input type="checkbox" name="active" id="active" value="1"
