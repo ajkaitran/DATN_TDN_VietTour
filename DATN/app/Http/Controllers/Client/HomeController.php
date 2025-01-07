@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Banner;
@@ -11,6 +12,7 @@ use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+
 class HomeController extends Controller
 {
     private $view;
@@ -25,6 +27,9 @@ class HomeController extends Controller
         $this->view['listBanner3'] = $objBanner->where('banner_group', 3)->get();
         $this->view['listBanner4'] = $objBanner->where('banner_group', 4)->get();
         return view('home.index', $this->view);
+    }
+    public function tour(){
+        return view('home.tour');
     }
     public function register()
     {

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BannerController;
@@ -27,6 +27,7 @@ use App\Http\Controllers\StartPlaceController;
 
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('tour', [HomeController::class, 'tour'])->name('home.tour');
     Route::get('register', [HomeController::class, 'register'])->name('home.modal.register');
     Route::post('register', [HomeController::class, 'postRegister'])->name('home.modal.postRegister');
     Route::get('login', [HomeController::class, 'login'])->name('home.modal.login');
