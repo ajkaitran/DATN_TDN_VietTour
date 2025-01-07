@@ -39,6 +39,10 @@ class HomeController extends Controller
     {
         return view('home.order');
     }
+    public function tourLog()
+    {
+        return view('home.tourLog');
+    }
     public function register()
     {
         return view('home.modal.register');
@@ -46,6 +50,10 @@ class HomeController extends Controller
     public function detail()
     {
         return view('home.detail');
+    }
+    public function about()
+    {
+        return view('home.about');
     }
 
 

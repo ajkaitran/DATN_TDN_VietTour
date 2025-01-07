@@ -123,6 +123,40 @@
                 <button class="bg-orange-500 text-white py-2 px-4 rounded self-end">
                     Viết đánh giá
                 </button>
+                <div class="bg-white p-6 rounded-lg shadow-lg" >
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">Viết đánh giá của bạn ở đây</h2>
+                        <button class="text-gray-500"><i class="fas fa-times"></i></button>
+                    </div>
+                    <textarea
+                        class="w-full p-2 border rounded-md mb-4"
+                        placeholder="Feedback"
+                        value=comment
+                        id=edited
+                    ></textarea>
+                    <div class="flex space-x-4 mb-4">
+                        <input
+                            type="text"
+                            placeholder="Full Name"
+                            class="w-1/2 p-2 border rounded-md"
+                            value=fullName
+                            
+                        />
+                        <input
+                            type="text"
+                            placeholder="Address"
+                            class="w-1/2 p-2 border rounded-md"
+                            value=address
+                            
+                        />
+                    </div>
+                    <input
+                        type="file"
+                        class="bg-green-500 text-white p-2 rounded-md mb-4"
+                    />
+                    <p class="text-gray-500 text-sm mb-4">- Choose an image: gif, png, jpg, jpeg less than 2MB</p>
+                    <button class="bg-blue-500 text-white p-2 rounded-md">Submit Feedback</button>
+                </div>
             </div>
             <div class="flex flex-col w-full  p-4 mt-4 md:mt-0">
                 <button class="bg-gradient-to-r from-blue-500 to-blue-300 text-white py-2 px-4 rounded mb-4">
