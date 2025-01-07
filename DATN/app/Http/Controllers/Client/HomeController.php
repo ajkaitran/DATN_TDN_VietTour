@@ -43,10 +43,35 @@ class HomeController extends Controller
     public function tour(){
         return view('home.tour');
     }
+    public function searchTour()
+    {
+        return view('home.searchTour');
+    }
+    public function order()
+    {
+        return view('home.order');
+    }
+    public function tourLog()
+    {
+        return view('home.tourLog');
+    }
+    public function blog()
+    {
+        return view('home.blog');
+    }
     public function register()
     {
         return view('home.modal.register');
     }
+    public function detail()
+    {
+        return view('home.detail');
+    }
+    public function about()
+    {
+        return view('home.about');
+    }
+
 
     public function postRegister(RegisterRequest  $request)
     {
