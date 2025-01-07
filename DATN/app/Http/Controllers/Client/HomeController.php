@@ -35,6 +35,10 @@ class HomeController extends Controller
     {
         return view('home.searchTour');
     }
+    public function order()
+    {
+        return view('home.order');
+    }
     public function register()
     {
         return view('home.modal.register');
