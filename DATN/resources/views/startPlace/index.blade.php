@@ -50,7 +50,7 @@
                     <td>{{ $startPlace->name }}</td>
                     <td>{{ $startPlace->title }}</td>
                     <td>{{ $startPlace->body }}</td>
-                    <form action="{{route('startPlace.update', $startPlace->id )}}" method="post">
+                    <form action="{{route('startPlace.update', $startPlace->id )}}" method="post" style="display:inline;">
                         @csrf
                         @method('PUT')
                     <td>
@@ -62,7 +62,7 @@
                     <td>
                         <button type="submit" class="btn btn-primary">Cập nhật</button>
                     </form>
-                        <form action="{{route('startPlace.destroy', $startPlace->id )}}" method="post">
+                        <form action="{{route('startPlace.destroy', $startPlace->id )}}" method="post" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <a class="btn btn-warning" href="{{route('startPlace.edit', $startPlace->id)}}">Sửa</a>
