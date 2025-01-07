@@ -99,7 +99,7 @@ class BannerController extends Controller
             } else {
                 $data['image_mobile'] = $idCheck->image_mobile;
             }
-
+            $data['active'] ??= 0;
             $res = $objTable->updateDataBanner($data, $id);
 
             if ($res) {

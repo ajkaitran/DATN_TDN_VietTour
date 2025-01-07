@@ -51,9 +51,14 @@
                     <td>
                         <img src="{{ asset('storage/' . $banner->image_mobile) }}" alt="{{ $banner->banner_name }} Mobile" width="100">
                     </td>
-                    <td><input type="checkbox" {{ $banner->active == 1 ? 'checked' : '' }} ></td>
                     <td>
-                        <a class="btn btn-primary" href="">Cập nhật</a>
+                    <form action="{{ route('banner.update', $banner->id) }}" method="POST"  style="display:inline;">
+                    @csrf
+                    @method('PUT')
+                        <input type="checkbox" value="1" name="active" {{ $banner->active == 1 ? 'checked' : '' }} ></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
                         <a href="{{ route('banner.edit', $banner->id) }}" class="btn btn-warning">Sửa</a>
                         <form action="{{ route('banner.destroy', $banner->id) }}" method="POST" style="display:inline;">
                             @csrf
