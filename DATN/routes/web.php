@@ -64,6 +64,7 @@ Route::prefix('admin/banner')->middleware('admin')->group(function () {
     Route::post('/store', [BannerController::class, 'store'])->name('banner.store');
     Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
     Route::put('/{id}', [BannerController::class, 'update'])->name('banner.update');
+    Route::post('quick-update', [BannerController::class, 'quickUpdate'])->name('banner.quickUpdate');
     Route::delete('/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
 });
 Route::prefix('admin/tourType')->middleware('admin')->group(function () {

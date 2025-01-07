@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Banner;
+use App\Models\ProductCategory;
+use App\Models\Product;
+use App\Models\Article;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
@@ -22,10 +25,19 @@ class HomeController extends Controller
     }
     public function index(){
         $objBanner = new Banner();
-        $this->view['listBanner1'] = $objBanner->where('banner_group', 1)->get();
-        $this->view['listBanner2'] = $objBanner->where('banner_group', 2)->get();
-        $this->view['listBanner3'] = $objBanner->where('banner_group', 3)->get();
-        $this->view['listBanner4'] = $objBanner->where('banner_group', 4)->get();
+        $objTourCate = new ProductCategory();
+        $objTour = new Product();
+        $objArticle = new Article();
+        $this->view['listBanner1'] = $objBanner->where('banner_group', 1)->where('active', 1)->get();
+        $this->view['listBanner2'] = $objBanner->where('banner_group', 2)->where('active', 1)->get();
+        $this->view['listBanner3'] = $objBanner->where('banner_group', 3)->where('active', 1)->get();
+        $this->view['listBanner4'] = $objBanner->where('banner_group', 4)->where('active', 1)->get();
+        $this->view['listBanner5'] = $objBanner->where('banner_group', 5)->where('active', 1)->get();
+        $this->view['listCate1'] = $objTourCate->where('type', 1)->where('active', 1)->get();
+        $this->view['listCate2'] = $objTourCate->where('type', 2)->where('active', 1)->get();
+        $this->view['listTourHome'] = $objTour->where('home_page', 1)->where('active', 1)->get();
+        $this->view['listTourCombo'] = $objTour->where('category_type_id', 3)->where('home_page', 1)->where('active', 1)->get();
+        $this->view['listArticleHot'] = $objArticle->where('active', 1)->where('hot', 1)->get()->groupBy('article_category_id');;
         return view('home.index', $this->view);
     }
     public function tour(){
