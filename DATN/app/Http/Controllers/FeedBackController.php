@@ -18,9 +18,22 @@ class FeedBackController extends Controller
         $feedback = Feedback::whereNull('deleted_at')->get();
         return view('feedback.index', compact('feedback'));
     }
+    public function list()
+    {
+       $items = Feedback::all(); 
+        return response()->json($items);
+    }
     public function create()
     {
         return view('feedback.create');
+    }
+    public function storeUser(StoreRequest $request)
+    {
+        $data = $request->all();
+
+        $feedback = Feedback::create($data);
+
+        return response()->json(['message' => 'Thêm mới thành công !', 'data' => $feedback]);
     }
     public function store(StoreRequest $request)
     {

@@ -6,8 +6,8 @@ import '../css/userHome.css'
 import { Link } from 'react-router-dom';
 
 const InternationalTour = () => {
-  return (
     
+  return (
       <div className='body'>
           <Header />
           <div className="relative mb-5">

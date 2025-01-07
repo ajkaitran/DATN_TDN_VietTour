@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './user/Home';
-import GetTourById from './user/GetTourByCate';
+import GetTourByCate from './user/GetTourByCate';
 import BookTour from './user/BookTour';
 import DetailTour from './user/DetailTour';
 import InternationalTour from './user/TourQuocTe';
@@ -13,7 +13,7 @@ function App() {
     <Routes>
       <Route path="/Order" element={<BookTour />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/tour" element={<GetTourById />} />
+      <Route path="/tour" element={<GetTourByCate />} />
       <Route path="/search-tour" element={<SearchTour />} />
       <Route path="/Tour-quoc-te" element={<InternationalTour />} />
       <Route path="/Tour-noi-dia" element={<TourNoiDia />} />

@@ -34,4 +34,5 @@ Route::get('/tour/detail/{id}', [TourController::class, 'getToursById']);
 Route::get('/tour/cateType/{cateID}', [TourController::class, 'getTourByCategory']);
 Route::get('/tour/search', [TourController::class, 'searchByName']);
 //
-Route::post('/feedback', [eedBackController::class,'store']);
+Route::get('/feedback/list', [FeedBackController::class, 'list']);
+Route::post('/feedback', [FeedBackController::class,'storeUser']);

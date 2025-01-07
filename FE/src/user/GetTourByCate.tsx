@@ -50,7 +50,7 @@ const GetTourByCate = () => {
                       <section className="w-3/4 pl-6">
                           <h1 className="text-3xl font-bold text-blue-600 mb-6">PHÚ QUỐC</h1>
                           <div className="bg-blue-100 p-6 rounded">
-                              <h2 className="text-2xl font-bold mb-4">Lý Do Chọn Tour Nam A Travel</h2>
+                              <h2 className="text-2xl font-bold mb-4">Lý Do Chọn Tour Việt Tour Travel</h2>
                               <div className="grid grid-cols-4 gap-4">
                                   <div className="text-center">
                                       <i className="fas fa-star text-yellow-500 text-4xl mb-2"></i>
