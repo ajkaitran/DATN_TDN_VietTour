@@ -250,7 +250,7 @@
                     <textarea class="form-control w-75" cols="20" rows="4" name="detailed_description">{{ $tours->detailed_description }}</textarea>
                 </div>
                 <button type="submit" class="btn btn-success">Sửa</button>
-                <a href="{{ route('banner.index') }}" class="btn btn-secondary">Quay lại</a>
+                <a href="{{ route('tour.index') }}" class="btn btn-secondary">Quay lại</a>
             </div>
             <div class="col-4">
                 <div class="box_article">

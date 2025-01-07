@@ -27,7 +27,7 @@ class Banner extends Model
             ->paginate('5');
         return $query;
     }
-    public function loadListSlide(){
+    public function loadListBannerSlide(){
         $query = Banner::query()
             ->orderBy('id')
             ->paginate('5');

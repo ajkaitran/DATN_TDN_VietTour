@@ -64,7 +64,21 @@ class BannerController extends Controller
         return redirect()->back()->with('error', 'Sản phẩm không thêm thành công');
     }
 
+    public function quickUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $active = $request->input('active');
 
+        $Banner = Banner::find($id);
+        if ($Banner) {
+            $Banner->active = $active;
+            $Banner->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 
     public function edit(int $id)
     {

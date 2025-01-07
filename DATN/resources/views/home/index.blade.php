@@ -4,8 +4,8 @@
 @section("content")
 <section class="banner">
     <div class="slide_banner">
-        @foreach($listBanner1 as $banner)
-            <img src="{{ asset('storage/' . $banner->image) }}" alt="hình ảnh" width="100">
+        @foreach($listBanner1 as $items)
+            <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
         @endforeach
     </div>
     <div class="banner_content">
@@ -23,8 +23,8 @@
     <div class="container">
         <h2 class="title_index title">Ưu đãi hấp dẫn</h2>
         <div class="slide_banner mt-4">
-            @foreach($listBanner2 as $banner)
-            <img src="{{ asset('storage/' . $banner->image) }}" alt="hình ảnh" width="100">
+            @foreach($listBanner2 as $items)
+            <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
             @endforeach
         </div>
     </div>
@@ -34,21 +34,21 @@
         <h2 class="title_index title">Những điểm đến được yêu thích</h2>
         <p class="title_content">Tour du lịch quốc tế</p>
         <div class="slide_4">
-            @for ($i = 0; $i < 6; $i++)
+            @foreach($listCate1 as $items)
                 <a class="location" href="#">
-                    <img src="{{ url('images/Banner_home_1.jpg') }}">
-                    <p class="title">Quy nhơn -  phú yên</p>
+                    <img src="{{ asset('storage/categoryTour/' . $items->image) }}" alt="hình ảnh" width="100">
+                    <p class="title">{{$items->name}}</p>
                 </a>
-            @endfor
+            @endforeach
         </div>
         <p class="title_content">Tour du lịch nội địa</p>
         <div class="slide_4">
-            @for ($i = 0; $i < 6; $i++)
-                <a class="location" href="#">
-                    <img src="{{ url('images/Banner_home_1.jpg') }}">
-                    <p class="title">Quy nhơn -  phú yên</p>
-                </a>
-            @endfor
+            @foreach($listCate2 as $items)
+            <a class="location" href="#">
+                <img src="{{ asset('storage/categoryTour/' . $items->image) }}" alt="hình ảnh" width="100">
+                <p class="title">{{$items->name}}</p>
+            </a>
+            @endforeach
         </div>
         <div class="text-center mt-4">
             <a class="btn_link" href="#"><i class="fa-solid fa-location-dot"></i> Xem tất cả các điểm đến</a>
@@ -60,33 +60,31 @@
         <h2 class="title_index title">Tour hot 2024</h2>
         <p class="title_content">Các tour được đặt nhiều nhất trong năm nay</p>
         <div class="row row-cols-4">
-            @for ($i = 0; $i < 8; $i++)
+            @foreach($listTourHome as $items)
             <div class="col my-3">
                 <div class="tour_card">
                     <a class="tour_img" href="#">
-                        <img src="{{ url('images/Banner_home_1.jpg') }}">
+                        <img src="{{ asset('storage/Anh_Tour/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name title_name" href="/detail">Tour Hàn Quốc: Seoul - Nami - Everland - Bukchon 5N4Đ</a>
+                        <a class="tour_name title_name" href="#">{{$items->name}}</a>
                         <div class="star">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $items->star)
+                                    <i class="fa-solid fa-star"></i>
+                                @else
+                                    <i class="fa-regular fa-star"></i>
+                                @endif
+                            @endfor
                         </div>
                         <div class="date-go">
-                            <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>Hàng tuần</time>
+                            <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>{{$items->transport}}</time>
                         </div>
                         <div class="row mt-2">
                             <div class="col-7">
                                 <div class="price_box">
-                                        <span>
-                                            13,990,000đ
-                                        </span>
-                                        <del>
-                                            17,590,000đ
-                                        </del>
+                                    <span>{{ number_format($items->sale_off, 0, ',', '.') }}đ</span>
+                                    <del>{{ number_format($items->price, 0, ',', '.') }}đ</del>
                                 </div>
                             </div>
                             <div class="col-5 d-flex justify-content-end align-items-center">
@@ -98,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
         <div class="text-center mt-3">
             <a class="btn_link" href="#">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
@@ -109,33 +107,31 @@
     <div class="container">
         <h2 class="title_index title">combo du lịch linh hoạt</h2>
         <div class="row row-cols-4">
-            @for ($i = 0; $i < 8; $i++)
+            @foreach($listTourCombo as $items)
             <div class="col my-3">
                 <div class="tour_card">
                     <a class="tour_img" href="#">
-                        <img src="{{ url('images/Banner_home_1.jpg') }}">
+                        <img src="{{ asset('storage/Anh_Tour/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name title_name" href="#">Tour Hàn Quốc: Seoul - Nami - Everland - Bukchon 5N4Đ</a>
+                        <a class="tour_name title_name" href="#">{{$items->name}}</a>
                         <div class="star">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $items->star)
+                                    <i class="fa-solid fa-star"></i>
+                                @else
+                                    <i class="fa-regular fa-star"></i>
+                                @endif
+                            @endfor
                         </div>
-                        <div class="date">
-                            <i class="fa-solid fa-calendar-clock me-1"></i><p>Lịch khởi hành: </p><time>Hàng tuần</time>
+                        <div class="date-go">
+                            <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>{{$items->transport}}</time>
                         </div>
                         <div class="row mt-2">
                             <div class="col-7">
                                 <div class="price_box">
-                                        <span>
-                                            13,990,000đ
-                                        </span>
-                                        <del>
-                                            17,590,000đ
-                                        </del>
+                                    <span>{{ number_format($items->sale_off, 0, ',', '.') }}đ</span>
+                                    <del>{{ number_format($items->price, 0, ',', '.') }}đ</del>
                                 </div>
                             </div>
                             <div class="col-5 d-flex justify-content-end align-items-center">
@@ -147,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 </section>
@@ -243,20 +239,20 @@
         <h2 class="title_index title">ĐỐI TÁC</h2>
         <p class="title_content">Nam A Travel là đối tác của các nhãn hàng lớn để mang lại cho bạn các chương trình ưu đãi độc quyền</p>
         <div class="slide_6 my-4 mx-5">
-            @for ($i = 0; $i < 7; $i++)
+            @foreach ($listBanner3 as $items)
             <div class="card_banner">
-                <img src="{{ url('images/tai-xuong-3-100.png') }}">
+                <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
             </div>
-            @endfor
+            @endforeach
         </div>
         <h2 class="title_index title">Góc báo chí</h2>
         <p class="title_content">Xem những gì báo chí đang nói về Nam A Travel</p>
         <div class="slide_6 my-4 mx-5">
-            @for ($i = 0; $i < 7; $i++)
+            @foreach ($listBanner4 as $items)
             <div class="card_banner">
-                <img src="{{ url('images/tai-xuong-3-100.png') }}">
+                <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
             </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 </section>
@@ -264,17 +260,17 @@
     <div class="container">
         <h2 class="title">nam a travel cam kết</h2>
         <div class="row row-cols-4">
-            @for ($i = 0; $i < 4; $i++)
+            @foreach ($listBanner4 as $items)
             <div class="col text-center">
                 <div class="camket-thuml">
-                    <img src="{{ url('images/lightbulb-1-1-61.png') }}">
+                    <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
                 </div>
                 <div class="camket_content">
-                    <h4 class="title">DỊCH VỤ DU LỊCH SÁNG TẠO</h4>
-                    <p class="text-white">Nam A Travel luôn nỗ lực sáng tạo, cập nhật xu thế nhằm đem tới cho khách hàng những trải nghiệm du lịch mới mẻ.</p>
+                    <h4 class="title">{{$items->banner_name}}</h4>
+                    <p class="text-white">{{$items->slogan}}</p>
                 </div>
             </div>  
-            @endfor
+            @endforeach
         </div>
     </div>
 </section>
