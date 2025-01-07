@@ -43,6 +43,10 @@ class HomeController extends Controller
     {
         return view('home.tourLog');
     }
+    public function blog()
+    {
+        return view('home.blog');
+    }
     public function register()
     {
         return view('home.modal.register');

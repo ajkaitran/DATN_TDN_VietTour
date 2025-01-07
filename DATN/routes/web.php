@@ -31,7 +31,8 @@ Route::prefix('/')->group(function () {
     Route::get('/detail', [HomeController::class, 'detail'])->name('home.detail'); //Lấy sản phẩm theo id rồi hiển thị chi tiết
     Route::get('/order', [HomeController::class,'order'])->name('home.order'); //Sau khi bấm nút order, lấy thông tin sản phẩm, hiển thị trang order, người dùng nhập vào thông tin
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');//Trang giới thiệu 
-        Route::get('/tourlog', [HomeController::class, 'tourLog'])->name('home.tourLog');// Trang lọc dữ liệu sản phẩm
+    Route::get('/tourlog', [HomeController::class, 'tourLog'])->name('home.tourLog'); // Trang lọc dữ liệu sản phẩm
+    Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog');// trang bài viết
     Route::get('tour', [HomeController::class, 'tour'])->name('home.tour');
     Route::get('register', [HomeController::class, 'register'])->name('home.modal.register');
     Route::post('register', [HomeController::class, 'postRegister'])->name('home.modal.postRegister');
