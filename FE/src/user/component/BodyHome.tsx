@@ -15,6 +15,7 @@ import { BannerHomeImage,Banner2} from '../../images/image';
 //import slideShow
 import { settings1,settings2,settings3,settings4 } from './SlideShow';
 import SearchTour from '../SearchTour';
+import SearchForm from './SearchForm';
 
 const BodyHome: React.FC = () => {
     //Get Banner from API
@@ -47,10 +48,11 @@ const BodyHome: React.FC = () => {
                         <h2 className="title">Du lịch thả ga - Không lo về giá cùng VietTour Travel</h2>
                         <p>Chọn điểm đến mà bạn muốn tới, VietTour Travel sẽ mang đến cho bạn chuyến đi tuyệt vời nhất</p>
                     </div>
-                    <form className="search-form" method="get">
+                    {/* <form className="search-form" method="get">
                         <input type="text" placeholder="Nhập từ khóa tìm kiếm..." />
                         <button type="submit"><FontAwesomeIcon icon={faSearch} /></button>
-                    </form>
+                    </form> */}
+                    <SearchForm/>
                 </div>
             </section>
             <section className="index_1">

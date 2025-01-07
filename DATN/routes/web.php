@@ -83,8 +83,8 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
 
-    Route::match(['GET', 'POST'],'/create', [TourController::class, 'create'])->name('tour.create');
-    Route::match(['GET', 'POST'],'/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
+    Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
+    Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
     Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
@@ -101,9 +101,11 @@ Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::get('/', [FeedBackController::class, 'index'])->name('feedback.index');
-    Route::match(['GET', 'POST'], '/create', [FeedbackController::class, 'create'])->name('feedback.create');
-    Route::match(['GET', 'POST'], '/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
-    Route::get('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
+    Route::get('/create', [FeedBackController::class, 'create'])->name('feedback.create');
+    Route::post('/store', [FeedBackController::class, 'store'])->name('feedback.store');
+    Route::get('/{id}/edit', [FeedBackController::class, 'edit'])->name('feedback.edit');
+    Route::put('/{id}', [FeedBackController::class, 'update'])->name('feedback.update');
+    Route::delete('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
 });
 
 Route::prefix('admin/comments')->middleware('admin')->group(function () {

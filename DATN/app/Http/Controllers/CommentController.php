@@ -15,9 +15,6 @@ class CommentController extends Controller
     public function index(){
         $objComment = new Comment();
         $this->view['listComment'] = $objComment->loadListComment();
-
-        
-
         return view('comment.index', $this->view);
     }
 }
