@@ -2,20 +2,21 @@
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>@yield('title')</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@yield('title')</title>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="{{url('slick/slick.min.css')}}">
-  <link rel="stylesheet" href="{{url('font-awesome/css/all.css')}}">
-  @vite([
-        'resources/css/style_main.scss',
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{url('slick/slick.min.css')}}">
+    <link rel="stylesheet" href="{{url('font-awesome/css/all.css')}}">
+    @vite([
+    'resources/css/style_main.scss',
     ])
 </head>
+
 <body>
     <header>
         <div class="header">
@@ -24,13 +25,13 @@
             </a>
             <ul class="nav_menu">
                 <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.index')}}">TOUR QUỐC TẾ</a>
+                    <a class="nav_link" href="{{route('home.tour')}}">TOUR QUỐC TẾ</a>
                 </li>
                 <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.index')}}">TUOR NỘI ĐỊA</a>
+                    <a class="nav_link" href="{{route('home.tour')}}">TOUR NỘI ĐỊA</a>
                 </li>
                 <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.index')}}">COMBO DU LỊCH</a>
+                    <a class="nav_link" href="{{route('home.tour')}}">COMBO DU LỊCH</a>
                 </li>
                 <li class="nav_item">
                     <a class="nav_link" href="{{route('home.index')}}">BLOG DU LỊCH</a>
@@ -60,7 +61,7 @@
                     </li>
                     <li class="user_item">
                         <a class="user_link" href="{{ route('home.modal.signout') }}"
-                        onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">Đăng Xuất</a>
+                            onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">Đăng Xuất</a>
                     </li>
                     @endguest
                 </ul>
@@ -165,7 +166,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="{{url('slick/slick.min.js')}}"></script>
     @vite([
-            'resources/js/app_main.js',
-        ])
+    'resources/js/app_main.js',
+    ])
 </body>
+
 </html>

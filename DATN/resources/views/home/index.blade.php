@@ -67,7 +67,7 @@
                         <img src="{{ url('images/Banner_home_1.jpg') }}">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name title_name" href="#">Tour Hàn Quốc: Seoul - Nami - Everland - Bukchon 5N4Đ</a>
+                        <a class="tour_name title_name" href="/detail">Tour Hàn Quốc: Seoul - Nami - Everland - Bukchon 5N4Đ</a>
                         <div class="star">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
