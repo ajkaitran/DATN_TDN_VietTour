@@ -10,6 +10,11 @@ use App\Http\Requests\Admin\Banner\UpdateBannerRequest;
 
 class BannerController extends Controller
 {
+    private $view;
+    public function __construct()
+    {
+        $this->view = [];
+    }
     public function index()
     {
         $objBanner = new Banner();
