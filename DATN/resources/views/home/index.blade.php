@@ -260,7 +260,7 @@
     <div class="container">
         <h2 class="title">nam a travel cam kết</h2>
         <div class="row row-cols-4">
-            @foreach ($listBanner4 as $items)
+            @foreach ($listBanner5 as $items)
             <div class="col text-center">
                 <div class="camket-thuml">
                     <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">

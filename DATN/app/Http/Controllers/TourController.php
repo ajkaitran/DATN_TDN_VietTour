@@ -20,49 +20,11 @@ class TourController extends Controller
      */
     public function index()
     {
-        $tours = Product::whereNull('deleted_at')->get(); // Lấy danh sách tour tour
+        $tours = Product::whereNull('deleted_at')->paginate(5); // Lấy danh sách tour tour
         $ProductCategories = ProductCategory::all(); // Danh mục cha
         // $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
         return view('tour.index', compact('tours', 'ProductCategories'));
     }
-    public function listTour()
-    {   
-        
-        $items = Product::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
-        // $ProductCategories = ProductCategory::all(); // Danh mục cha
-        return response()->json($items); // Trả về dữ liệu dưới dạng JSON
-    }
-    public function getTourByCategory($cateID){
-        $tours = Product::where('category_type_id', $cateID)->get();
-        if ($tours->isEmpty()) {
-            return response()->json(['message' => 'Tours không tồn tại trong category_type_id'], 404);
-        }
-
-        return response()->json(['products' => $tours], 200);
-    }
-    public function getTourById($id)
-    {
-        // Lấy thông tin sản phẩm từ cơ sở dữ liệu
-        $tourById = Product::findOrFail($id);
-
-        // Trả về view hiển thị chi tiết sản phẩm
-        return view('home.detail', compact('tourById'));
-    }
-    //Search Tour theo tên
-    public function searchByName(Request $request)
-    {
-        // Lấy từ khóa tìm kiếm từ request
-        $keyword = $request->input('keyword');
-        
-        // Tìm kiếm sản phẩm theo tên
-        $tours = Product::where('name', 'like', '%'.$keyword.'%')->get();
-
-        // Trả về kết quả tìm kiếm
-        return response()->json($tours);
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(StoreTourRequest $request)
     {
         $tourtype = ProductCategoryType::whereNull('deleted_at')->get();
