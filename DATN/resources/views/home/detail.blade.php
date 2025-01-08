@@ -1,34 +1,42 @@
 @extends("shared._layoutMain")
 @section("title", "Main")
 @section("content")
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4 ">
     <nav class="text-sm text-gray-500 mb-4 ">
         <a href="/" class="hover:underline text-gray-500">Trang chủ</a> &gt;
-        <a href="#" class="hover:underline text-gray-500">Sapa</a> &gt;
-        <span>Combo Sapa Jade Hill Resort & Spa 2N1Đ</span>
+        <span>{{$item->name}}</span>
     </nav>
-    <h1 class="text-2xl font-bold text-blue-600 mb-2">Combo Sapa Jade Hill Resort & Spa 2N1Đ</h1>
+    <h1 class="text-2xl font-bold text-blue-600 mb-2">{{$item->name}}</h1>
     <p class="text-sm text-gray-500 mb-2">
-        <i class="fas fa-calendar-alt"></i> Lịch khởi hành: <span class="text-red-500">Hàng ngày</span>
+        <i class="fas fa-calendar-alt"></i> Lịch khởi hành: <span class="text-red-500">{{$item->schedule}}</span>
     </p>
     <div class="flex items-center mb-4">
-        <div class="text-yellow-500">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
+        <div class="star">
+            @for ($i = 1; $i <= 5; $i++)
+                @if ($i <=$item->star)
+                <i class="fa-solid fa-star"></i>
+                @else
+                <i class="fa-regular fa-star"></i>
+                @endif
+                @endfor
         </div>
         <button class="ml-auto bg-blue-500 text-white px-4 py-2 rounded flex items-center">
             <i class="fas fa-share mr-2"></i> Share
         </button>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="md:col-span-2">
-            <img src="https://placehold.co/800x400" alt="A couple walking with bicycles in front of a thatched-roof house at Combo Sapa Jade Hill Resort & Spa" class="w-full rounded-lg relative" />
-            <p class="text-white text-sm absolute bottom-auto left-auto bg-black bg-opacity-50 px-0 py-1 rounded">Combo Sapa Jade Hill Resort & Spa 2N1Đ</p>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
+    <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-4"> -->
+    <div class="md:col-span-2 relative">
+        <!-- Ảnh tour -->
+        <img
+            src="{{ asset('storage/'.$item->image)}}"
+            alt="image tour"
+            class="w-full max-h-96 object-cover rounded-lg" />
+        <p
+            class="text-white text-sm absolute bottom-2 left-2 bg-black bg-opacity-70 px-2 py-1 rounded">
+            {{ $item->name }}
+        </p>
+    </div>
+    <!-- <div class="grid grid-cols-2 gap-4">
             <div class="relative">
                 <img src="https://placehold.co/400x200" alt="A person looking at the mountains from a balcony at Combo Sapa Jade Hill Resort & Spa" class="w-full rounded-lg" />
                 <p class="text-white text-sm absolute bottom-50 left-0 bg-black bg-opacity-50 px-0 py-1 rounded">Combo Sapa Jade Hill Resort & Spa 2N1Đ</p>
@@ -45,39 +53,56 @@
                 <img src="https://placehold.co/400x200" alt="A person sitting in front of a thatched-roof house at Combo Sapa Jade Hill Resort & Spa" class="w-full rounded-lg" />
                 <p class="text-white text-sm absolute bottom-50 left-0 bg-black bg-opacity-50 px-0 py-1 rounded">Combo Sapa Jade Hill Resort & Spa 2N1Đ</p>
             </div>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
 </div>
 <div class="container mx-auto p-4">
     <div class="flex flex-col lg:flex-row">
         <div class="lg:w-2/3 p-4">
             <p class="text-gray-700 mb-4">
-                Cách trung tâm thị trấn Sapa gần 2km, Sapa Jade Hill Resort & Spa ẩn mình giữa núi rừng. Dù gần để du khách có thể dễ dàng kết nối với trung tâm thị trấn cũ và các điểm tham quan nổi tiếng tại Sapa như Hàm Rồng, Cát Cát, Tả Van, Thung lũng Mường Hoa,... Và cũng đủ xa để giữ sự biệt lập, trong lành, riêng tư của một khu nghỉ dưỡng đẳng cấp. Nào hãy cùng Nam A Travel khám phá combo du lịch Sapa Jade Hill Resort & Spa 2N1Đ dưới đây nhé!
-                Hãy gọi ngay cho chúng tôi để được tư vấn Hotline: <span class="text-blue-600">1900 4692</span> - Bạn chỉ việc đặt tour, việc còn lại để chúng tôi lo!
+                {{$item->description}} <span class="text-blue-600">Liên hệ ngay với chúng tôi {{$item->hotline}}</span> - Bạn chỉ việc đặt tour, việc còn lại để chúng tôi lo!
             </p>
             <div class="flex space-x-4 mb-4">
-                <button class="bg-blue-500 text-white py-2 px-4 rounded flex items-center">
-                    <i class="fas fa-gift mr-2"></i> Giữ chỗ bây giờ - Thanh toán sau
-                </button>
-                <button class="bg-red-500 text-white py-2 px-4 rounded flex items-center">
-                    <i class="fas fa-phone-alt mr-2"></i> Bấm để nghe tư vấn miễn phí
-                </button>
+                <a href="">
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded flex items-center">
+                        <i class="fas fa-gift mr-2"></i> Giữ chỗ bây giờ - Thanh toán sau
+                    </button>
+                </a>
+                <a href="">
+                    <button class="bg-red-500 text-white py-2 px-4 rounded flex items-center">
+                        <i class="fas fa-phone-alt mr-2"></i> Bấm để nghe tư vấn miễn phí
+                    </button>
+                </a>
+
             </div>
             <div class="bg-white p-4 rounded shadow">
-                <h2 class="bg-blue-500 text-white text-center py-2 rounded mb-4">COMBO SAPA JADE HILL RESORT & SPA 2N1Đ CÓ GÌ ĐẶC SẮC</h2>
+                <h2 class="bg-blue-500 text-white text-center py-2 rounded mb-4">{{$item->name}} CÓ GÌ ĐẶC SẮC</h2>
                 <ul class="list-disc list-inside text-gray-700">
-                    <li>Xe giường nằm 2 chiều đến trung tâm thị trấn Sapa(*)</li>
-                    <li>Nghỉ dưỡng tại hạng phòng Deluxe Valley View tiện nghi, ấm áp</li>
-                    <li>Thưởng thức đồ uống chào mừng khi nhận phòng</li>
-                    <li>Buffet sáng với món ăn bản địa tươi ngon nóng hổi</li>
-                    <li>Miễn phí sử dụng bể bơi vô cực view thung lũng Mường Hoa</li>
-                    <li>Tặng tín dụng 250.000 VND/phòng/đêm sử dụng dịch vụ Spa(**)</li>
-                    <li>Tặng 01 set trà chiều ngắm hoàng hôn trên Thung lũng Mường Hoa</li>
-                    <li>Miễn phí 3 món đồ giặt là/phòng/đêm</li>
-                    <li>Shuttle Bus vào trung tâm Thị trấn Sapa theo giờ cố định</li>
-                    <li>Miễn phí 01 nồi lẩu bò chua cay hoặc lẩu cá hồi vào bữa trưa</li>
-                    <li>Dạo quanh "làng cổ" bằng xe đạp tận hưởng không khí trong lành và thư giãn tại hồ bơi vô cực nước ấm</li>
+                    {!! $item->highlights !!}
                 </ul>
+            </div>
+
+            <div class="mt-3 mb-3 bg-white p-6 rounded-lg shadow-lg">
+                <div class="text-center mb-6">
+                    <button class="mt-3 bg-blue-500 text-white py-2 px-4 rounded-full text-lg font-semibold">
+                        NÀO CÙNG XEM TRƯỚC LỘ TRÌNH
+                    </button>
+                </div>
+                <div class="divide-y divide-gray-300">
+                    @foreach ($item->itineraries as $itinerary)
+                    <div class="group">
+                        <button class="flex items-center justify-between w-full py-3 px-4 text-left hover:bg-blue-50">
+                            <span class="font-semibold">{{$itinerary->title}}</span>
+                            <span class="text-blue-500 group-hover:rotate-180 transform transition-transform duration-300">
+                                &#x25BC;
+                            </span>
+                        </button>
+                        <div class="hidden group-focus-within:block px-4 py-2 text-gray-600">
+                            {!!$itinerary->description!!}
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <div class="text-center mb-6">
@@ -96,18 +121,9 @@
                         <li>Giấy xác nhận của Việt Tour</li>
                         <li>CCCD hoặc passport</li>
                     </ul>
+
                     <h2 class="font-bold text-lg mb-2">Lưu ý:</h2>
-                    <p class="mb-4">Tiền phòng đã bao gồm phí khi đi qua trạm Lao Chải - Tả Van theo số khách mặc định trên từng hạng phòng.</p>
-                    <p class="mb-4">Khi check-in, cần đặt cọc 1,000,000VND/Villa cho chi phí phát sinh, sẽ được hoàn khi check-out nếu không phát sinh thêm chi phí.</p>
-                    <h2 class="font-bold text-lg mb-2">Quy định hủy đổi của khách sạn: (Áp dụng từ 01/01/2024 đến 31/12/2024)</h2>
-                    <ul class="list-disc list-inside mb-4">
-                        <li>Hủy phòng trước 33 ngày (trừ T7, CN, Lễ Tết) trước ngày khách đến: không tính phí</li>
-                        <li>Hủy phòng trong vòng 33 ngày (trừ T7, CN, Lễ Tết) trước ngày khách đến: tính 50% giá trị tiền phòng</li>
-                        <li>Hủy phòng trong vòng 18 ngày (trừ T7, CN, Lễ Tết) trước ngày khách đến hoặc không đến: tính 100% tổng tiền phòng đã đặt.</li>
-                    </ul>
-                    <h2 class="font-bold text-lg mb-2">Lưu ý:</h2>
-                    <p class="mb-4">Giai đoạn lễ Tết không áp dụng hoàn, hủy hay thay đổi ngày đến.</p>
-                    <p class="mb-4">Các yêu cầu về thay đổi thời gian ở, rút ngắn thời gian lưu trú hay giảm số lượng phòng đều được xem là hủy phòng và sẽ áp dụng theo chính sách hủy như trên.</p>
+                    {!!$item->notes !!}
                 </div>
             </div>
             <div class="mt-6">
@@ -123,7 +139,7 @@
                 <button class="bg-orange-500 text-white py-2 px-4 rounded self-end">
                     Viết đánh giá
                 </button>
-                <div class="bg-white p-6 rounded-lg shadow-lg" >
+                <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold">Viết đánh giá của bạn ở đây</h2>
                         <button class="text-gray-500"><i class="fas fa-times"></i></button>
@@ -132,28 +148,22 @@
                         class="w-full p-2 border rounded-md mb-4"
                         placeholder="Feedback"
                         value=comment
-                        id=edited
-                    ></textarea>
+                        id=edited></textarea>
                     <div class="flex space-x-4 mb-4">
                         <input
                             type="text"
                             placeholder="Full Name"
                             class="w-1/2 p-2 border rounded-md"
-                            value=fullName
-                            
-                        />
+                            value=fullName />
                         <input
                             type="text"
                             placeholder="Address"
                             class="w-1/2 p-2 border rounded-md"
-                            value=address
-                            
-                        />
+                            value=address />
                     </div>
                     <input
                         type="file"
-                        class="bg-green-500 text-white p-2 rounded-md mb-4"
-                    />
+                        class="bg-green-500 text-white p-2 rounded-md mb-4" />
                     <p class="text-gray-500 text-sm mb-4">- Choose an image: gif, png, jpg, jpeg less than 2MB</p>
                     <button class="bg-blue-500 text-white p-2 rounded-md">Submit Feedback</button>
                 </div>
@@ -171,49 +181,49 @@
         <div class="lg:w-1/3 p-4">
             <div class="bg-white p-4 rounded shadow mb-4">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="line-through text-gray-500">2,990,000đ</span>
-                    <span class="bg-red-500 text-white px-2 py-1 rounded">Tiết kiệm 44%</span>
+                    <span class="line-through text-gray-500">{{ number_format($item->sale_off, 0, ',', '.') }}đ</span>
+                    <!-- <span class="bg-red-500 text-white px-2 py-1 rounded">Tiết kiệm 44%</span> -->
                 </div>
-                <div class="text-red-500 text-2xl font-bold mb-2">Giá mới: 1,690,000đ</div>
-                <div class="flex items-center mb-2">
-                    <i class="fas fa-star text-yellow-500"></i>
-                    <i class="fas fa-star text-yellow-500"></i>
-                    <i class="fas fa-star text-yellow-500"></i>
-                    <i class="fas fa-star text-yellow-500"></i>
-                    <i class="fas fa-star text-yellow-500"></i>
+                <div class="text-red-500 text-2xl font-bold mb-2">Giá mới: {{ number_format($item->price, 0, ',', '.') }}đ</div>
+                <div class="star">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <=$item->star)
+                        <i class="fa-solid fa-star"></i>
+                        @else
+                        <i class="fa-regular fa-star"></i>
+                        @endif
+                        @endfor
                 </div>
-                <div class="text-gray-700 mb-2">Thời gian: 2 ngày 1 đêm</div>
                 <div class="text-gray-700 mb-2">Lịch khởi hành: Hàng ngày</div>
-                <div class="text-gray-700 mb-4">Phương tiện: Ô tô</div>
+                <div class="text-gray-700 mb-4">Phương tiện: {{$item->transport}}</div>
                 <button class="bg-blue-500 text-white py-2 px-4 rounded w-full mb-4">
-                    <Link to='/Order'>ĐẶT NGAY</Link>
+                    <a href="{{route('home.order',['id' => $item->id])}}">Đặt Ngay</a>
                 </button>
                 <div class="text-center text-gray-700 mb-4">Giữ chỗ ngay bây giờ - Tính tiền sau</div>
-                <div class="flex items-center justify-center mb-4">
+                <!-- <div class="flex items-center justify-center mb-4">
                     <i class="fas fa-phone-alt text-orange-500 mr-2"></i>
                     <span class="text-orange-500">Hotline tư vấn 24/7</span>
                 </div>
                 <div class="text-center text-orange-500 text-2xl mb-4">1900 4692</div>
-                <div class="text-center text-gray-700 mb-4">Để lại SĐT chúng tôi sẽ gọi cho bạn</div>
-                <div class="flex items-center border border-gray-300 rounded p-2">
+                <div class="text-center text-gray-700 mb-4">Để lại SĐT chúng tôi sẽ gọi cho bạn</div> -->
+                <!-- <div class="flex items-center border border-gray-300 rounded p-2">
                     <input type="text" class="flex-grow outline-none" placeholder="Nhập số điện thoại của bạn..." />
                     <button class="text-blue-500"><i class="fas fa-paper-plane"></i></button>
-                </div>
+                </div> -->
             </div>
             <div class="bg-white p-4 rounded shadow">
                 <h3 class="text-gray-700 mb-4">Tour Khuyến mãi</h3>
+                @foreach ($otherTours as $otherItem)
                 <div class="mb-4">
-                    <img src="https://placehold.co/100x100" alt="Tour Singapore - Garden by the bay - Đảo Sentosa" class="w-full rounded mb-2" />
-                    <div class="text-gray-700">Tour Singapore - Garden by the bay - Đảo Sentosa - Jewel 4N3Đ</div>
-                    <div class="text-gray-500">Lịch khởi hành: Hàng tuần</div>
-                    <div class="text-red-500 font-bold">11,490,000đ <span class="line-through text-gray-500">13,790,000đ</span></div>
+                    <a href="{{route('home.detail',['id' => $otherItem->id])}}">
+                        <img src="{{ asset('storage/'.$otherItem->image)}}" alt="TourImage" class="w-full h-60 object-cover rounded mb-2" />
+                        <div class="text-gray-700">{{$otherItem->name}}</div>
+                    </a>
+                    <div class="text-gray-500">Lịch khởi hành:{{ number_format($otherItem->sale_off, 0, ',', '.') }}đ
+                    </div>
+                    <div class="text-red-500 font-bold"> <span class="line-through text-gray-500">{{ number_format($otherItem->price, 0, ',', '.') }}đ</span></div>
                 </div>
-                <div>
-                    <img src="https://placehold.co/100x100" alt="Tour Singapore - Indonesia (Batam)" class="w-full rounded mb-2" />
-                    <div class="text-gray-700">Tour Singapore - Indonesia (Batam)</div>
-                    <div class="text-gray-500">Lịch khởi hành: Hàng tuần</div>
-                    <div class="text-red-500 font-bold">11,490,000đ <span class="line-through text-gray-500">13,790,000đ</span></div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

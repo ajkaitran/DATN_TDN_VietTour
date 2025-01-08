@@ -40,14 +40,13 @@ class TourController extends Controller
 
         return response()->json(['products' => $tours], 200);
     }
-    public function getToursById($id)
+    public function getTourById($id)
     {
-        $tour = Product::where('id', $id)->get();
-        if ($tour->isEmpty()) {
-            return response()->json(['message' => 'Tours không tồn tại'], 404);
-        }
+        // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+        $tourById = Product::findOrFail($id);
 
-        return response()->json(['products' => $tour], 200);
+        // Trả về view hiển thị chi tiết sản phẩm
+        return view('home.detail', compact('tourById'));
     }
     //Search Tour theo tên
     public function searchByName(Request $request)

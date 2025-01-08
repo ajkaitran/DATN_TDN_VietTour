@@ -5,7 +5,7 @@
 <section class="banner">
     <div class="slide_banner">
         @foreach($listBanner1 as $items)
-            <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
+        <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
         @endforeach
     </div>
     <div class="banner_content">
@@ -35,17 +35,17 @@
         <p class="title_content">Tour du lịch quốc tế</p>
         <div class="slide_4">
             @foreach($listCate1 as $items)
-                <a class="location" href="#">
-                    <img src="{{ asset('storage/categoryTour/' . $items->image) }}" alt="hình ảnh" width="100">
-                    <p class="title">{{$items->name}}</p>
-                </a>
+            <a class="location" href="">
+                <img src="{{ asset('storage/categoryTour/'.$items->image) }}" alt="hình ảnh" width="100">
+                <p class="title">{{$items->name}}</p>
+            </a>
             @endforeach
         </div>
         <p class="title_content">Tour du lịch nội địa</p>
         <div class="slide_4">
             @foreach($listCate2 as $items)
             <a class="location" href="#">
-                <img src="{{ asset('storage/categoryTour/' . $items->image) }}" alt="hình ảnh" width="100">
+                <img src="{{ asset('storage/categoryTour/'.$items->image)}}" alt="hình ảnh" width="100">
                 <p class="title">{{$items->name}}</p>
             </a>
             @endforeach
@@ -63,19 +63,19 @@
             @foreach($listTourHome as $items)
             <div class="col my-3">
                 <div class="tour_card">
-                    <a class="tour_img" href="#">
+                    <a class="tour_img" href="{{route('home.detail',['id' => $items->id])}}">
                         <img src="{{ asset('storage/Anh_Tour/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name title_name" href="#">{{$items->name}}</a>
+                        <a class="tour_name title_name" href="{{route('home.detail',$items->id)}}">{{$items->name}}</a>
                         <div class="star">
                             @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $items->star)
-                                    <i class="fa-solid fa-star"></i>
+                                @if ($i <=$items->star)
+                                <i class="fa-solid fa-star"></i>
                                 @else
-                                    <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                                 @endif
-                            @endfor
+                                @endfor
                         </div>
                         <div class="date-go">
                             <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>{{$items->transport}}</time>
@@ -117,12 +117,12 @@
                         <a class="tour_name title_name" href="#">{{$items->name}}</a>
                         <div class="star">
                             @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $items->star)
-                                    <i class="fa-solid fa-star"></i>
+                                @if ($i <=$items->star)
+                                <i class="fa-solid fa-star"></i>
                                 @else
-                                    <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                                 @endif
-                            @endfor
+                                @endfor
                         </div>
                         <div class="date-go">
                             <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>{{$items->transport}}</time>
@@ -153,30 +153,30 @@
         <p class="title_content">Những kinh nghiệm thú vị về du lịch được chia sẻ ở đây</p>
         <div class="slide_3 my-3">
             @for ($i = 0; $i < 8; $i++)
-            <div class="article_group">
+                <div class="article_group">
                 <div class="article_card">
                     <a class="article_img" href="#">
                         <img src="{{ url('images/Banner_home_1.jpg') }}">
                     </a>
                     <a class="title title_name" href="#">Review</a>
-                    <a class="article_name title_name" href="#" >Du lịch Nhật Bản mua gì về làm quà? Ghi điểm với list những món quà cực ý nghĩa</a>
+                    <a class="article_name title_name" href="#">Du lịch Nhật Bản mua gì về làm quà? Ghi điểm với list những món quà cực ý nghĩa</a>
                 </div>
                 @for ($j = 0; $j < 2; $j++)
-                <div class="article_card">
+                    <div class="article_card">
                     <a class="article_img" href="#">
                         <img src="{{ url('images/Banner_home_1.jpg') }}">
                     </a>
                     <div class="article_content">
-                        <a class="article_name title_name" href="#" >Du lịch Nhật Bản mua gì về làm quà? ghi ghi Ghi điểm với list những món quà cực ý nghĩa</a>
+                        <a class="article_name title_name" href="#">Du lịch Nhật Bản mua gì về làm quà? ghi ghi Ghi điểm với list những món quà cực ý nghĩa</a>
                         <div class="date">
                             <i class="fa-solid fa-calendar-clock me-1"></i><time>01/07/2024</time>
                         </div>
                     </div>
-                </div>
-                @endfor
-            </div>
-            @endfor
         </div>
+        @endfor
+    </div>
+    @endfor
+    </div>
     </div>
 </section>
 <section class="index_5" style="background-image: url('images/bando.png')">
@@ -185,13 +185,13 @@
         <p class="title_content">Những phản hồi thực tế từ những khách hàng đã sử dụng dịch vụ của Nam A Travel</p>
         <div class="slide_1 my-3">
             @for ($i = 0; $i < 8; $i++)
-            <div class="feedback">
+                <div class="feedback">
                 <div class="feedback_content">
                     <h3 class="title text_main">Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng.</h3>
                     <div class="feedback_text">
                         "Mình đã từng đi tour Thái Lan của Nam A Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng.Travel một lần và thấy rất hài lòng. Lần này mình tiếp tục lựa chọn Nam A cho chuyến du lịch Trung Quốc. Cũng như lần trước, các bạn chuyên viên tư vấn của Nam A hỗ trợ mình rất nhiệt tình. Trong chuyến đi, hướng dẫn viên chăm sóc đoàn rất chu đáo. Nói chung là 10 điểm nha!"
                     </div>
-                    
+
                     <div class="media mt-3">
                         <div class="media-avt">
                             <img src="{{ url('images/avt.jpg') }}">
@@ -213,9 +213,9 @@
                 <div class="feedback_img">
                     <img src="{{ url('images/avt.jpg') }}">
                 </div>
-            </div>
-            @endfor
         </div>
+        @endfor
+    </div>
     </div>
 </section>
 <section class="index_4">
@@ -224,14 +224,14 @@
         <p class="title_content">Những hình ảnh tuyệt vời nhất trong chuyến đi của chúng tôi</p>
         <div class="slide_3 my-3">
             @for ($i = 0; $i < 4; $i++)
-            <div class="card_feedback">
+                <div class="card_feedback">
                 <img src="{{ url('images/avt.jpg') }}">
                 <div class="title_content text-center">
                     Đoàn Hàn Quốc
                 </div>
-            </div>
-            @endfor
         </div>
+        @endfor
+    </div>
     </div>
 </section>
 <section class="index_3">
@@ -269,7 +269,7 @@
                     <h4 class="title">{{$items->banner_name}}</h4>
                     <p class="text-white">{{$items->slogan}}</p>
                 </div>
-            </div>  
+            </div>
             @endforeach
         </div>
     </div>

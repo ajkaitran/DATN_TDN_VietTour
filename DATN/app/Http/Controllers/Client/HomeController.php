@@ -63,10 +63,16 @@ class HomeController extends Controller
     {
         return view('home.modal.register');
     }
-    public function detail()
+    public function detail($id)
     {
-        return view('home.detail');
+        // Lấy thông tin sản phẩm
+        $item = Product::with('itineraries')->findOrFail($id);
+        $otherTours = Product::where('id', '!=', $id)->take(5)->get();
+
+        // Trả về view kèm dữ liệu
+        return view('home.detail', compact('item','otherTours'));
     }
+
     public function about()
     {
         return view('home.about');

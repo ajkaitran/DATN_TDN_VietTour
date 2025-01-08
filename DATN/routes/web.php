@@ -28,7 +28,7 @@ use App\Http\Controllers\StartPlaceController;
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/searchTour', [HomeController::class, 'searchTour'])->name('home.searchTour'); //Trang search khi bấm vào nút tìm kiếm
-    Route::get('/detail', [HomeController::class, 'detail'])->name('home.detail'); //Lấy sản phẩm theo id rồi hiển thị chi tiết
+    Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('home.detail'); //Lấy sản phẩm theo id rồi hiển thị chi tiết
     Route::get('/order', [HomeController::class,'order'])->name('home.order'); //Sau khi bấm nút order, lấy thông tin sản phẩm, hiển thị trang order, người dùng nhập vào thông tin
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');//Trang giới thiệu 
     Route::get('/tourlog', [HomeController::class, 'tourLog'])->name('home.tourLog'); // Trang lọc dữ liệu sản phẩm
