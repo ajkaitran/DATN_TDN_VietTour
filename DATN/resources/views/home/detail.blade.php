@@ -217,7 +217,7 @@
                 <div class="mb-4">
                     <a href="{{route('home.detail',['id' => $otherItem->id])}}">
                         <img src="{{ asset('storage/'.$otherItem->image)}}" alt="TourImage" class="w-full h-60 object-cover rounded mb-2" />
-                        <div class="text-gray-700">{{$otherItem->name}}</div>
+                        <div class="tour_name title_name">{{$otherItem->name}}</div>
                     </a>
                     <div class="text-gray-500">Lịch khởi hành:{{ number_format($otherItem->sale_off, 0, ',', '.') }}đ
                     </div>

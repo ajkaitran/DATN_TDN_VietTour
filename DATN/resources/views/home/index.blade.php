@@ -13,8 +13,8 @@
             <h2 class="title">Du lịch thả ga - Không lo về giá cùng VietTour Travel</h2>
             <p>Chọn điểm đến mà bạn muốn tới, VietTour Travel sẽ mang đến cho bạn chuyến đi tuyệt vời nhất</p>
         </div>
-        <form class="search-form" method="get">
-            <input type="text" placeholder="Nhập từ khóa tìm kiếm...">
+        <form class="search-form" action="{{ route('home.searchTour') }}" method="get">
+            <input type="text" name='keyword' placeholder="Nhập từ khóa tìm kiếm..." required>
             <button type="submit"><i class="far fa-search"></i></button>
         </form>
     </div>
@@ -64,7 +64,7 @@
             <div class="col my-3">
                 <div class="tour_card">
                     <a class="tour_img" href="{{route('home.detail',['id' => $items->id])}}">
-                        <img src="{{ asset('storage/Anh_Tour/' . $items->image) }}" alt="hình ảnh" width="100">
+                        <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
                         <a class="tour_name title_name" href="{{route('home.detail',$items->id)}}">{{$items->name}}</a>
@@ -182,14 +182,14 @@
 <section class="index_5" style="background-image: url('images/bando.png')">
     <div class="container">
         <h2 class="title_index title">KHÁCH HÀNG NÓI VỀ CHÚNG TÔI</h2>
-        <p class="title_content">Những phản hồi thực tế từ những khách hàng đã sử dụng dịch vụ của Nam A Travel</p>
+        <p class="title_content">Những phản hồi thực tế từ những khách hàng đã sử dụng dịch vụ của Việt Tour Travel</p>
         <div class="slide_1 my-3">
             @for ($i = 0; $i < 8; $i++)
                 <div class="feedback">
                 <div class="feedback_content">
-                    <h3 class="title text_main">Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng.</h3>
+                    <h3 class="title text_main">Mình đã từng đi tour Thái Lan của Viêt Tour Travel một lần và thấy rất hài lòng.</h3>
                     <div class="feedback_text">
-                        "Mình đã từng đi tour Thái Lan của Nam A Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Nam A Travel một lần và thấy rất hài lòng.Travel một lần và thấy rất hài lòng. Lần này mình tiếp tục lựa chọn Nam A cho chuyến du lịch Trung Quốc. Cũng như lần trước, các bạn chuyên viên tư vấn của Nam A hỗ trợ mình rất nhiệt tình. Trong chuyến đi, hướng dẫn viên chăm sóc đoàn rất chu đáo. Nói chung là 10 điểm nha!"
+                        "Mình đã từng đi tour Thái Lan của Việt Tour Mình đã từng đi tour Thái Lan của Việt Tour Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Việt Tour Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Việt Tour Travel một lần và thấy rất hài lòng.Travel một lần và thấy rất hài lòng. Lần này mình tiếp tục lựa chọn Việt Tour cho chuyến du lịch Trung Quốc. Cũng như lần trước, các bạn chuyên viên tư vấn của Việt Tour hỗ trợ mình rất nhiệt tình. Trong chuyến đi, hướng dẫn viên chăm sóc đoàn rất chu đáo. Nói chung là 10 điểm nha!"
                     </div>
 
                     <div class="media mt-3">
@@ -220,7 +220,7 @@
 </section>
 <section class="index_4">
     <div class="container">
-        <h2 class="title_index title">khách hàng tiêu biểu của nam a travel</h2>
+        <h2 class="title_index title">khách hàng tiêu biểu của Việt Tour travel</h2>
         <p class="title_content">Những hình ảnh tuyệt vời nhất trong chuyến đi của chúng tôi</p>
         <div class="slide_3 my-3">
             @for ($i = 0; $i < 4; $i++)
@@ -237,7 +237,7 @@
 <section class="index_3">
     <div class="container">
         <h2 class="title_index title">ĐỐI TÁC</h2>
-        <p class="title_content">Nam A Travel là đối tác của các nhãn hàng lớn để mang lại cho bạn các chương trình ưu đãi độc quyền</p>
+        <p class="title_content">Việt Tour Travel là đối tác của các nhãn hàng lớn để mang lại cho bạn các chương trình ưu đãi độc quyền</p>
         <div class="slide_6 my-4 mx-5">
             @foreach ($listBanner3 as $items)
             <div class="card_banner">
@@ -246,7 +246,7 @@
             @endforeach
         </div>
         <h2 class="title_index title">Góc báo chí</h2>
-        <p class="title_content">Xem những gì báo chí đang nói về Nam A Travel</p>
+        <p class="title_content">Xem những gì báo chí đang nói về Việt Tour Travel</p>
         <div class="slide_6 my-4 mx-5">
             @foreach ($listBanner4 as $items)
             <div class="card_banner">
@@ -258,7 +258,7 @@
 </section>
 <section class="index_6">
     <div class="container">
-        <h2 class="title">nam a travel cam kết</h2>
+        <h2 class="title">Việt Tour travel cam kết</h2>
         <div class="row row-cols-4">
             @foreach ($listBanner5 as $items)
             <div class="col text-center">

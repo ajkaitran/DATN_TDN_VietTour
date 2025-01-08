@@ -25,16 +25,16 @@
             </a>
             <ul class="nav_menu">
                 <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.tour')}}">TOUR QUỐC TẾ</a>
+                    <a class="nav_link" href="{{ route('home.tourByCate',['category_type' =>1]) }}">TOUR QUỐC TẾ</a>
                 </li>
                 <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.tour')}}">TOUR NỘI ĐỊA</a>
+                    <a class="nav_link" href="{{ route('home.tourByCate',['category_type' =>2]) }}">TOUR NỘI ĐỊA</a>
                 </li>
+                <!-- <li class="nav_item">
+                    <a class="nav_link" href="{{ route('home.tourByCate',['category_type' =>3]) }}">COMBO DU LỊCH</a>
+                </li> -->
                 <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.tour')}}">COMBO DU LỊCH</a>
-                </li>
-                <li class="nav_item">
-                    <a class="nav_link" href="{{route('home.index')}}">BLOG DU LỊCH</a>
+                    <a class="nav_link" href="{{route('home.blog')}}">BLOG DU LỊCH</a>
                 </li>
                 <li class="nav_item">
                     <a class="nav_link" href="{{route('home.index')}}">VỀ CHÚNG TÔI</a>
@@ -76,8 +76,8 @@
                 <i class="fa-solid fa-xmark fs-3"></i>
             </div>
             <h2 class="text-green">Tìm kiếm</h2>
-            <form class="search-form" method="get">
-                <input type="text" placeholder="Nhập từ khóa tìm kiếm...">
+            <form class="search-form" action="{{ route('home.searchTour') }}" method="get">
+                <input type="text" name='keyword' placeholder="Nhập từ khóa tìm kiếm..." required>
                 <button type="submit"><i class="far fa-search"></i></button>
             </form>
         </div>
@@ -136,7 +136,7 @@
                     <ul>
                         <h4 class="title">Dịch vụ</h4>
                         <li>
-                            <a href="#">Tour quốc tế</a>
+                            <a href="">Tour quốc tế</a>
                         </li>
                         <li>
                             <a href="#">Tour nội địa</a>

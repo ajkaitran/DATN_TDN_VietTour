@@ -2,15 +2,12 @@
 @section("title", "Main")
 
 @section("content")
-<div class="search-tour">
-    @if ($items->isEmpty())
-    <h2 class="title_index title">Không tìm thấy tour nào phù hợp với từ khóa "{{ request('keyword') }}".</h2>
-    @else
+<div class="tour-by-cate">
     <section class="index_3 bg-white p-5 rounded-lg shadow-md">
         <div class="container">
-            <h2 class="title_index title">Kết quả tìm kiếm</h2>
+            <h2 class="title_index title">{{ $category->name }}</h2>
             <div class="row row-cols-4">
-                @foreach($items as $item)
+                @foreach($tours as $item)
                 <div class="col my-3">
                     <div class="tour_card">
                         <a class="tour_img" href="{{route('home.detail',['id' => $item->id])}}">
@@ -53,7 +50,6 @@
             </div>
         </div>
     </section>
-    @endif
 </div>
 
 @endsection

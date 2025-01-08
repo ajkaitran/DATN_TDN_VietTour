@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Banner;
 use App\Models\ProductCategory;
+use App\Models\ProductCategoryType;
 use App\Models\Product;
 use App\Models\Article;
 use Illuminate\Support\Facades\Hash;
@@ -43,9 +44,15 @@ class HomeController extends Controller
     public function tour(){
         return view('home.tour');
     }
-    public function searchTour()
+    public function searchTour(Request $request)
     {
-        return view('home.searchTour');
+        // Lấy từ khóa tìm kiếm từ request
+        $keyword = $request->input('keyword');
+
+        // Tìm kiếm sản phẩm theo tên
+        $items = Product::where('name', 'like', '%' . $keyword . '%')->get();
+        // Trả về kết quả tìm kiếm
+        return view('home.searchTour',compact('items'));
     }
     public function order()
     {
@@ -54,6 +61,12 @@ class HomeController extends Controller
     public function tourLog()
     {
         return view('home.tourLog');
+    }
+    public function getToursByCategory($category_type_id)
+    {
+        $tours = Product::where('category_type_id', $category_type_id)->get();
+        $category = ProductCategoryType::findOrFail($category_type_id);
+        return view('home.tourByCate', compact('tours','category'));
     }
     public function blog()
     {
