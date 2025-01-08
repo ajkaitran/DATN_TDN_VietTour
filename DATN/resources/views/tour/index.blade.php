@@ -116,6 +116,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{$tours->links()}}
     </div>
 </div>
 
