@@ -49,7 +49,11 @@ class HomeController extends Controller
         return view('home.index', $this->view);
     }
     public function tour(){
-        return view('home.tour');
+        $objTour = new Product();
+        $objType = new ProductCategoryType();
+        $this->view['listTypes'] = $objTour->where('active', 1)->paginate(5);
+        $this->view['listTours'] = $objTour->where('active', 1)->paginate(5);
+        return view('home.tour', $this->view);
     }
     public function searchTour(Request $request)
     {
