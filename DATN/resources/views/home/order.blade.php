@@ -48,7 +48,7 @@
                         </div>
                         <div>
                             <label>Số lượng</label>
-                            <select class="w-full p-2 border rounded">
+                            <select id="quantity" class="w-full p-2 border rounded">
                                 @foreach(range(1, 15) as $i)
                                 <option value="{{ $i }}">{{ $i }}</option>
                                 @endforeach
@@ -58,26 +58,22 @@
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span>Đơn giá</span>
-                            <span>{{$tour->price}}</span>
+                            <span id="unit-price" data-price="{{ $tour->sale_off }}">{{ number_format($tour->sale_off, 0, ',', '.') }} đ</span>
                         </div>
                         <div class="flex justify-between">
                             <span>Tổng tiền</span>
-                            <span></span>
+                            <span id="total-price">0 đ</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Thanh toán</span>
-
-                            <span>300000 đ</span>
-                        </div>
+                        <input type="hidden" name="price" id="hidden-total-price" />
+                        <input type="hidden" name="product_id" id="product_id" value="{{ $tour->id }}" />
                     </div>
                     <div class="border-t pt-4">
-                        <h3 class="font-bold">Tour Hàn Quốc: Hà Nội - Busan - Cố Đô Gyeongju - Seoul 6N5Đ</h3>
+                        <h3 class="font-bold">{{$tour->name}}</h3>
                         <div class="flex items-center space-x-4 mt-2">
-                            <img src="https://placehold.co/100x100" alt="Tour Image" class="w-24 h-24 object-cover rounded" />
+                            <img src="{{ asset('storage/' . $tour->image) }}" alt="Tour Image" class="w-24 h-24 object-cover rounded" />
                             <div>
-                                <p>6 ngày 5 đêm</p>
-                                <p>Hạng tuần</p>
-                                <p>Máy bay</p>
+                                <p>{{$tour->schedule}}</p>
+                                <p>{{$tour->transport}}</p>
                             </div>
                         </div>
                     </div>

@@ -35,7 +35,7 @@
         <p class="title_content">Tour du lịch quốc tế</p>
         <div class="slide_4">
             @foreach($listCate1 as $items)
-            <a class="location" href="">
+            <a class="location" href="{{route('home.tourLog',['id' => $items->id])}}">
                 <img src="{{ asset('storage/categoryTour/'.$items->image) }}" alt="hình ảnh" width="100">
                 <p class="title">{{$items->name}}</p>
             </a>
@@ -44,7 +44,7 @@
         <p class="title_content">Tour du lịch nội địa</p>
         <div class="slide_4">
             @foreach($listCate2 as $items)
-            <a class="location" href="#">
+            <a class="location" href="{{route('home.tourLog',['id' => $items->id])}}">
                 <img src="{{ asset('storage/categoryTour/'.$items->image)}}" alt="hình ảnh" width="100">
                 <p class="title">{{$items->name}}</p>
             </a>
