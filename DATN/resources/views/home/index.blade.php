@@ -5,7 +5,7 @@
 <section class="banner">
     <div class="slide_banner">
         @foreach($listBanner1 as $items)
-            <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
+        <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
         @endforeach
     </div>
     <div class="banner_content">
@@ -13,8 +13,8 @@
             <h2 class="title">Du lịch thả ga - Không lo về giá cùng VietTour Travel</h2>
             <p>Chọn điểm đến mà bạn muốn tới, VietTour Travel sẽ mang đến cho bạn chuyến đi tuyệt vời nhất</p>
         </div>
-        <form class="search-form" method="get">
-            <input type="text" placeholder="Nhập từ khóa tìm kiếm...">
+        <form class="search-form" action="{{ route('home.searchTour') }}" method="get">
+            <input type="text" name='keyword' placeholder="Nhập từ khóa tìm kiếm..." required>
             <button type="submit"><i class="far fa-search"></i></button>
         </form>
     </div>
@@ -35,17 +35,17 @@
         <p class="title_content">Tour du lịch quốc tế</p>
         <div class="slide_4">
             @foreach($listCate1 as $items)
-                <a class="location" href="#">
-                    <img src="{{ asset('storage/categoryTour/' . $items->image) }}" alt="hình ảnh" width="100">
-                    <p class="title">{{$items->name}}</p>
-                </a>
+            <a class="location" href="">
+                <img src="{{ asset('storage/categoryTour/'.$items->image) }}" alt="hình ảnh" width="100">
+                <p class="title">{{$items->name}}</p>
+            </a>
             @endforeach
         </div>
         <p class="title_content">Tour du lịch nội địa</p>
         <div class="slide_4">
             @foreach($listCate2 as $items)
             <a class="location" href="#">
-                <img src="{{ asset('storage/categoryTour/' . $items->image) }}" alt="hình ảnh" width="100">
+                <img src="{{ asset('storage/categoryTour/'.$items->image)}}" alt="hình ảnh" width="100">
                 <p class="title">{{$items->name}}</p>
             </a>
             @endforeach
@@ -63,19 +63,19 @@
             @foreach($listTourHome as $items)
             <div class="col my-3">
                 <div class="tour_card">
-                    <a class="tour_img" href="#">
+                    <a class="tour_img" href="{{route('home.detail',['id' => $items->id])}}">
                         <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name title_name" href="#">{{$items->name}}</a>
+                        <a class="tour_name title_name" href="{{route('home.detail',$items->id)}}">{{$items->name}}</a>
                         <div class="star">
                             @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $items->star)
-                                    <i class="fa-solid fa-star"></i>
+                                @if ($i <=$items->star)
+                                <i class="fa-solid fa-star"></i>
                                 @else
-                                    <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                                 @endif
-                            @endfor
+                                @endfor
                         </div>
                         <div class="date-go">
                             <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>{{$items->transport}}</time>
@@ -117,12 +117,12 @@
                         <a class="tour_name title_name" href="#">{{$items->name}}</a>
                         <div class="star">
                             @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $items->star)
-                                    <i class="fa-solid fa-star"></i>
+                                @if ($i <=$items->star)
+                                <i class="fa-solid fa-star"></i>
                                 @else
-                                    <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
                                 @endif
-                            @endfor
+                                @endfor
                         </div>
                         <div class="date-go">
                             <i class="fa-solid fa-calendar-clock me-1"></i>Lịch khởi hành: <time>{{$items->transport}}</time>
@@ -191,7 +191,7 @@
                     <div class="feedback_text">
                         {!!$items->comment!!}
                     </div>
-                    
+
                     <div class="media mt-3">
                         <div class="media-avt">
                             <img src="{{ Storage::url('feedback/' . $items->image) }}" style="width: 100px; height: 100px;" />
@@ -224,14 +224,14 @@
         <p class="title_content">Những hình ảnh tuyệt vời nhất trong chuyến đi của chúng tôi</p>
         <div class="slide_3 my-3">
             @for ($i = 0; $i < 4; $i++)
-            <div class="card_feedback">
+                <div class="card_feedback">
                 <img src="{{ url('images/avt.jpg') }}">
                 <div class="title_content text-center">
                     Đoàn Hàn Quốc
                 </div>
-            </div>
-            @endfor
         </div>
+        @endfor
+    </div>
     </div>
 </section>
 <section class="index_3">
@@ -269,7 +269,7 @@
                     <h4 class="title">{{$items->banner_name}}</h4>
                     <p class="text-white">{{$items->slogan}}</p>
                 </div>
-            </div>  
+            </div>
             @endforeach
         </div>
     </div>
