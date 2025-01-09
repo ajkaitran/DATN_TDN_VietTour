@@ -69,6 +69,83 @@ class HomeController extends Controller
         // Trả về kết quả tìm kiếm
         return view('home.searchTour', compact('items'));
     }
+    public function tourLog(Request $request, $id)
+    {  
+        $objBanner = new Banner();
+        $category_type = ProductCategory::findOrFail($id);
+        $objTourCate = new ProductCategory();
+        $starts = StartPlace::all();
+        $query = Product::query();
+        $objTourType = new ProductCategoryType();
+        $this->view['listBanner6'] = $objBanner->where('banner_group', 6)->where('active', 1)->get();
+        $this->view['listType'] = $objTourType->where('show_menu', 1)->where('active', 1)->get();
+        $this->view['categoriesByType'] = $objTourType->with(['categories' => function ($query) {
+            $query->where('active', 1);
+        }])->get();
+        $query->where(function ($q) use ($id) {
+            $q->where('product_category_id', $id)
+                ->orWhere('main_category_id', $id);
+        });
+        if ($request->has('keyword') && $request->keyword != '') {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+        if ($request->has('type') && is_array($request->type)) {
+            $query->whereIn('category_type_id', $request->type);
+        }
+
+        // Lọc theo điểm đi (nếu có)
+        if ($request->has('from') && $request->from != '') {
+            $query->where('start_places_id', $request->from); // Đảm bảo `start_id` là tên cột đúng
+        }
+        // Lấy kết quả
+        $tours = $query->paginate(6);
+        // Trả dữ liệu về view
+        return view('home.tourLog', compact('tours', 'category_type', 'starts'),$this->view);
+    }
+    public function getToursByCategory($category_type_id)
+    {
+        $tours = Product::where('category_type_id', $category_type_id)->paginate(8);
+        $category = ProductCategoryType::findOrFail($category_type_id);
+        return view('home.tourByCate', compact('tours', 'category'));
+    }
+    public function detail($id)
+    {
+        // Lấy thông tin sản phẩm
+        $item = Product::with('itineraries')->findOrFail($id);
+        $otherTours = Product::where('id', '!=', $id)->take(5)->get();
+
+        // Trả về view kèm dữ liệu
+        return view('home.detail', compact('item', 'otherTours'));
+    }
+    public function blog(Request $request)
+    {
+        // Lấy tất cả bài viết và thể loại bài viết
+        $blog = Article::with('articleCategory');
+        $articleCategory = ArticleCategory::all();
+
+        // Kiểm tra nếu có tham số tìm kiếm
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+
+            // Tìm kiếm theo tên bài viết (subject), mô tả (description), hoặc tên thể loại bài viết (category_name)
+            $blog = $blog->where(function ($query) use ($searchTerm) {
+                $query->where('subject', 'LIKE', "%$searchTerm%")
+                    ->orWhere('description', 'LIKE', "%$searchTerm%")
+                    ->orWhereHas('articleCategory', function ($query) use ($searchTerm) {
+                        $query->where('category_name', 'LIKE', "%$searchTerm%");
+                    });
+            });
+        }
+
+        // Phân trang kết quả tìm kiếm hoặc tất cả bài viết
+        $blog = $blog->where('active', 1)->paginate(6);
+
+        return view('home.blog', compact('blog', 'articleCategory'));
+    }
+    public function about()
+    {
+        return view('home.about');
+    }
     public function order()
     {
         return view('home.order');
@@ -98,90 +175,9 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Đặt tour thành công!');
     }
 
-
-    public function tourLog(Request $request, $id)
-    {  
-        $category_type = ProductCategory::findOrFail($id);
-        $objTourCate = new ProductCategory();
-        $starts = StartPlace::all();
-        $query = Product::query();
-        $objTourType = new ProductCategoryType();
-        $this->view['listType'] = $objTourType->where('show_menu', 1)->where('active', 1)->get();
-        $this->view['categoriesByType'] = $objTourType->with(['categories' => function ($query) {
-            $query->where('active', 1);
-        }])->get();
-        $query->where(function ($q) use ($id) {
-            $q->where('product_category_id', $id)
-                ->orWhere('main_category_id', $id);
-        });
-        if ($request->has('keyword') && $request->keyword != '') {
-            $query->where('name', 'like', '%' . $request->keyword . '%');
-        }
-        if ($request->has('type') && is_array($request->type)) {
-            $query->whereIn('category_type_id', $request->type);
-        }
-
-        // Lọc theo điểm đi (nếu có)
-        if ($request->has('from') && $request->from != '') {
-            $query->where('start_places_id', $request->from); // Đảm bảo `start_id` là tên cột đúng
-        }
-        // Lấy kết quả
-        $tours = $query->get();
-        // Trả dữ liệu về view
-        return view('home.tourLog', compact('tours', 'category_type', 'starts'),$this->view);
-    }
-
-
-    public function getToursByCategory($category_type_id)
-    {
-        $tours = Product::where('category_type_id', $category_type_id)->get();
-        $category = ProductCategoryType::findOrFail($category_type_id);
-        return view('home.tourByCate', compact('tours', 'category'));
-    }
-    public function blog(Request $request)
-    {
-        // Lấy tất cả bài viết và thể loại bài viết
-        $blog = Article::with('articleCategory');
-        $articleCategory = ArticleCategory::all();
-
-        // Kiểm tra nếu có tham số tìm kiếm
-        if ($request->has('search')) {
-            $searchTerm = $request->input('search');
-
-            // Tìm kiếm theo tên bài viết (subject), mô tả (description), hoặc tên thể loại bài viết (category_name)
-            $blog = $blog->where(function ($query) use ($searchTerm) {
-                $query->where('subject', 'LIKE', "%$searchTerm%")
-                    ->orWhere('description', 'LIKE', "%$searchTerm%")
-                    ->orWhereHas('articleCategory', function ($query) use ($searchTerm) {
-                        $query->where('category_name', 'LIKE', "%$searchTerm%");
-                    });
-            });
-        }
-
-        // Phân trang kết quả tìm kiếm hoặc tất cả bài viết
-        $blog = $blog->where('active', 1)->paginate(6);
-
-        return view('home.blog', compact('blog', 'articleCategory'));
-    }
-
-
     public function register()
     {
         return view('home.modal.register');
-    }
-    public function detail($id)
-    {
-        // Lấy thông tin sản phẩm
-        $item = Product::with('itineraries')->findOrFail($id);
-        $otherTours = Product::where('id', '!=', $id)->take(5)->get();
-
-        // Trả về view kèm dữ liệu
-        return view('home.detail', compact('item', 'otherTours'));
-    }
-
-    public function about()
-    {
-        return view('home.about');
     }
     public function postRegister(RegisterRequest  $request)
     {

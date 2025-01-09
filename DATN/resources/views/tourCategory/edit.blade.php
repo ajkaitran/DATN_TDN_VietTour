@@ -90,12 +90,10 @@
                     <div class="form-group">
                         <label for="" class="form_ext w-45">Danh mục tour</label>
                         <select class="form-control  w-75" aria-label="Default select example" name="parent_id">
-                            <option value="" {{ $category->parent_id == null ? 'selected' : '' }}>Danh mục chính
-                            </option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    {{ $category->parent_id == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}</option>
+                            <option value="" {{ $category->parent_id == null ? 'selected' : '' }}>Danh mục cha</option>
+                            @foreach ($categories as $cate)
+                                <option value="{{ $cate->id }}"{{ $category->parent_id == $cate->id ? 'selected' : '' }}>
+                                    {{ $cate->name }}</option>
                             @endforeach
                         </select>
                     </div>
