@@ -5,12 +5,12 @@
 <div class="body">
     <main>
         <div class="relative">
-            <img src="{{ asset('storage/' . $category->image) }}" alt="Image category" class="w-full" />
+            <img src="{{ asset('storage/categoryTour/' . $category_type->image) }}" alt="Image category" class="w-full max-h-96 object-cover" />
         </div>
         <div class="container mx-auto flex py-10 px-6">
             <aside class="w-1/4 bg-gray-100 p-4 rounded">
                 <h2 class="text-xl font-bold mb-4">Lọc kết quả</h2>
-                <form action="{{ route('home.tourLog', $category->id) }}" method="GET">
+                <form action="{{ route('home.tourLog', $category_type->id) }}" method="GET">
                     <!-- Từ khóa tìm kiếm -->
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold mb-2">Tìm kiếm</h3>
@@ -35,7 +35,26 @@
                             </label>
                         </div>
                     </div>
+                    <!-- <div class="mb-4">
+                        <label for="destination" class="block text-sm font-medium text-gray-700 mb-2">KHU VỰC</label>
+                        <select id="product_category_id" name="product_category_id" class="w-full px-4 py-2 rounded">
+                            <option selected disabled>--Chọn địa điểm--</option>
+                            @foreach($listType as $type)
+                            @foreach($type->categories as $category)
+                            @if($category->parent_id === null)
+                            
+                            <optgroup value="" label="{{ $category->name }}">
+                                @foreach($category->children as $child)
+                                <option value="{{ $child->id }}" {{ request('product_category_id') == $child->id ? 'selected' : '' }}>{{ $child->name }}</option>
+                                @endforeach
+                            </optgroup>
+                            
 
+                            @endif
+                            @endforeach
+                            @endforeach
+                        </select>
+                    </div> -->
                     <!-- Điểm đi -->
                     <div class="mb-4">
                         <h3 class="text-lg font-semibold mb-2">Điểm Đi</h3>
@@ -53,7 +72,7 @@
                 </form>
             </aside>
             <section class="w-3/4 pl-6">
-                <h1 class="text-3xl font-bold text-blue-600 mb-6">{{$category->name}}</h1>
+                <h1 class="text-3xl font-bold text-blue-600 mb-6">{{$category_type->name}}</h1>
                 <div class="bg-blue-100 p-6 rounded">
                     <h2 class="text-2xl font-bold mb-4">Lý Do Chọn Tour Việt Tour Travel</h2>
                     <div class="grid grid-cols-4 gap-4">
