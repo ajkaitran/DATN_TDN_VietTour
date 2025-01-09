@@ -8,90 +8,62 @@
             <img src="{{ asset('storage/categoryTour/' . $category_type->image) }}" alt="Image category" class="w-full max-h-96 object-cover" />
         </div>
         <div class="container mx-auto flex py-10 px-6">
-            <aside class="w-1/4 bg-gray-100 p-4 rounded">
-                <h2 class="text-xl font-bold mb-4">Lọc kết quả</h2>
-                <form action="{{ route('home.tourLog', $category_type->id) }}" method="GET">
-                    <!-- Từ khóa tìm kiếm -->
-                    <div class="mb-4">
-                        <h3 class="text-lg font-semibold mb-2">Tìm kiếm</h3>
-                        <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Nhập từ khóa tìm kiếm..." class="w-full px-4 py-2 rounded" />
-                    </div>
-
-                    <!-- Lọc theo loại tour -->
-                    <div class="mb-4">
-                        <h3 class="text-lg font-semibold mb-2">Loại Tour</h3>
-                        <div class="space-y-2">
-                            <label class="flex items-center">
-                                <input type="checkbox" name="type[]" value="1" {{ in_array(1, (array)request('type')) ? 'checked' : '' }} class="mr-2" />
-                                Tour nội địa
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" name="type[]" value="2" {{ in_array(2, (array)request('type')) ? 'checked' : '' }} class="mr-2" />
-                                Tour quốc tế
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" name="type[]" value="3" {{ in_array(3, (array)request('type')) ? 'checked' : '' }} class="mr-2" />
-                                Combo du lịch
-                            </label>
+            <div class="col-3 bg-gray-100 rounded">
+                <h1 class="title_list title">
+                    {{$category_type->name}}
+                </h1>
+                <div class="p-4">
+                    <form action="{{ route('home.tourLog', $category_type->id) }}" method="GET">
+                        <!-- Từ khóa tìm kiếm -->
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Tìm kiếm</h3>
+                            <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="Nhập từ khóa tìm kiếm..." class="w-full px-4 py-2 rounded" />
                         </div>
-                    </div>
-                    <!-- <div class="mb-4">
-                        <label for="destination" class="block text-sm font-medium text-gray-700 mb-2">KHU VỰC</label>
-                        <select id="product_category_id" name="product_category_id" class="w-full px-4 py-2 rounded">
-                            <option selected disabled>--Chọn địa điểm--</option>
-                            @foreach($listType as $type)
-                            @foreach($type->categories as $category)
-                            @if($category->parent_id === null)
-                            
-                            <optgroup value="" label="{{ $category->name }}">
-                                @foreach($category->children as $child)
-                                <option value="{{ $child->id }}" {{ request('product_category_id') == $child->id ? 'selected' : '' }}>{{ $child->name }}</option>
+    
+                        <!-- Lọc theo loại tour -->
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Loại Tour</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="type[]" value="1" {{ in_array(1, (array)request('type')) ? 'checked' : '' }} class="mr-2" />
+                                    Tour nội địa
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="type[]" value="2" {{ in_array(2, (array)request('type')) ? 'checked' : '' }} class="mr-2" />
+                                    Tour quốc tế
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="type[]" value="3" {{ in_array(3, (array)request('type')) ? 'checked' : '' }} class="mr-2" />
+                                    Combo du lịch
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Điểm Đi</h3>
+                            <select name="from" class="w-full px-4 py-2 rounded">
+                                <option value="">--Chọn địa điểm--</option>
+                                @foreach($starts as $start)
+                                <option value="{{ $start->id }}" {{ request('from') == $start->id ? 'selected' : '' }}>
+                                    {{ $start->name }}
+                                </option>
                                 @endforeach
-                            </optgroup>
-                            
-
-                            @endif
-                            @endforeach
-                            @endforeach
-                        </select>
-                    </div> -->
-                    <!-- Điểm đi -->
-                    <div class="mb-4">
-                        <h3 class="text-lg font-semibold mb-2">Điểm Đi</h3>
-                        <select name="from" class="w-full px-4 py-2 rounded">
-                            <option value="">--Chọn địa điểm--</option>
-                            @foreach($starts as $start)
-                            <option value="{{ $start->id }}" {{ request('from') == $start->id ? 'selected' : '' }}>
-                                {{ $start->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!-- Nút lọc -->
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Lọc</button>
-                </form>
-            </aside>
-            <section class="w-3/4 pl-6">
-                <h1 class="text-3xl font-bold text-blue-600 mb-6">{{$category_type->name}}</h1>
-                <div class="bg-blue-100 p-6 rounded">
-                    <h2 class="text-2xl font-bold mb-4">Lý Do Chọn Tour Việt Tour Travel</h2>
-                    <div class="grid grid-cols-4 gap-4">
-                        <div class="text-center">
-                            <i class="fas fa-star text-yellow-500 text-4xl mb-2"></i>
-                            <p>Nhiều năm kinh nghiệm phục vụ hàng ngàn lượt khách mỗi năm</p>
+                            </select>
                         </div>
-                        <div class="text-center">
-                            <i class="fas fa-clock text-red-500 text-4xl mb-2"></i>
-                            <p>Khởi hành liên tục hàng tuần, lễ tết, dịp đặc biệt</p>
+                        <button type="submit" class="btn_card">Lọc Dữ Liệu</button>
+                    </form>
+                </div>
+            </div>
+            <section class="col-9 pl-6">
+                <div class="box-banners">
+                    <h1 class="title_bold mb-3">Lý Do Chọn Tour VietTour Travel</h1>
+                    <div class="row row-cols-4">
+                        @foreach ($listBanner6 as $items)
+                        <div class="col">
+                            <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh">
+                            <h4><strong>{{$items->banner_name}}</strong></h4>
+                            <p>{{$items->slogan}}</p>
                         </div>
-                        <div class="text-center">
-                            <i class="fas fa-dollar-sign text-green-500 text-4xl mb-2"></i>
-                            <p>Mức giá tốt nhất Giá cả phù hợp & nhiều ưu đãi hấp dẫn</p>
-                        </div>
-                        <div class="text-center">
-                            <i class="fas fa-thumbs-up text-blue-500 text-4xl mb-2"></i>
-                            <p>Hỗ trợ 11/24 giờ cao Hỗ trợ & chăm sóc khách hàng 24/7, tỉ lệ hài lòng 99%</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="row row-cols-3">
@@ -132,6 +104,9 @@
                         </div>
                     </div>
                     @endforeach
+                </div>
+                <div class="d-flex justify-center">
+                    {{$tours->links()}}
                 </div>
             </section>
         </div>

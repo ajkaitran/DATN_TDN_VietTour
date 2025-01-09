@@ -2,6 +2,9 @@
 @section("title", "Main")
 
 @section("content")
+<div class="relative">
+    <img src="{{ $category->image?''.Storage::url($category->image):''}}">
+</div>
 <div class="tour-by-cate">
     <section class="index_3 bg-white p-5 rounded-lg shadow-md">
         <div class="container">
@@ -45,8 +48,8 @@
                 </div>
                 @endforeach
             </div>
-            <div class="text-center mt-3">
-                <a class="btn_link text-blue-600 hover:underline" href="#">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
+            <div class="d-flex justify-center">
+                {{$tours->links()}}
             </div>
         </div>
     </section>
