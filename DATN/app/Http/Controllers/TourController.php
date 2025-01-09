@@ -20,21 +20,14 @@ class TourController extends Controller
      */
     public function index()
     {
-        $tours = Product::whereNull('deleted_at')->get(); // Lấy danh sách tour tour
+        $tours = Product::whereNull('deleted_at')->paginate(5); // Lấy danh sách tour tour
         $ProductCategories = ProductCategory::all(); // Danh mục cha
-        // $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
-        return view('tour.index', compact('tours', 'ProductCategories'));
+        $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
+        $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
+        $tourtypes = ProductCategoryType::all();
+        return view('tour.index', compact('tours', 'ProductCategories', 'parentCategories', 'childCategories', 'tourtypes'));
     }
-    public function listTour()
-    {   
-        
-        $items = Product::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
-        return response()->json($items); // Trả về dữ liệu dưới dạng JSON
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
+    public function create(StoreTourRequest $request)
     {
         $tourtype = ProductCategoryType::whereNull('deleted_at')->get();
         $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
@@ -88,7 +81,7 @@ class TourController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)
+    public function edit(StoreTourRequest $request, $id)
     {
         $tours = Product::find($id);
         // $category = ProductCategory::findOrFail($id); // Lấy danh mục cần chỉnh sửa
@@ -109,7 +102,7 @@ class TourController extends Controller
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $resultDl = Storage::delete('/public/' . $tours->image);
                 if ($resultDl) {
-                    $param['image'] = uploadFile('Combo', $request->file('image'));
+                    $param['image'] = uploadFile('Anh_Tour', $request->file('image'));
                 }
             } else {
                 $param['image'] = $tours->image;

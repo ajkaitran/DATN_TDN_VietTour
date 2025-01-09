@@ -19,6 +19,7 @@ class ProductCategory extends Model
         'sort',
         'active',
         'hot',
+        'home_page', 
         'parent_id',
         'hotline',
         'meta_title',
@@ -26,4 +27,9 @@ class ProductCategory extends Model
         'type',
         'time_get_temp',
     ];
+    public function children()
+    {
+        return $this->hasMany(ProductCategory::class, 'parent_id');
+    }
+
 }

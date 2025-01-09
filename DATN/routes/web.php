@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BannerController;
@@ -25,13 +25,26 @@ use App\Http\Controllers\StartPlaceController;
 |
 */
 
-
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
-
+Route::prefix('/')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/searchTour', [HomeController::class, 'searchTour'])->name('home.searchTour'); //Trang search khi bấm vào nút tìm kiếm
+    Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('home.detail'); //Lấy sản phẩm theo id rồi hiển thị chi tiết
+    Route::get('/order', [HomeController::class,'order'])->name('home.order'); //Sau khi bấm nút order, lấy thông tin sản phẩm, hiển thị trang order, người dùng nhập vào thông tin
+    Route::get('/about', [HomeController::class, 'about'])->name('home.about');//Trang giới thiệu 
+    Route::get('/tourlog', [HomeController::class, 'tourLog'])->name('home.tourLog'); // Trang lọc dữ liệu sản phẩm
+    Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog'); // trang bài viết
+    Route::get('/category/{category_type}', [HomeController::class, 'getToursByCategory'])->name('home.tourByCate');
+    Route::get('tour', [HomeController::class, 'tour'])->name('home.tour');
+    Route::get('register', [HomeController::class, 'register'])->name('home.modal.register');
+    Route::post('register', [HomeController::class, 'postRegister'])->name('home.modal.postRegister');
+    Route::get('login', [HomeController::class, 'login'])->name('home.modal.login');
+    Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
+    Route::match(['get', 'post'], 'signout', [HomeController::class, 'signout'])->name('home.modal.signout');
+});
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('login', [AdminController::class, 'postLogin'])->name('admin.postLogin');
-   // Route::middleware('admin')->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
         Route::get('register', [AdminController::class, 'register'])->name('admin.register');
         Route::post('register', [AdminController::class, 'postRegister'])->name('admin.postRegister');
@@ -42,7 +55,7 @@ Route::prefix('admin')->group(function () {
         Route::post('quick-update', [AdminController::class, 'quickUpdate'])->name('admin.quickUpdate');
         Route::delete('destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
         Route::match(['get', 'post'], 'signout', [AdminController::class, 'signout'])->name('admin.signout');
-  //  });
+    });
 });
 Route::prefix('admin/article')->middleware('admin')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('article.index');
@@ -58,12 +71,14 @@ Route::prefix('admin/banner')->middleware('admin')->group(function () {
     Route::post('/store', [BannerController::class, 'store'])->name('banner.store');
     Route::get('/{id}/edit', [BannerController::class, 'edit'])->name('banner.edit');
     Route::put('/{id}', [BannerController::class, 'update'])->name('banner.update');
+    Route::post('quick-update', [BannerController::class, 'quickUpdate'])->name('banner.quickUpdate');
     Route::delete('/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
 });
 Route::prefix('admin/tourType')->middleware('admin')->group(function () {
     Route::get('/', [TourTypeController::class, 'index'])->name('tourType.index');
     Route::match(['GET', 'POST'], '/create', [TourTypeController::class, 'create'])->name('tourType.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourTypeController::class, 'edit'])->name('tourType.edit');
+    Route::post('quick-update', [TourTypeController::class, 'quickUpdate'])->name('tourType.quickUpdate');
     Route::get('/{id}', [TourTypeController::class, 'destroy'])->name('tourType.destroy');
 });
 Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
@@ -76,9 +91,8 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
-
-    Route::match(['GET', 'POST'],'/create', [TourController::class, 'create'])->name('tour.create');
-    Route::match(['GET', 'POST'],'/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
+    Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
+    Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
     Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
@@ -95,9 +109,11 @@ Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::get('/', [FeedBackController::class, 'index'])->name('feedback.index');
-    Route::match(['GET', 'POST'], '/create', [FeedbackController::class, 'create'])->name('feedback.create');
-    Route::match(['GET', 'POST'], '/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
-    Route::get('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
+    Route::get('/create', [FeedBackController::class, 'create'])->name('feedback.create');
+    Route::post('/store', [FeedBackController::class, 'store'])->name('feedback.store');
+    Route::get('/{id}/edit', [FeedBackController::class, 'edit'])->name('feedback.edit');
+    Route::put('/{id}', [FeedBackController::class, 'update'])->name('feedback.update');
+    Route::delete('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
 });
 
 Route::prefix('admin/comments')->middleware('admin')->group(function () {

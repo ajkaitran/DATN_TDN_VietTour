@@ -28,6 +28,23 @@ class AdminAuthenticate
         {
             return redirect()->route('admin.login')->with('error', 'Tài khoản đăng nhập không đủ quyền!');
         }
+        
+        return $next($request);
+    }
+    public function client(Request $request, Closure $next): Response
+    {
+        if (!Auth::check()) {
+            return redirect()->route('home.modal.login')->with('error', 'Bạn cần đăng nhập để truy cập trang này.');
+        }
+
+        if (Auth::user()->status != 1) {
+            return redirect()->route('home.modal.login')->with('error', 'Tài khoản của bạn chưa được kích hoạt!');
+        }
+        // if (Auth::user()->role != 0)
+        if(!in_array(Auth::user()->role, [2, 3]))
+        {
+            return redirect()->route('home.modal.login')->with('error', 'Tài khoản không tồn tại!');
+        }
         return $next($request);
     }
 }

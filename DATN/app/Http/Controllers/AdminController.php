@@ -31,9 +31,8 @@ class AdminController extends Controller
         $this->view['roles'] = [
             0 => 'Admin',
             1 => 'Quản lý',
-            2 => 'Nhân viên',
-            3 => 'Thành viên',
-            4 => 'Khách hàng',
+            2 => 'Thành viên',
+            3 => 'Khách hàng',
         ];
 
         return view('admin.register', $this->view);
@@ -96,16 +95,20 @@ class AdminController extends Controller
     }
     public function quickUpdate(Request $request)
     {
-        $user = User::find($request->id);
-        if (!$user) {
-            return response()->json(['success' => false, 'message' => 'Người dùng không tồn tại!']);
+        $id = $request->input('id');
+        $role = $request->input('role');
+        $status = $request->input('status');
+
+        $user = User::find($id);
+        if ($user) {
+            $user->role = $role;
+            $user->status = $status;
+            $user->save();
+
+            return response()->json(['success' => true]);
         }
 
-        $user->role = $request->role;
-        $user->status = $request->status ? 1 : 0;
-        $user->save();
-
-        return response()->json(['success' => true, 'message' => 'Cập nhật thành công!']);
+        return response()->json(['success' => false]);
     }
     public function destroy(string $id)
     {

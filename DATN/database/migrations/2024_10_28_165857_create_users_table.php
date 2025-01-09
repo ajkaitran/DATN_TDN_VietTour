@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('role')->default('1')->nullable();
             $table->tinyInteger('status')->default(0);//sang cmt
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

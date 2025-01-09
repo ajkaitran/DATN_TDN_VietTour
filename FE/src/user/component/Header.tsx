@@ -117,7 +117,7 @@ const Header: React.FC = () => {
                         </a>
                         <ul onMouseLeave={handleMouseLeave} className={`absolute left-0 mt-2 w-96 bg-white shadow-lg rounded-lg ${isHoveredComboDuLich ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`} style={{ visibility: isHoveredComboDuLich ? 'visible' : 'hidden' }}>
                             <li className="p-4">
-                                <ul className="list-none w-1/2">
+                                <ul className="list-none">
                                     <li>
                                         <a href="tour-dong-nam-a.html" className="block py-2 text-gray-800 hover:text-gray-600">Đông Nam Á</a>
                                         <a href="du-lich-singapore-malaysia.html" className="block py-2 text-gray-800 hover:text-gray-600">Singapore - Malaysia</a>

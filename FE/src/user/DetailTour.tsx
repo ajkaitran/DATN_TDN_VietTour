@@ -124,6 +124,7 @@ const DetailTour = () => {
                               <p className="text-center text-gray-800"> Việt Tour - Đơn vị tổ chức tour du lịch hàng đầu!</p>
                           </div>
                       </div>
+                      {/* Feedback */}
                       <Feedback/>
                       <div className="flex flex-col w-full  p-4 mt-4 md:mt-0">
                           <button className="bg-gradient-to-r from-blue-500 to-blue-300 text-white py-2 px-4 rounded mb-4">

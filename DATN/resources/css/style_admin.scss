@@ -112,6 +112,80 @@ $warning: $yellow;
     }
 }
 //End
+
+// Toastr
+$toast-success-bg: #28a745; // Xanh lá cây cho thông báo thành công
+$toast-error-bg: #dc3545;   // Đỏ cho thông báo lỗi
+$toast-warning-bg: #ffc107; // Vàng cho thông báo cảnh báo
+$toast-color: white;        // Màu chữ của thông báo
+
+// Lớp cơ bản cho toastr
+.toast {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999 !important;  // Đảm bảo thông báo ở trên các phần tử khác
+
+  &.toast-success {
+    background-color: $toast-success-bg !important;
+    color: $toast-color !important;
+  }
+
+  &.toast-error {
+    background-color: $toast-error-bg !important;
+    color: $toast-color !important;
+  }
+
+  &.toast-warning {
+    background-color: $toast-warning-bg !important;
+    color: $toast-color !important;
+  }
+
+  // Đảm bảo thông điệp trong toastr có màu chữ đúng
+  .toast-message {
+    color: $toast-color !important;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  // Icon bên trong toastr
+  .toast-progress {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    height: 4px;
+  }
+
+  // Tạo hiệu ứng mờ dần khi toastr tự động biến mất
+  animation: fadeInOut 3s ease-in-out forwards;
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+}
+
+// Điều chỉnh vị trí của thông báo nếu cần
+$toast-position-top-right: 20px;
+$toast-position-top-left: 20px;
+$toast-position-bottom-left: 20px;
+$toast-position-bottom-right: 20px;
+//end
 //index
 .overview {
     display: flex;
@@ -256,6 +330,24 @@ $warning: $yellow;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 45px 10px 20px;
     margin-top: 25px;
+    .box_log {
+        position: absolute;
+        top: -10px;
+        right: 2%;
+        background-color: $red;
+        padding: 10px;
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+        border-radius: 5px;
+        border: none;
+        transition: all 0.3s;
+        &:hover {
+            top: -15px;
+            background-color: $yellow;
+        }
+        
+    }
     .box_link {
         position: absolute;
         top: -10px;

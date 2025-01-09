@@ -51,6 +51,11 @@ class User extends Authenticatable
         $res = User::query()->create($params);
         return $res;
     }
+    public function insertDataClient($params){
+        $params['role'] = 4;
+        $res = User::query()->create($params);
+        return $res;
+    }
     public function loadListAdmin(){
         $query = User::query()
             ->orderBy('id')

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('active');
             $table->integer('sort');
             $table->string('slogan', 400)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

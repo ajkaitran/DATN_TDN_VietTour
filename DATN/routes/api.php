@@ -28,5 +28,11 @@ use App\Http\Controllers\StartPlaceController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// Route tour
 Route::get('/tour/list', [TourController::class, 'listTour']);
-Route::post('/feedback', [eedBackController::class,'store']);
+Route::get('/tour/detail/{id}', [TourController::class, 'getToursById']);
+Route::get('/tour/cateType/{cateID}', [TourController::class, 'getTourByCategory']);
+Route::get('/tour/search', [TourController::class, 'searchByName']);
+//
+Route::get('/feedback/list', [FeedBackController::class, 'list']);
+Route::post('/feedback', [FeedBackController::class,'storeUser']);

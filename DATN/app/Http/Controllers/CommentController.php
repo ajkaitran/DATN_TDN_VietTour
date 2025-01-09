@@ -17,7 +17,6 @@ class CommentController extends Controller
     public function index(Request $request)
     {
         $objComment = new Comment();
-
         // Lấy danh sách bài viết để hiển thị trong dropdown
         $this->view['articles'] = Article::all();
 
@@ -28,7 +27,6 @@ class CommentController extends Controller
 
         // Lấy danh sách bình luận áp dụng bộ lọc
         $this->view['listComment'] = $objComment->loadListComment($filters);
-
         return view('comment.index', $this->view);
     }
 }

@@ -122,7 +122,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Phương Tiện Di Chuyển</label>
-                        <input type="text" class="form-control w-75" name="schedule"
+                        <input type="text" class="form-control w-75" name="transport"
                             value="{{ $tours->schedule }}">
                     </div>
                     <div class="form-group">
@@ -250,7 +250,7 @@
                     <textarea class="form-control w-75" cols="20" rows="4" name="detailed_description">{{ $tours->detailed_description }}</textarea>
                 </div>
                 <button type="submit" class="btn btn-success">Sửa</button>
-                <a href="{{ route('banner.index') }}" class="btn btn-secondary">Quay lại</a>
+                <a href="{{ route('tour.index') }}" class="btn btn-secondary">Quay lại</a>
             </div>
             <div class="col-4">
                 <div class="box_article">
@@ -263,7 +263,7 @@
                         <li>
                             <label>
                                 <input type="checkbox" name="article_id" value="{{ $article->id }}"{{ $tours->article_id == $article->id ? 'checked' : ''}}>
-                                {{ $article->body }}
+                                {{ $article->subject }}
                             </label>
                         </li>
                         @endforeach

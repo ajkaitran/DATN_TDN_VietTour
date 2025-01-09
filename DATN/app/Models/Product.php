@@ -66,7 +66,7 @@ class Product extends Model
     }
     public function itineraries()
     {
-        return $this->hasMany(Itinerary::class, 'product_id'); // combo_id là khóa ngoại
+        return $this->hasMany(Itinerary::class, 'product_id', 'id'); // combo_id là khóa ngoại
     }
     public function startplace()
     {
