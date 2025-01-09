@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
+use App\Models\ArticleCategory;
 use App\Models\Feedback;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,8 @@ class HomeController extends Controller
     {
         $this->view = [];
     }
-    public function index(){
+    public function index()
+    {
         $objBanner = new Banner();
         $objTourCate = new ProductCategory();
         $objTour = new Product();
@@ -49,7 +51,8 @@ class HomeController extends Controller
 
         return view('home.index', $this->view);
     }
-    public function tour(){
+    public function tour()
+    {
         $objTour = new Product();
         $objType = new ProductCategoryType();
         $this->view['listTypes'] = $objTour->where('active', 1)->paginate(5);
@@ -64,7 +67,7 @@ class HomeController extends Controller
         // Tìm kiếm sản phẩm theo tên
         $items = Product::where('name', 'like', '%' . $keyword . '%')->get();
         // Trả về kết quả tìm kiếm
-        return view('home.searchTour',compact('items'));
+        return view('home.searchTour', compact('items'));
     }
     public function order()
     {
@@ -138,16 +141,35 @@ class HomeController extends Controller
     {
         $tours = Product::where('category_type_id', $category_type_id)->get();
         $category = ProductCategoryType::findOrFail($category_type_id);
-        return view('home.tourByCate', compact('tours','category'));
+        return view('home.tourByCate', compact('tours', 'category'));
     }
-    public function blog()
+    public function blog(Request $request)
     {
-        $objArticle = new Article();
-        $this->view['listArticles'] = $objArticle->where('active', 1)->with('articleCategory')->paginate(6);
-        return view('home.blog' , $this->view);
-    
+        // Lấy tất cả bài viết và thể loại bài viết
+        $blog = Article::with('articleCategory');
+        $articleCategory = ArticleCategory::all();
 
+        // Kiểm tra nếu có tham số tìm kiếm
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+
+            // Tìm kiếm theo tên bài viết (subject), mô tả (description), hoặc tên thể loại bài viết (category_name)
+            $blog = $blog->where(function ($query) use ($searchTerm) {
+                $query->where('subject', 'LIKE', "%$searchTerm%")
+                    ->orWhere('description', 'LIKE', "%$searchTerm%")
+                    ->orWhereHas('articleCategory', function ($query) use ($searchTerm) {
+                        $query->where('category_name', 'LIKE', "%$searchTerm%");
+                    });
+            });
+        }
+
+        // Phân trang kết quả tìm kiếm hoặc tất cả bài viết
+        $blog = $blog->where('active', 1)->paginate(6);
+
+        return view('home.blog', compact('blog', 'articleCategory'));
     }
+
+
     public function register()
     {
         return view('home.modal.register');
@@ -159,7 +181,7 @@ class HomeController extends Controller
         $otherTours = Product::where('id', '!=', $id)->take(5)->get();
 
         // Trả về view kèm dữ liệu
-        return view('home.detail', compact('item','otherTours'));
+        return view('home.detail', compact('item', 'otherTours'));
     }
 
     public function about()
@@ -196,7 +218,7 @@ class HomeController extends Controller
         if (Auth::attempt([$field => $login, 'password' => $password])) {
             $user = Auth::user();
             if ($user->status != 1) {
-                Auth::logout(); 
+                Auth::logout();
                 return redirect()->back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
             }
             if (!in_array($user->role, [2, 3, 4])) {
