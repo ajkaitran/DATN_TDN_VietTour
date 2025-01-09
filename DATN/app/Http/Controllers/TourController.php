@@ -22,8 +22,10 @@ class TourController extends Controller
     {
         $tours = Product::whereNull('deleted_at')->paginate(5); // Lấy danh sách tour tour
         $ProductCategories = ProductCategory::all(); // Danh mục cha
-        // $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
-        return view('tour.index', compact('tours', 'ProductCategories'));
+        $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
+        $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
+        $tourtypes = ProductCategoryType::all();
+        return view('tour.index', compact('tours', 'ProductCategories', 'parentCategories', 'childCategories', 'tourtypes'));
     }
     public function create(StoreTourRequest $request)
     {
@@ -100,7 +102,7 @@ class TourController extends Controller
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $resultDl = Storage::delete('/public/' . $tours->image);
                 if ($resultDl) {
-                    $param['image'] = uploadFile('Combo', $request->file('image'));
+                    $param['image'] = uploadFile('Anh_Tour', $request->file('image'));
                 }
             } else {
                 $param['image'] = $tours->image;

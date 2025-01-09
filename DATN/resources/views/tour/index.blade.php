@@ -25,7 +25,48 @@
     {{ session('error') }}
 </div>
 @endif
-
+<div class="box_content">
+    <form action="">
+        <div class="row mx-auto">
+            <div class="col-12">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Tên Tour" name="name">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select class="form-control" name="category_type_id" id="category_type_id" required>
+                        <option selected disabled>Chọn loại tour</option>
+                        @foreach ($tourtypes as $type)
+                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select class="form-control" name="main_category_id" id="">
+                        <option selected>Chọn danh mục cha</option>
+                        @foreach ($parentCategories as $categories)
+                        <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select class="form-control" name="product_category_id" id="">
+                        <option selected disabled>Chọn danh mục con</option>
+                        @foreach ($childCategories as $categories)
+                        <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button class="box_log">Lọc dữ liệu</button>
+    </form>
+</div>
 <div class="box_content">
     <a class="box_link" href="{{ route('tour.create') }}">Thêm Tour</a>
     <div class="content px-3">
@@ -46,7 +87,7 @@
                 <tr>
                     <td>{{ $tour->id }}</td>
                     <td>
-                        <img src="{{ $tour->image ? '' . Storage::url($tour->image) : '' }}" style="width: 100%;">
+                        <img src="{{ asset('storage/' . $tour->image) }}" alt="hình ảnh" width="100">
                     </td>
                     <td>
                         <div class="tbody-item-column">

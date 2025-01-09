@@ -21,13 +21,15 @@ return new class extends Migration
             $table->integer('sort'); 
             $table->boolean('active'); 
             $table->boolean('hot'); 
+            $table->boolean('home_page')->default(0);
             $table->integer('parent_id')->nullable(); 
             $table->string('hotline', 50)->nullable(); 
             $table->text('body')->nullable(); 
             $table->integer('type');
             $table->string('temp_city', 50)->nullable(); 
-            $table->dateTime('time_get_temp'); 
+            $table->dateTime('time_get_temp');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

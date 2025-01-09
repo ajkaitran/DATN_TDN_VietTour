@@ -111,7 +111,7 @@
             <div class="col my-3">
                 <div class="tour_card">
                     <a class="tour_img" href="#">
-                        <img src="{{ asset('storage/Anh_Tour/' . $items->image) }}" alt="hình ảnh" width="100">
+                        <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
                         <a class="tour_name title_name" href="#">{{$items->name}}</a>
@@ -152,53 +152,53 @@
         <h2 class="title_index title">Blog Du Lịch</h2>
         <p class="title_content">Những kinh nghiệm thú vị về du lịch được chia sẻ ở đây</p>
         <div class="slide_3 my-3">
-            @for ($i = 0; $i < 8; $i++)
-                <div class="article_group">
+            @foreach ($listArticleHot as $items)
+            <div class="article_group">
                 <div class="article_card">
                     <a class="article_img" href="#">
-                        <img src="{{ url('images/Banner_home_1.jpg') }}">
+                        <img src="{{ asset('storage/article/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
-                    <a class="title title_name" href="#">Review</a>
-                    <a class="article_name title_name" href="#">Du lịch Nhật Bản mua gì về làm quà? Ghi điểm với list những món quà cực ý nghĩa</a>
+                    <a class="title title_name" href="#">{{ $items->articleCategory->category_name ?? 'Không có danh mục' }}</a>
+                    <a class="article_name title_name" href="#" >{{$items->subject}}</a>
                 </div>
-                @for ($j = 0; $j < 2; $j++)
-                    <div class="article_card">
+                @foreach ($relatedArticles as $item)
+                <div class="article_card">
                     <a class="article_img" href="#">
-                        <img src="{{ url('images/Banner_home_1.jpg') }}">
+                        <img src="{{ asset('storage/article/' . $item->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="article_content">
-                        <a class="article_name title_name" href="#">Du lịch Nhật Bản mua gì về làm quà? ghi ghi Ghi điểm với list những món quà cực ý nghĩa</a>
+                        <a class="article_name title_name" href="#" >{{$item->subject}}</a>
                         <div class="date">
-                            <i class="fa-solid fa-calendar-clock me-1"></i><time>01/07/2024</time>
+                            <i class="fa-solid fa-calendar-clock me-1"></i><time>{{ $item->created_at->format('d/m/Y') }}</time>
                         </div>
                     </div>
+                </div>
+                @endforeach
+            </div>
+            @endforeach
         </div>
-        @endfor
-    </div>
-    @endfor
-    </div>
     </div>
 </section>
 <section class="index_5" style="background-image: url('images/bando.png')">
     <div class="container">
         <h2 class="title_index title">KHÁCH HÀNG NÓI VỀ CHÚNG TÔI</h2>
-        <p class="title_content">Những phản hồi thực tế từ những khách hàng đã sử dụng dịch vụ của Việt Tour Travel</p>
+        <p class="title_content">Những phản hồi thực tế từ những khách hàng đã sử dụng dịch vụ của VietTour Travel</p>
         <div class="slide_1 my-3">
-            @for ($i = 0; $i < 8; $i++)
-                <div class="feedback">
+            @foreach ($listFeedback as $items)
+            <div class="feedback">
                 <div class="feedback_content">
-                    <h3 class="title text_main">Mình đã từng đi tour Thái Lan của Viêt Tour Travel một lần và thấy rất hài lòng.</h3>
+                    <h3 class="title text_main">{{$items->address}}</h3>
                     <div class="feedback_text">
-                        "Mình đã từng đi tour Thái Lan của Việt Tour Mình đã từng đi tour Thái Lan của Việt Tour Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Việt Tour Travel một lần và thấy rất hài lòng. Mình đã từng đi tour Thái Lan của Việt Tour Travel một lần và thấy rất hài lòng.Travel một lần và thấy rất hài lòng. Lần này mình tiếp tục lựa chọn Việt Tour cho chuyến du lịch Trung Quốc. Cũng như lần trước, các bạn chuyên viên tư vấn của Việt Tour hỗ trợ mình rất nhiệt tình. Trong chuyến đi, hướng dẫn viên chăm sóc đoàn rất chu đáo. Nói chung là 10 điểm nha!"
+                        {!!$items->comment!!}
                     </div>
 
                     <div class="media mt-3">
                         <div class="media-avt">
-                            <img src="{{ url('images/avt.jpg') }}">
+                            <img src="{{ Storage::url('feedback/' . $items->image) }}" style="width: 100px; height: 100px;" />
                         </div>
                         <div class="media-body ms-3">
                             <div class="text_main">
-                                Trần Hải Linh
+                                {{$items->full_name}}
                             </div>
                             <div class="star">
                                 <i class="fa-sharp fa-solid fa-star"></i>
@@ -211,16 +211,16 @@
                     </div>
                 </div>
                 <div class="feedback_img">
-                    <img src="{{ url('images/avt.jpg') }}">
+                    <img src="{{ Storage::url('feedback/' . $items->image) }}" style="width: 100%;" />
                 </div>
+            </div>
+            @endforeach
         </div>
-        @endfor
-    </div>
     </div>
 </section>
 <section class="index_4">
     <div class="container">
-        <h2 class="title_index title">khách hàng tiêu biểu của Việt Tour travel</h2>
+        <h2 class="title_index title">khách hàng tiêu biểu của VietTour Travel</h2>
         <p class="title_content">Những hình ảnh tuyệt vời nhất trong chuyến đi của chúng tôi</p>
         <div class="slide_3 my-3">
             @for ($i = 0; $i < 4; $i++)
@@ -237,7 +237,7 @@
 <section class="index_3">
     <div class="container">
         <h2 class="title_index title">ĐỐI TÁC</h2>
-        <p class="title_content">Việt Tour Travel là đối tác của các nhãn hàng lớn để mang lại cho bạn các chương trình ưu đãi độc quyền</p>
+        <p class="title_content">VietTour Travel là đối tác của các nhãn hàng lớn để mang lại cho bạn các chương trình ưu đãi độc quyền</p>
         <div class="slide_6 my-4 mx-5">
             @foreach ($listBanner3 as $items)
             <div class="card_banner">
@@ -246,7 +246,7 @@
             @endforeach
         </div>
         <h2 class="title_index title">Góc báo chí</h2>
-        <p class="title_content">Xem những gì báo chí đang nói về Việt Tour Travel</p>
+        <p class="title_content">Xem những gì báo chí đang nói về VietTour Travel</p>
         <div class="slide_6 my-4 mx-5">
             @foreach ($listBanner4 as $items)
             <div class="card_banner">
@@ -258,8 +258,8 @@
 </section>
 <section class="index_6">
     <div class="container">
-        <h2 class="title">Việt Tour travel cam kết</h2>
-        <div class="row row-cols-4">
+        <h1 class="title">VietTour Travel cam kết</h1>
+        <div class="row row-cols-3">
             @foreach ($listBanner5 as $items)
             <div class="col text-center">
                 <div class="camket-thuml">

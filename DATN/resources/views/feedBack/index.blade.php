@@ -36,7 +36,6 @@
                         <th style="width: 50px;" scope="col">STT</th>
                         <th style="width: 250px;" scope="col">Hình ảnh</th>
                         <th scope="col">Tên</th>
-                        <th scope="col">Nội dung</th>
                         <th scope="col">Loại phản hồi</th>
                         <th style="width: 110px;" scope="col">Hoạt động</th>
                         <th style="width: 200px;"></th>
@@ -48,7 +47,6 @@
                             <td>{{ $item->id }}</td>
                             <td><img src="{{ Storage::url('feedback/' . $item->image) }}" style="width: 100px;" /></td>
                             <td>{{ $item->full_name  }}</td>
-                            <td>{{ $item->comment  ?? ''}}</td>
                             <td>{{ $item->type == 0 ? 'Khách hàng nói về chúng tôi' : 'Khách hàng tiêu biểu' }}</td>
                             <td>
                                 <input type="checkbox" name="active" id="active" value="1"

@@ -85,8 +85,7 @@
                     <div class="form-group">
                         <label for="" class="form_ext w-45">Danh mục tour</label>
                         <select class="form-control  w-75" aria-label="Default select example" name="parent_id">
-                            <option value="" {{ old('parent_id') == null ? 'selected' : '' }}>Danh mục chính
-                            </option>
+                            <option value="" {{ old('parent_id') == null ? 'selected' : '' }}>Danh mục chính</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
                                     {{ old('parent_id') == $category->id ? 'selected' : '' }}>

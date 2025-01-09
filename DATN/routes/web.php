@@ -79,6 +79,7 @@ Route::prefix('admin/tourType')->middleware('admin')->group(function () {
     Route::get('/', [TourTypeController::class, 'index'])->name('tourType.index');
     Route::match(['GET', 'POST'], '/create', [TourTypeController::class, 'create'])->name('tourType.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourTypeController::class, 'edit'])->name('tourType.edit');
+    Route::post('quick-update', [TourTypeController::class, 'quickUpdate'])->name('tourType.quickUpdate');
     Route::get('/{id}', [TourTypeController::class, 'destroy'])->name('tourType.destroy');
 });
 Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
@@ -91,7 +92,6 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
 });
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
-
     Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');

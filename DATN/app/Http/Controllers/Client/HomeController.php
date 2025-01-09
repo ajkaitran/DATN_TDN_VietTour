@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
+use App\Models\Feedback;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,6 +31,7 @@ class HomeController extends Controller
         $objTourCate = new ProductCategory();
         $objTour = new Product();
         $objArticle = new Article();
+        $objFeedback = new Feedback();
         $this->view['listBanner1'] = $objBanner->where('banner_group', 1)->where('active', 1)->get();
         $this->view['listBanner2'] = $objBanner->where('banner_group', 2)->where('active', 1)->get();
         $this->view['listBanner3'] = $objBanner->where('banner_group', 3)->where('active', 1)->get();
@@ -37,9 +39,11 @@ class HomeController extends Controller
         $this->view['listBanner5'] = $objBanner->where('banner_group', 5)->where('active', 1)->get();
         $this->view['listCate1'] = $objTourCate->where('type', 1)->where('active', 1)->get();
         $this->view['listCate2'] = $objTourCate->where('type', 2)->where('active', 1)->get();
-        $this->view['listTourHome'] = $objTour->where('home_page', 1)->where('active', 1)->get();
-        $this->view['listTourCombo'] = $objTour->where('category_type_id', 3)->where('home_page', 1)->where('active', 1)->get();
-        $this->view['listArticleHot'] = $objArticle->where('active', 1)->where('hot', 1)->get()->groupBy('article_category_id');;
+        $this->view['listTourHome'] = $objTour->where('home_page', 1)->where('active', 1)->take(8)->get();
+        $this->view['listTourCombo'] = $objTour->where('category_type_id', 3)->where('home_page', 1)->where('active', 1)->take(8)->get();
+        $this->view['listArticleHot'] = $objArticle->where('active', 1)->where('hot', 1)->with('articleCategory')->get();
+        $this->view['relatedArticles'] = $objArticle->whereIn('article_category_id', $this->view['listArticleHot']->keys())->where('active', 1)->take(2)->get();
+        $this->view['listFeedback'] = $objFeedback->where('type', 0)->where('active', 1)->get();
         return view('home.index', $this->view);
     }
     public function tour(){
