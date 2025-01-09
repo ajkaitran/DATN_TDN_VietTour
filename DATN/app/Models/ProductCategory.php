@@ -19,6 +19,7 @@ class ProductCategory extends Model
         'sort',
         'active',
         'hot',
+        'home_page', 
         'parent_id',
         'hotline',
         'meta_title',
