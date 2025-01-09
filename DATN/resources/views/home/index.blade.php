@@ -159,7 +159,7 @@
                         <img src="{{ asset('storage/article/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <a class="title title_name" href="#">{{ $items->articleCategory->category_name ?? 'Không có danh mục' }}</a>
-                    <a class="article_name title_name" href="#" >{{$items->subject}}</a>
+                    <a class="article_name title_name" href="#">{{$items->subject}}</a>
                 </div>
                 @foreach ($relatedArticles as $item)
                 <div class="article_card">
@@ -167,7 +167,7 @@
                         <img src="{{ asset('storage/article/' . $item->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="article_content">
-                        <a class="article_name title_name" href="#" >{{$item->subject}}</a>
+                        <a class="article_name title_name" href="#">{{$item->subject}}</a>
                         <div class="date">
                             <i class="fa-solid fa-calendar-clock me-1"></i><time>{{ $item->created_at->format('d/m/Y') }}</time>
                         </div>
@@ -223,14 +223,14 @@
         <h2 class="title_index title">khách hàng tiêu biểu của VietTour Travel</h2>
         <p class="title_content">Những hình ảnh tuyệt vời nhất trong chuyến đi của chúng tôi</p>
         <div class="slide_3 my-3">
-            @for ($i = 0; $i < 4; $i++)
+            @foreach ($listFeedback2 as $items)
                 <div class="card_feedback">
-                <img src="{{ url('images/avt.jpg') }}">
+                <img src="{{ Storage::url('feedback/' . $items->image) }}" />
                 <div class="title_content text-center">
-                    Đoàn Hàn Quốc
+                    {{ $items->full_name }}
                 </div>
         </div>
-        @endfor
+        @endforeach
     </div>
     </div>
 </section>

@@ -44,6 +44,8 @@ class HomeController extends Controller
         $this->view['listArticleHot'] = $objArticle->where('active', 1)->where('hot', 1)->with('articleCategory')->get();
         $this->view['relatedArticles'] = $objArticle->whereIn('article_category_id', $this->view['listArticleHot']->keys())->where('active', 1)->take(2)->get();
         $this->view['listFeedback'] = $objFeedback->where('type', 0)->where('active', 1)->get();
+        $this->view['listFeedback2'] = $objFeedback->where('type', 1)->where('active', 1)->get();
+
         return view('home.index', $this->view);
     }
     public function tour(){
