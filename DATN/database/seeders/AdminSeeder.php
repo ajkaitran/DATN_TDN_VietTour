@@ -14,9 +14,9 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'username' => 'admin123',  // Tên tài khoản
-            'email' => 'admin123@gmail.com',  // Email
+        User::factory()->create([
+            'username' => 'admin',  // Tên tài khoản
+            'email' => 'admin@gmail.com',  // Email
             'password' => Hash::make('123456'),  // Mật khẩu (đảm bảo mã hóa)
             'role' => 0,  // Giả sử role 0 là admin
             'status' => 1,  // Đảm bảo tài khoản này đang hoạt động

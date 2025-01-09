@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_type_id'); // Loại tour
             $table->integer('main_category_id'); // danh mục chính
             $table->unsignedBigInteger('product_category_id'); // Mã danh mục tour mà sản phẩm thuộc về (liên kết với bảng product_categories)
+            $table->unsignedBigInteger('article_id');
             $table->string('name', 500); // Tên combo tour
             $table->string('description', 1000)->nullable(); // Trích dẫn ngắn mô tả về tour (ví dụ: mô tả ngắn gọn về combo)
             $table->string('product_code', 50)->nullable(); // Mã combo tour (mã sản phẩm duy nhất)
@@ -46,7 +47,6 @@ return new class extends Migration
             $table->string('url', 1000)->nullable(); // URL dẫn đến trang chi tiết tour sản phẩm
             $table->string('title', 500)->nullable(); // Tiêu đề của combo tour
             $table->text('detailed_description')->nullable(); // Mô tả chi tiết về tour
-            $table->unsignedBigInteger('article_id');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('start_places_id')->references('id')->on('start_places')->onDelete('cascade');
