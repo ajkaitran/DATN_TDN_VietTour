@@ -26,4 +26,9 @@ class ProductCategory extends Model
         'type',
         'time_get_temp',
     ];
+    public function children()
+    {
+        return $this->hasMany(ProductCategory::class, 'parent_id');
+    }
+
 }

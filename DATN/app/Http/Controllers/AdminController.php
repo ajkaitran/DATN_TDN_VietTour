@@ -31,9 +31,8 @@ class AdminController extends Controller
         $this->view['roles'] = [
             0 => 'Admin',
             1 => 'Quản lý',
-            2 => 'Nhân viên',
-            3 => 'Thành viên',
-            4 => 'Khách hàng',
+            2 => 'Thành viên',
+            3 => 'Khách hàng',
         ];
 
         return view('admin.register', $this->view);

@@ -41,12 +41,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="" class="form_ext w-25">Họ tên</label>
-                        <input type="text" class="form-control w-75" name="full_name" value="{{ old('full_name') }}">
+                        <label for="" class="form_ext w-25">Địa Điểm</label>
+                        <input type="text" class="form-control w-75" name="address" value="{{ old('address') }}">
                     </div>
                     <div class="form-group">
-                        <label for="" class="form_ext w-25">Địa chỉ</label>
-                        <input type="text" class="form-control w-75" name="address" value="{{ old('address') }}">
+                        <label for="" class="form_ext w-25">Họ tên</label>
+                        <input type="text" class="form-control w-75" name="full_name" value="{{ old('full_name') }}">
                     </div>
                     <div class="form-group">
                         <label for="" class="form_ext w-25">Chức vụ</label>

@@ -100,7 +100,7 @@ class TourController extends Controller
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 $resultDl = Storage::delete('/public/' . $tours->image);
                 if ($resultDl) {
-                    $param['image'] = uploadFile('Combo', $request->file('image'));
+                    $param['image'] = uploadFile('Anh_Tour', $request->file('image'));
                 }
             } else {
                 $param['image'] = $tours->image;
