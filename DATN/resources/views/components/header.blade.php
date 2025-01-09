@@ -5,37 +5,37 @@
         </a>
         <ul class="nav_menu">
             @foreach($listType as $type)
-                <li class="nav_item">
-                    <a class="nav_link" href="{{ route('home.tourByCate'[cate]) }}">{{ $type->name }}</a>
-                    <ul class="nav_drop row">
-                        @if($type->categories->isEmpty())
-                            <li class="col-12">
-                                <div class="alert alert-success">
-                                    Không có danh mục nào!
-                                </div>
+            <li class="nav_item">
+                <a class="nav_link" href="{{ route('home.tourByCate',['category_type' =>$type->id])}}">{{ $type->name }}</a>
+                <ul class="nav_drop row">
+                    @if($type->categories->isEmpty())
+                    <li class="col-12">
+                        <div class="alert alert-success">
+                            Không có danh mục nào!
+                        </div>
+                    </li>
+                    @else
+                    @foreach($type->categories as $category)
+                    @if($category->parent_id === null)
+                    <!-- Danh mục cha -->
+                    <li class="col-3 mb-2">
+                        <ul class="list_cate">
+                            <li class="title_name">
+                                <a href="#">{{ $category->name }}</a>
                             </li>
-                        @else
-                            @foreach($type->categories as $category)
-                                @if($category->parent_id === null)
-                                    <!-- Danh mục cha -->
-                                    <li class="col-3 mb-2">
-                                        <ul class="list_cate">
-                                            <li class="title_name">
-                                                <a href="#">{{ $category->name }}</a>
-                                            </li>
-                                            <!-- Hiển thị các danh mục con -->
-                                            @foreach($category->children as $child)
-                                                <li>
-                                                    <a class="item_name" href="#">{{ $child->name }}</a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                @endif
+                            <!-- Hiển thị các danh mục con -->
+                            @foreach($category->children as $child)
+                            <li>
+                                <a class="item_name" href="#">{{ $child->name }}</a>
+                            </li>
                             @endforeach
-                        @endif
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                    @endif
+                    @endforeach
+                    @endif
+                </ul>
+            </li>
             @endforeach
             <li class="nav_item">
                 <a class="nav_link" href="{{route('home.index')}}">BLOG DU LỊCH</a>
