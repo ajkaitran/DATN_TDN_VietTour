@@ -9,6 +9,7 @@ use App\Models\Banner;
 use App\Models\ProductCategory;
 use App\Models\ProductCategoryType;
 use App\Models\Product;
+use App\Models\Order;
 use App\Models\Article;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,31 @@ class HomeController extends Controller
     {
         return view('home.order');
     }
+    public function orderTour($id)
+    {
+        $tour = Product::findOrFail($id);
+        return view('home.order', compact('tour'));
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'oder_code' => 'required|string|max:255',
+            'payment' => 'required|string|max:255',
+            'transport_date' => 'required|date',
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'customer_info_full_name' => 'required|string|max:255',
+            'customer_info_address' => 'required|string|max:255',
+            'customer_info_email' => 'required|email',
+            'customer_info_phone' => 'required|string|max:15',
+            'product_id' => 'required|integer|exists:products,id',
+        ]);
+
+        Order::create($request->all());
+        // Gửi thông báo thành công qua session
+        return redirect()->back()->with('success', 'Đặt tour thành công!');
+    }
+
     public function tourLog()
     {
         return view('home.tourLog');
@@ -90,8 +116,6 @@ class HomeController extends Controller
     {
         return view('home.about');
     }
-
-
     public function postRegister(RegisterRequest  $request)
     {
         $objAdmin = new User();

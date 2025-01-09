@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="col-5 d-flex justify-content-end align-items-center">
-                                <a class="btn_card" href="#">
+                                <a class="btn_card" href="{{ route('home.order', ['id' => $items->id]) }}">
                                     <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
                                 </a>
                             </div>
