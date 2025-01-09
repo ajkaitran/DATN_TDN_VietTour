@@ -18,15 +18,41 @@ class TourController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tours = Product::whereNull('deleted_at')->paginate(5); // Lấy danh sách tour tour
-        $ProductCategories = ProductCategory::all(); // Danh mục cha
-        $parentCategories = ProductCategory::whereNull('parent_id')->get(); // Danh mục cha
-        $childCategories = ProductCategory::whereNotNull('parent_id')->get(); // Danh mục con
+        $query = Product::query(); // Khởi tạo query
+
+        // Lọc theo tên tour
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        // Lọc theo loại tour
+        if ($request->filled('category_type_id')) {
+            $query->where('category_type_id', $request->category_type_id);
+        }
+
+        // Lọc theo danh mục cha
+        if ($request->filled('main_category_id')) {
+            $query->where('main_category_id', $request->main_category_id);
+        }
+        // Lọc theo danh mục con
+        if ($request->filled('product_category_id')) {
+            $query->where('product_category_id', $request->product_category_id);
+        }
+
+        $tours = $query->paginate(5);
+
+        // Lấy các danh mục và loại tour
+        $ProductCategories = ProductCategory::all();
+        $parentCategories = ProductCategory::whereNull('parent_id')->get();
+        $childCategories = ProductCategory::whereNotNull('parent_id')->get();
         $tourtypes = ProductCategoryType::all();
+
         return view('tour.index', compact('tours', 'ProductCategories', 'parentCategories', 'childCategories', 'tourtypes'));
     }
+
+
     public function create(StoreTourRequest $request)
     {
         $tourtype = ProductCategoryType::whereNull('deleted_at')->get();
@@ -76,7 +102,7 @@ class TourController extends Controller
         }
 
         // Trả về view tạo mới tour với dữ liệu danh mục tour và loại tour
-        return view('tour.create', compact('parentCategories', 'childCategories', 'tourtype', 'startplace','articles'));
+        return view('tour.create', compact('parentCategories', 'childCategories', 'tourtype', 'startplace', 'articles'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -137,7 +163,7 @@ class TourController extends Controller
             }
         }
 
-        return view('tour.edit', compact('tours', 'parentCategories', 'childCategories', 'types', 'startPlaces', 'itineraries','articles'));
+        return view('tour.edit', compact('tours', 'parentCategories', 'childCategories', 'types', 'startPlaces', 'itineraries', 'articles'));
     }
 
     /**

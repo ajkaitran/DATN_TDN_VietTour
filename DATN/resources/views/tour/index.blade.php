@@ -26,46 +26,53 @@
 </div>
 @endif
 <div class="box_content">
-    <form action="">
+    <form action="{{ route('tour.index') }}" method="GET">
         <div class="row mx-auto">
             <div class="col-12">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Tên Tour" name="name">
+                    <input type="text" class="form-control" placeholder="Tên Tour" name="name" value="{{ request('name') }}">
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <select class="form-control" name="category_type_id" id="category_type_id" required>
-                        <option selected disabled>Chọn loại tour</option>
+                    <select class="form-control" name="category_type_id" id="category_type_id">
+                        <option value="">Chọn loại tour</option>
                         @foreach ($tourtypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        <option value="{{ $type->id }}" {{ request('category_type_id') == $type->id ? 'selected' : '' }}>
+                            {{ $type->name }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <select class="form-control" name="main_category_id" id="">
-                        <option selected>Chọn danh mục cha</option>
-                        @foreach ($parentCategories as $categories)
-                        <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                    <select class="form-control" name="main_category_id" id="main_category_id">
+                        <option value="">Chọn danh mục cha</option>
+                        @foreach ($parentCategories as $category)
+                        <option value="{{ $category->id }}" {{ request('main_category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
-                    <select class="form-control" name="product_category_id" id="">
-                        <option selected disabled>Chọn danh mục con</option>
-                        @foreach ($childCategories as $categories)
-                        <option value="{{ $categories->id }}">{{ $categories->name }}</option>
+                    <select class="form-control" name="product_category_id" id="product_category_id">
+                        <option value="">Chọn danh mục con</option>
+                        @foreach ($childCategories as $category)
+                        <option value="{{ $category->id }}" {{ request('product_category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
             </div>
+            <button type="submit" class="box_log">Lọc dữ liệu</button>
         </div>
-        <button class="box_log">Lọc dữ liệu</button>
     </form>
+
 </div>
 <div class="box_content">
     <a class="box_link" href="{{ route('tour.create') }}">Thêm Tour</a>
@@ -134,31 +141,31 @@
                             @endif
                             @endforeach
                             <!-- Hiển thị tên danh mục con -->
-                             @foreach($ProductCategories as $child)
-                             @if ($tour->product_category_id == $child->id)
-                             <div>
-                                 <strong>{{ $child->name }}</strong> <!-- Tên danh mục con -->
-                             </div>
-                             @endif
-                             @endforeach
+                            @foreach($ProductCategories as $child)
+                            @if ($tour->product_category_id == $child->id)
+                            <div>
+                                <strong>{{ $child->name }}</strong> <!-- Tên danh mục con -->
+                            </div>
+                            @endif
+                            @endforeach
                         </div>
-                        </div>
-                    </td>
-
-                    <td>
-                        <input type="checkbox" name="" {{ $tour->active == 1 ? 'checked' : '' }}>
-                    </td>
-                    <td>
-                        {{-- <a class="btn btn-primary mb-2" href="#">Cập nhật</a> <br> --}}
-                        <a class="btn btn-warning mr-1" href="{{ route('tour.edit', ['id'=>$tour->id]) }}">Sửa</a>
-                        <a class="btn btn-danger ml-1" href="{{ route('tour.destroy', ['id'=>$tour->id]) }}">Xóa</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{$tours->links()}}
     </div>
+    </td>
+
+    <td>
+        <input type="checkbox" name="" {{ $tour->active == 1 ? 'checked' : '' }}>
+    </td>
+    <td>
+        {{-- <a class="btn btn-primary mb-2" href="#">Cập nhật</a> <br> --}}
+        <a class="btn btn-warning mr-1" href="{{ route('tour.edit', ['id'=>$tour->id]) }}">Sửa</a>
+        <a class="btn btn-danger ml-1" href="{{ route('tour.destroy', ['id'=>$tour->id]) }}">Xóa</a>
+    </td>
+    </tr>
+    @endforeach
+    </tbody>
+    </table>
+    {{$tours->links()}}
+</div>
 </div>
 
 @endsection
