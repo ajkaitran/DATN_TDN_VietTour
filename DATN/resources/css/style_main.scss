@@ -757,6 +757,13 @@ header{
         }
     }
 }
+.article_content{
+    @include truncate(4);
+    height: 80px;
+}.article_title{
+    @include truncate(2);
+    height: 40px;
+}
 .media{
     display: flex;
     .media-avt{

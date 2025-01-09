@@ -106,7 +106,11 @@ class HomeController extends Controller
     }
     public function blog()
     {
-        return view('home.blog');
+        $objArticle = new Article();
+        $this->view['listArticles'] = $objArticle->where('active', 1)->with('articleCategory')->paginate(6);
+        return view('home.blog' , $this->view);
+    
+
     }
     public function register()
     {
