@@ -10,6 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductCategoryType;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\StartPlace;
 use App\Models\Article;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -88,10 +89,45 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Đặt tour thành công!');
     }
 
-    public function tourLog()
+
+    public function tourLog(Request $request, $id)
     {
-        return view('home.tourLog');
+        // Lấy danh mục hiện tại
+        $category = ProductCategory::findOrFail($id);
+        $starts = StartPlace::all();
+
+        // Khởi tạo query ban đầu
+        $query = Product::query();
+
+        // Lọc theo product_category_id hoặc main_category_id
+        $query->where(function ($q) use ($id) {
+            $q->where('product_category_id', $id)
+                ->orWhere('main_category_id', $id);
+        });
+
+        // Lọc theo từ khóa tìm kiếm (nếu có)
+        if ($request->has('keyword') && $request->keyword != '') {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+
+        // Lọc theo loại tour (nếu có)
+        if ($request->has('type') && is_array($request->type)) {
+            $query->whereIn('category_type_id', $request->type); // Đảm bảo `category_type_id` là tên cột đúng
+        }
+
+        // Lọc theo điểm đi (nếu có)
+        if ($request->has('from') && $request->from != '') {
+            $query->where('start_places_id', $request->from); // Đảm bảo `start_id` là tên cột đúng
+        }
+
+        // Lấy kết quả
+        $tours = $query->get();
+
+        // Trả dữ liệu về view
+        return view('home.tourLog', compact('tours', 'category', 'starts'));
     }
+
+
     public function getToursByCategory($category_type_id)
     {
         $tours = Product::where('category_type_id', $category_type_id)->get();

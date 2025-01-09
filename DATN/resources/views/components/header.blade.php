@@ -21,12 +21,12 @@
                     <li class="col-3 mb-2">
                         <ul class="list_cate">
                             <li class="title_name">
-                                <a href="#">{{ $category->name }}</a>
+                                <a href="{{route('home.tourLog',['id' => $category->id])}}">{{ $category->name }}</a>
                             </li>
                             <!-- Hiển thị các danh mục con -->
                             @foreach($category->children as $child)
                             <li>
-                                <a class="item_name" href="#">{{ $child->name }}</a>
+                                <a class="item_name" href="{{route('home.tourLog',['id' => $child->id])}}">{{ $child->name }}</a>
                             </li>
                             @endforeach
                         </ul>

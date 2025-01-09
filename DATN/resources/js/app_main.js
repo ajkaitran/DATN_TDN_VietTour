@@ -74,4 +74,32 @@ $('.slide_6').slick({
     autoplay: true,
     autoplaySpeed: 3000,
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const quantityInput = document.getElementById('quantity');
+    const unitPrice = document.getElementById('unit-price').getAttribute('data-price');
+    const totalPriceSpan = document.getElementById('total-price');
+    const hiddenTotalPriceInput = document.getElementById('hidden-total-price');
+
+    // Hàm cập nhật tổng tiền
+    function updateTotalPrice() {
+            const quantity = parseInt(quantityInput.value);
+    const totalPrice = quantity * unitPrice;
+
+    // Hiển thị tổng tiền
+    totalPriceSpan.textContent = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+    currency: 'VND'
+            }).format(totalPrice);
+
+    // Gán tổng tiền vào trường ẩn
+    hiddenTotalPriceInput.value = totalPrice;
+        }
+
+    // Lắng nghe sự kiện thay đổi số lượng
+    quantityInput.addEventListener('change', updateTotalPrice);
+
+    // Gọi hàm tính tổng tiền khi trang được tải
+    updateTotalPrice();
+    });
+    
 CKEDITOR.replace('editor');

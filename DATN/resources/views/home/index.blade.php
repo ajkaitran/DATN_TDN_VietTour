@@ -35,7 +35,7 @@
         <p class="title_content">Tour du lịch quốc tế</p>
         <div class="slide_4">
             @foreach($listCate1 as $items)
-            <a class="location" href="">
+            <a class="location" href="{{route('home.tourLog',['id' => $items->id])}}">
                 <img src="{{ asset('storage/categoryTour/'.$items->image) }}" alt="hình ảnh" width="100">
                 <p class="title">{{$items->name}}</p>
             </a>
@@ -44,7 +44,7 @@
         <p class="title_content">Tour du lịch nội địa</p>
         <div class="slide_4">
             @foreach($listCate2 as $items)
-            <a class="location" href="#">
+            <a class="location" href="{{route('home.tourLog',['id' => $items->id])}}">
                 <img src="{{ asset('storage/categoryTour/'.$items->image)}}" alt="hình ảnh" width="100">
                 <p class="title">{{$items->name}}</p>
             </a>
@@ -159,7 +159,7 @@
                         <img src="{{ asset('storage/article/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <a class="title title_name" href="#">{{ $items->articleCategory->category_name ?? 'Không có danh mục' }}</a>
-                    <a class="article_name title_name" href="#" >{{$items->subject}}</a>
+                    <a class="article_name title_name" href="#">{{$items->subject}}</a>
                 </div>
                 @foreach ($relatedArticles as $item)
                 <div class="article_card">
@@ -167,7 +167,7 @@
                         <img src="{{ asset('storage/article/' . $item->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="article_content">
-                        <a class="article_name title_name" href="#" >{{$item->subject}}</a>
+                        <a class="article_name title_name" href="#">{{$item->subject}}</a>
                         <div class="date">
                             <i class="fa-solid fa-calendar-clock me-1"></i><time>{{ $item->created_at->format('d/m/Y') }}</time>
                         </div>
