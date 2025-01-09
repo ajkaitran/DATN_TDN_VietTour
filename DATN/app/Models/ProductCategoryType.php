@@ -21,4 +21,9 @@ class ProductCategoryType extends Model
         'show_home',
         'slug'
     ];
+    public function categories()
+    {
+        return $this->hasMany(ProductCategory::class, 'type');
+    }
+
 }

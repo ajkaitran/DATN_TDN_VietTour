@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Mã tour</label>
-                        <input type="" class="form-control w-75" name="product_code" value="">7[6]
+                        <input type="" class="form-control w-75" name="product_code" value="">
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Điểm Tham Quan</label>

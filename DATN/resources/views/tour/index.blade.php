@@ -46,7 +46,7 @@
                 <tr>
                     <td>{{ $tour->id }}</td>
                     <td>
-                        <img src="{{ $tour->image ? '' . Storage::url($tour->image) : '' }}" style="width: 100%;">
+                        <img src="{{ asset('storage/' . $tour->image) }}" alt="hình ảnh" width="100">
                     </td>
                     <td>
                         <div class="tbody-item-column">

@@ -14,7 +14,7 @@ class TourTypeController extends Controller
      */
     public function index(Request $request)
     {
-        $tourtypes = ProductCategoryType::whereNull('deleted_at')->get();
+        $tourtypes = ProductCategoryType::whereNull('deleted_at')->paginate(5);
         return view('tourType.index', compact('tourtypes'));
     }
 
@@ -63,6 +63,25 @@ class TourTypeController extends Controller
                 }
         }
         return view('tourType.edit', compact('tourtypes'));
+    }
+    public function quickUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $show_menu = $request->input('show_menu');
+        $show_home = $request->input('show_home');
+        $active = $request->input('active');
+
+        $type = ProductCategoryType::find($id);
+        if ($type) {
+            $type->show_menu = $show_menu;
+            $type->show_home = $show_home;
+            $type->active = $active;
+            $type->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
     }
     public function destroy(string $id)
     {

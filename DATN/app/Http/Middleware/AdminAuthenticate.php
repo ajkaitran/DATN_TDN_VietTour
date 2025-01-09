@@ -41,7 +41,7 @@ class AdminAuthenticate
             return redirect()->route('home.modal.login')->with('error', 'Tài khoản của bạn chưa được kích hoạt!');
         }
         // if (Auth::user()->role != 0)
-        if(!in_array(Auth::user()->role, [2, 3, 4]))
+        if(!in_array(Auth::user()->role, [2, 3]))
         {
             return redirect()->route('home.modal.login')->with('error', 'Tài khoản không tồn tại!');
         }
