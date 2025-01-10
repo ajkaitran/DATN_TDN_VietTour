@@ -72,6 +72,7 @@
                     <td>{{$items->username}}</td>
                     <td>
                         <select id="role_{{ $items->id }}" class="form-control" {{ $items->role == 0 ? 'disabled' : '' }}>
+                            <option value="0" disabled {{ $items->role == 0 ? 'selected' : '' }}>Admin</option>
                             @foreach($roles as $key => $value)
                             <option value="{{ $key }}" {{ $items->role == $key ? 'selected' : '' }}>{{ $value }}</option>
                             @endforeach
@@ -87,13 +88,21 @@
                     <td>
                         <input type="checkbox" {{ $items->role == 0 ? 'disabled' : '' }} {{ $items->status == 1 ? 'checked' : '' }} id="status_{{ $items->id }}">
                     </td>
-                    <td class="d-flex justify-content-around py-4">
-                        <a class="btn btn-primary" href="javascript:;" onclick="updateUser({{ $items->id }})">Cập nhật</a>
-                        <a href="{{route('admin.changePassword',['id'=>$items->id])}}" class="btn btn-warning">Đổi mật khẩu</a>
+                    <td class="py-4">
+                        <div class="d-flex justify-content-around mb-2">
+                            <a class="btn btn-primary w-50 mr-3" href="javascript:;" onclick="updateUser({{ $items->id }})">Cập nhật</a>
+                            @if(Auth::check() && Auth::user()->role == 0)
+                            <a class="btn btn-warning w-50" href="{{route('admin.changePassword',['id'=>$items->id])}}">Đổi mật khẩu</a>
+                            @endif
+                        </div>
                         @if(Auth::check() && Auth::user()->role == 0)
-                        <a class="btn btn-danger"  href="{{route('admin.destroy',['id'=>$items->id])}}">Xóa Tài Khoản</a>
+                        <div class="d-flex justify-content-around">
+                            <a class="btn btn-success w-50 mr-3" href="{{route('admin.edit',['id'=>$items->id])}}">Sửa Thông Tin</a>
+                            <a class="btn btn-danger w-50" href="{{route('admin.destroy',['id'=>$items->id])}}">Xóa Tài Khoản</a>
+                        </div>
                         @endif
                     </td>
+                    
                 </tr>
                 @endforeach
             </tbody>            

@@ -68,14 +68,14 @@ class User extends Authenticatable
         $query = User::query()
             ->where('role', 2)
             ->orderBy('id')
-            ->paginate(10);
+            ->paginate(5);
         return $query;
     }
     public function loadListClient(){
         $query = User::query()
             ->where('role', 3)
             ->orderBy('id')
-            ->paginate(10);
+            ->paginate(5);
         return $query;
     }
     public function loadIdUser($id){

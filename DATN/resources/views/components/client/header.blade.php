@@ -38,10 +38,10 @@
             </li>
             @endforeach
             <li class="nav_item">
-                <a class="nav_link" href="{{route('home.index')}}">BLOG DU LỊCH</a>
+                <a class="nav_link" href="{{route('home.blog')}}">BLOG DU LỊCH</a>
             </li>
             <li class="nav_item">
-                <a class="nav_link" href="{{route('home.index')}}">VỀ CHÚNG TÔI</a>
+                <a class="nav_link" href="{{route('home.about')}}">VỀ CHÚNG TÔI</a>
             </li>
         </ul>
         <div class="header_bars">

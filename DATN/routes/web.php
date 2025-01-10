@@ -27,13 +27,11 @@ use App\Http\Controllers\StartPlaceController;
 
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
-    Route::get('/searchTour', [HomeController::class, 'searchTour'])->name('home.searchTour'); //Trang search khi bấm vào nút tìm kiếm
-    Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('home.detail'); //Lấy sản phẩm theo id rồi hiển thị chi tiết
-    Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order'); //Sau khi bấm nút order, lấy thông tin sản phẩm, hiển thị trang order, người dùng nhập vào thông tin
-    Route::post('/orders', [HomeController::class, 'store'])->name('home.store');
-    Route::get('/about', [HomeController::class, 'about'])->name('home.about');//Trang giới thiệu 
-    Route::get('/tourlog/{id}', [HomeController::class, 'tourLog'])->name('home.tourLog'); // Trang lọc dữ liệu sản phẩm
-    Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog'); // trang bài viết
+    Route::get('/searchTour', [HomeController::class, 'searchTour'])->name('home.searchTour');
+    Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('home.detail');
+    Route::get('/about', [HomeController::class, 'about'])->name('home.about');
+    Route::get('/tourlog/{id}', [HomeController::class, 'tourLog'])->name('home.tourLog');
+    Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog');
     Route::get('/category/{category_type}', [HomeController::class, 'getToursByCategory'])->name('home.tourByCate');
     Route::get('tour', [HomeController::class, 'tour'])->name('home.tour');
     Route::get('register', [HomeController::class, 'register'])->name('home.modal.register');
@@ -41,6 +39,8 @@ Route::prefix('/')->group(function () {
     Route::get('login', [HomeController::class, 'login'])->name('home.modal.login');
     Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
     Route::match(['get', 'post'], 'signout', [HomeController::class, 'signout'])->name('home.modal.signout');
+    Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
+    Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
 });
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'login'])->name('admin.login');
@@ -52,6 +52,7 @@ Route::prefix('admin')->group(function () {
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
         Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
         Route::get('list-user', [AdminController::class, 'listUser'])->name('admin.listUser');
+        Route::get('list-client', [AdminController::class, 'listClient'])->name('admin.listClient');
         Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
         Route::get('edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
         Route::put('update/{id}', [AdminController::class, 'update'])->name('admin.update');

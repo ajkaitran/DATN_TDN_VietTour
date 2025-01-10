@@ -26,7 +26,6 @@
 </div>
 @endif
 <div class="box_content">
-    <a class="box_link" href="{{route('admin.profile')}}">Thông Tin Tài Khoản</a>
     <form action="{{ route('admin.update', $user->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -63,8 +62,9 @@
                     <input type="text" class="input-text form-control w-75" name="phone"
                         value="{{ $user->phone }}">
                 </div>
-                <div class="form-group">
+                <div class="form-group justify-content-start">
                     <button class="btn btn-success" type="submit">Cập Nhật Thông Tin</button>
+                    <button type="button" class="btn btn-secondary" onclick="history.back();">Quay lại</button>
                 </div>
             </div>
         </div>

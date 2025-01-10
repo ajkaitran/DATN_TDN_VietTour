@@ -27,4 +27,9 @@ class Order extends Model
         'customer_info_phone',
         'product_id',
     ];
+    public function insertDataOrder($params){
+        $params['Status'] = 1;
+        $res = Order::query()->create($params);
+        return $res;
+    }
 }

@@ -65,7 +65,7 @@ class HomeController extends Controller
         $keyword = $request->input('keyword');
 
         // Tìm kiếm sản phẩm theo tên
-        $items = Product::where('name', 'like', '%' . $keyword . '%')->get();
+        $items = Product::where('name', 'like', '%' . $keyword . '%')->paginate(8);
         // Trả về kết quả tìm kiếm
         return view('home.searchTour', compact('items'));
     }
@@ -152,27 +152,19 @@ class HomeController extends Controller
     }
     public function orderTour($id)
     {
+        $this->view['user'] = auth()->user();
         $tour = Product::findOrFail($id);
-        return view('home.order', compact('tour'));
+        return view('home.order', compact('tour'),$this->view);
     }
-    public function store(Request $request)
+    public function storeOrder(Request $request)
     {
-        $request->validate([
-            'oder_code' => 'required|string|max:255',
-            'payment' => 'required|string|max:255',
-            'transport_date' => 'required|date',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-            'customer_info_full_name' => 'required|string|max:255',
-            'customer_info_address' => 'required|string|max:255',
-            'customer_info_email' => 'required|email',
-            'customer_info_phone' => 'required|string|max:15',
-            'product_id' => 'required|integer|exists:products,id',
-        ]);
-
-        Order::create($request->all());
-        // Gửi thông báo thành công qua session
-        return redirect()->back()->with('success', 'Đặt tour thành công!');
+        $objOrder = new Order();
+        $res = $objOrder->insertDataOrder($request->all());
+        if ($res) {
+            return redirect()->back()->with('success', 'Đặt tour thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Đặt tour không thành công!');
+        }
     }
 
     public function register()

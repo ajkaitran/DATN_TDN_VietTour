@@ -1,9 +1,29 @@
 @extends("shared._layoutMain")
 @section("title", "Main")
 @section("content")
+@if ($errors->any())
+<div class="alert alert-danger my-3">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 
+
+@if (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+@if (session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
 <main class="p-8 bg-gray-100">
-    <form action="{{ route('home.store') }}" method="POST" class="space-y-4">
+    <form action="{{ route('home.storeOrder') }}" method="POST" class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
             <div class="bg-white p-6 rounded shadow">
@@ -15,17 +35,17 @@
                             <input type="checkbox" class="form-checkbox" />
                             <span>Xác nhận gửi cho số được gửi qua email này.</span>
                         </label>
-                        <input type="email" name="customer_info_phone" id="customer_info_phone" placeholder="Email" class="w-full p-2 border rounded" />
+                        <input type="email" name="customer_info_email" value="{{$user->email}}" id="customer_info_email" placeholder="Email" class="w-full p-2 border rounded" />
                     </div>
                     <div>
                         <label class="flex items-center space-x-2">
                             <input type="checkbox" class="form-checkbox" />
                             <span>Chúng tôi sẽ liên hệ với quý khách qua SĐT này.</span>
                         </label>
-                        <input type="text" name="customer_info_phone" id="customer_info_phone" placeholder="Số điện thoại" class="w-full p-2 border rounded" />
+                        <input type="text" name="customer_info_phone" value="{{$user->phone}}" id="customer_info_phone" placeholder="Số điện thoại" class="w-full p-2 border rounded" />
                     </div>
                     <div>
-                        <input type="text" name="customer_info_full_name" id="customer_info_full_name" placeholder="Họ và tên" class="w-full p-2 border rounded" />
+                        <input type="text" name="customer_info_full_name" value="{{$user->name}}" id="customer_info_full_name" placeholder="Họ và tên" class="w-full p-2 border rounded" />
                     </div>
                     <div>
                         <input type="text" name="customer_info_address" id="customer_info_address" placeholder="Địa chỉ" class="w-full p-2 border rounded" />

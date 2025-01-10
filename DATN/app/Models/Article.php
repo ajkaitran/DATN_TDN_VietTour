@@ -19,8 +19,6 @@ class Article extends Model
         'body',
         'view',
         'hot',
-        'show_block',
-        'show_footer',
         'url',
     ];
 

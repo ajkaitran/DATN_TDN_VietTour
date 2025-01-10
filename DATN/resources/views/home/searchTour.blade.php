@@ -2,6 +2,9 @@
 @section("title", "Main")
 
 @section("content")
+<div class="relative">
+    <img src="{{ url('images/cover-tim-kiem-533.jpg') }}">
+</div>
 <div class="search-tour">
     @if ($items->isEmpty())
     <h2 class="title_index title">Không tìm thấy tour nào phù hợp với từ khóa "{{ request('keyword') }}".</h2>
@@ -38,7 +41,7 @@
                                     </div>
                                 </div>
                                 <div class="col-5 d-flex justify-content-end align-items-center">
-                                    <a class="btn_card" href="#">
+                                    <a class="btn_card" href="{{ route('home.order', ['id' => $item->id]) }}">
                                         <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
                                     </a>
                                 </div>
@@ -49,7 +52,7 @@
                 @endforeach
             </div>
             <div class="text-center mt-3">
-                <a class="btn_link text-blue-600 hover:underline" href="#">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
+                {{$items->links()}}
             </div>
         </div>
     </section>

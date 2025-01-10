@@ -34,7 +34,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Admin</span>
+            <span>Quản Lý Tài Khoản</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -42,7 +42,7 @@
                 <!-- <a class="collapse-item" href="?controller=Admin&action=UpdatePassword">Đổi mật khẩu</a> -->
                 <a class="collapse-item" href="{{ route('admin.register') }}">Quản lý admin</a>
                 <a class="collapse-item" href="{{ route('admin.listUser') }}">Danh sách thành viên</a>
-                <a class="collapse-item" href="{{ route('admin.register') }}">Danh sách khách hàng</a>
+                <a class="collapse-item" href="{{ route('admin.listClient') }}">Danh sách khách hàng</a>
                 {{-- <a class="collapse-item" href="{{ route('admin.signout') }}"
                     onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">
                     Đăng xuất
