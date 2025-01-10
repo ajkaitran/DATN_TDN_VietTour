@@ -52,7 +52,8 @@ class User extends Authenticatable
         return $res;
     }
     public function insertDataClient($params){
-        $params['role'] = 4;
+        $params['role'] = 3;
+        $params['status'] = 1;
         $res = User::query()->create($params);
         return $res;
     }
