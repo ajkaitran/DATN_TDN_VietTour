@@ -16,9 +16,9 @@ class TourCategoryController extends Controller
      */
     public function index()
     {
-        $data = ProductCategory::all();
+        $data = ProductCategory::paginate(5);
         $typeTour = ProductCategoryType::all();
-        return view('tourCategory.index', compact('data'));
+        return view('tourCategory.index', compact('data', 'typeTour'));
     }
 
     /**
@@ -78,9 +78,25 @@ class TourCategoryController extends Controller
         return redirect()->route('tourCategory.index')->with('success', 'Updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function quickUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $hot = $request->input('hot');
+        $home_page = $request->input('home_page');
+        $active = $request->input('active');
+
+        $tourCate = ProductCategory::find($id);
+        if ($tourCate) {
+            $tourCate->hot = $hot;
+            $tourCate->home_page = $home_page;
+            $tourCate->active = $active;
+            $tourCate->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
     public function destroy(int $id)
     {
         $response = $this->tourCategoryService->destroy($id);

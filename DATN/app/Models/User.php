@@ -58,8 +58,23 @@ class User extends Authenticatable
     }
     public function loadListAdmin(){
         $query = User::query()
+            ->whereIn('role', [0, 1])
             ->orderBy('id')
             ->paginate(5);
+        return $query;
+    }
+    public function loadListUser(){
+        $query = User::query()
+            ->where('role', 2)
+            ->orderBy('id')
+            ->paginate(10);
+        return $query;
+    }
+    public function loadListClient(){
+        $query = User::query()
+            ->where('role', 3)
+            ->orderBy('id')
+            ->paginate(10);
         return $query;
     }
     public function loadIdUser($id){

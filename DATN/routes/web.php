@@ -51,10 +51,12 @@ Route::prefix('admin')->group(function () {
         Route::post('register', [AdminController::class, 'postRegister'])->name('admin.postRegister');
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
         Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
+        Route::get('list-user', [AdminController::class, 'listUser'])->name('admin.listUser');
+        Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
         Route::get('edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
-        Route::delete('update/{id}', [AdminController::class, 'update'])->name('admin.update');
+        Route::put('update/{id}', [AdminController::class, 'update'])->name('admin.update');
         Route::post('quick-update', [AdminController::class, 'quickUpdate'])->name('admin.quickUpdate');
-        Route::delete('destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+        Route::match(['get', 'post'],'destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
         Route::match(['get', 'post'], 'signout', [AdminController::class, 'signout'])->name('admin.signout');
     });
 });
@@ -88,16 +90,15 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
     Route::post('/store', [TourCategoryController::class, 'store'])->name('tourCategory.store');
     Route::get('/{id}/edit', [TourCategoryController::class, 'edit'])->name('tourCategory.edit');
     Route::put('/{id}', [TourCategoryController::class, 'update'])->name('tourCategory.update');
+    Route::post('quick-update', [TourCategoryController::class, 'quickUpdate'])->name('tourCategory.quickUpdate');
     Route::delete('/{id}', [TourCategoryController::class, 'destroy'])->name('tourCategory.destroy');
 });
 Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
     Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
+    Route::post('quick-update', [TourController::class, 'quickUpdate'])->name('tour.quickUpdate');
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
-    Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
-    Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
-    Route::delete('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
 });
 
 Route::prefix('admin/startPlace')->middleware('admin')->group(function () {

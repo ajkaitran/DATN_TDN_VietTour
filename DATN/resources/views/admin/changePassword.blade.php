@@ -47,8 +47,9 @@
                     <label for="new_password_confirmation" class="form_ext">Xác nhận mật khẩu mới</label>
                     <input type="password" class="input-text form-control w-75" name="new_password_confirmation">
                 </div>
-                <div class="form-group">
+                <div class="form-group justify-content-start">
                     <button type="submit" class="btn btn-success">Đổi mật khẩu</button>
+                    <button type="button" class="btn btn-secondary" onclick="history.back();">Quay lại</button>
                 </div>
             </div>
         </div>

@@ -365,6 +365,48 @@ $toast-position-bottom-right: 20px;
         }
     }
 }
+.box_avt{
+    width: 120px;
+    height: 120px;
+    border: 2px solid $gray;
+    border-radius: 100%;
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
+    img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50px;
+        object-fit: cover;
+    }
+    .btn-add-image {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        width: 100%;
+        height: 40%;
+        transform: translate(-50%, -50%);
+        display: none; 
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: #fff;
+        border: none;
+        border-radius: 0px 0px 70px 70px;
+        cursor: pointer;
+        i{
+        font-size: 18px;
+        }
+        &:hover{
+            background-color: rgba(0, 196, 10, 0.8);
+        }
+    }
+    &:hover .btn-add-image {
+        display: block; 
+    }
+    &:hover img {
+        opacity: 0.9;
+    }
+}
 /* Căn giữa phân trang */
 .pagination {
     display: flex;
