@@ -80,8 +80,8 @@
             <i class="fa-solid fa-xmark fs-3"></i>
         </div>
         <h2 class="text-green">Tìm kiếm</h2>
-        <form class="search-form" method="get">
-            <input type="text" placeholder="Nhập từ khóa tìm kiếm...">
+        <form class="search-form" action="{{ route('home.searchTour') }}" method="get">
+            <input type="text" name='keyword' placeholder="Nhập từ khóa tìm kiếm..." required>
             <button type="submit"><i class="far fa-search"></i></button>
         </form>
     </div>
