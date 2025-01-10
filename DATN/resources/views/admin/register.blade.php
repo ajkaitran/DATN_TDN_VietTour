@@ -91,7 +91,7 @@
                         <a class="btn btn-primary" href="javascript:;" onclick="updateUser({{ $items->id }})">Cập nhật</a>
                         <a href="{{route('admin.changePassword',['id'=>$items->id])}}" class="btn btn-warning">Đổi mật khẩu</a>
                         @if(Auth::check() && Auth::user()->role == 0)
-                            <a class="btn btn-danger" href="javascript:;" onclick="deleteUser({{ $items->id }})">Xóa</a>
+                        <a class="btn btn-danger"  href="{{route('admin.destroy',['id'=>$items->id])}}">Xóa Tài Khoản</a>
                         @endif
                     </td>
                 </tr>

@@ -18,13 +18,13 @@
 </head>
 
 <body>
-    <x-header></x-header>
+    <x-client.header></x-client.header>
     @include('home.modal.login')
     @include('home.modal.register')
     <main class="main_form">
         @yield("content")
     </main>
-    <x-footer></x-footer>
+    <x-client.footer></x-client.footer>
 
     <!-- JS -->
 

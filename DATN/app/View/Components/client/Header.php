@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\client;
 
 use App\Models\ProductCategory;
 use App\Models\ProductCategoryType;
@@ -25,6 +25,6 @@ class Header extends Component
         }])->get();
         // $this->view['listCateParent'] = $objTourCate->where('parent_id', null)->where('active', 1)->get();
         // $this->view['listCateChidrent'] = $objTourCate->where('parent_id', !null)->where('active', 1)->get();
-        return view('components.header', $this->view);
+        return view('components.client.header', $this->view);
     }
 }

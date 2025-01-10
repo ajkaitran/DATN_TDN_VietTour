@@ -101,11 +101,11 @@
                             <p>{{ $tour->name }}</p>
                             <div class="tbody-item-flex">
                                 <p>{{ $tour->product_code }}</p>
-                                <p class="p_check">Nổi Bật: <input type="checkbox" name=""
-                                        {{ $tour->hot == 1 ? 'checked' : '' }}>
+                                <p class="p_check">Nổi Bật: 
+                                    <input type="checkbox" id="hot_{{ $tour->id }}" {{ $tour->hot == 1 ? 'checked' : '' }}>
                                 </p>
-                                <p class="p_check">Trang Chủ: <input type="checkbox" name=""
-                                        {{ $tour->home_page == 1 ? 'checked' : '' }}>
+                                <p class="p_check">Trang Chủ: 
+                                    <input type="checkbox" id="home_page_{{ $tour->id }}" {{ $tour->home_page == 1 ? 'checked' : '' }}>
                                 </p>
                             </div>
                             <div class="tbody-item-flex">
@@ -121,51 +121,111 @@
                     <td>
                         <div class="tbody-item-column">
                             <p>Giá KM:</p>
-                            <input type="text" name="" id="" value="{{ $tour->sale_off }}">
+                            <input type="text" id="sale_off_{{ $tour->id }}" value="{{ $tour->sale_off }}">
                         </div>
                         <div class="tbody-item-column">
                             <p>Giá Bán:</p>
-                            <input type="text" name="" id="" value="{{ $tour->price }}">
+                            <input type="text" id="price_{{ $tour->id }}" value="{{ $tour->price }}">
                         </div>
                     </td>
                     <td>
                         <div class="tbody-item-column">
-                            <strong>{{ $tour->type->name ?? 'Không xác định' }}</strong> <!-- Hiển thị loại tour -->
-
-                            <!-- Hiển thị tên danh mục cha -->
+                            <strong>{{ $tour->type->name ?? 'Không xác định' }}</strong> 
                             @foreach($ProductCategories as $parent)
-                            @if ($tour->main_category_id == $parent->id)
-                            <div>
-                                <strong>{{ $parent->name }}</strong> <!-- Tên danh mục cha -->
-                            </div>
-                            @endif
+                                @if ($tour->main_category_id == $parent->id)
+                                <div>
+                                    <strong>{{ $parent->name }}</strong> <!-- Tên danh mục cha -->
+                                </div>
+                                @endif
                             @endforeach
-                            <!-- Hiển thị tên danh mục con -->
                             @foreach($ProductCategories as $child)
-                            @if ($tour->product_category_id == $child->id)
-                            <div>
-                                <strong>{{ $child->name }}</strong> <!-- Tên danh mục con -->
-                            </div>
-                            @endif
+                                @if ($tour->product_category_id == $child->id)
+                                <div>
+                                    <strong>{{ $child->name }}</strong> <!-- Tên danh mục con -->
+                                </div>
+                                @endif
                             @endforeach
                         </div>
-    </div>
-    </td>
+                    </div>
+                    </td>
 
-    <td>
-        <input type="checkbox" name="" {{ $tour->active == 1 ? 'checked' : '' }}>
-    </td>
-    <td>
-        {{-- <a class="btn btn-primary mb-2" href="#">Cập nhật</a> <br> --}}
-        <a class="btn btn-warning mr-1" href="{{ route('tour.edit', ['id'=>$tour->id]) }}">Sửa</a>
-        <a class="btn btn-danger ml-1" href="{{ route('tour.destroy', ['id'=>$tour->id]) }}">Xóa</a>
-    </td>
-    </tr>
-    @endforeach
-    </tbody>
-    </table>
+                    <td>
+                        <input type="checkbox" id="active_{{ $tour->id }}" {{ $tour->active == 1 ? 'checked' : '' }}>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary mb-2" href="javascript:;" onclick="updateTour({{ $tour->id }})">Cập nhật</a><br>
+                        <a class="btn btn-warning mr-1" href="{{ route('tour.edit', ['id'=>$tour->id]) }}">Sửa</a>
+                        <a class="btn btn-danger ml-1" href="{{ route('tour.destroy', ['id'=>$tour->id]) }}">Xóa</a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     {{$tours->links()}}
 </div>
 </div>
-
+<script>
+    function updateTour(id) {
+        // Lấy giá trị từ các trường input
+        var sale_off = $('#sale_off_' + id).val();
+        var price = $('#price_' + id).val();
+        var hot = $('#hot_' + id).prop('checked') ? 1 : 0; 
+        var home_page = $('#home_page_' + id).prop('checked') ? 1 : 0; 
+        var active = $('#active_' + id).prop('checked') ? 1 : 0; 
+    
+        $.ajax({
+            url: '{{ route('tour.quickUpdate') }}', 
+            type: 'POST',
+            data: {
+                id: id,
+                sale_off: sale_off,
+                price: price,
+                hot: hot,
+                home_page: home_page,
+                active: active,
+                _token: '{{ csrf_token() }}' 
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Thông báo thành công đẹp mắt
+                    toastr.success('Cập nhật thành công!', 'Thông báo', {
+                        positionClass: 'toast-bottom-right',  // Vị trí thông báo
+                        timeOut: 5000,  // Thời gian thông báo hiển thị
+                        progressBar: true,  // Hiển thị thanh tiến trình
+                        closeButton: true,  // Hiển thị nút đóng
+                        newestOnTop: true,  // Hiển thị thông báo mới nhất ở trên cùng
+                        preventDuplicates: true,  // Tránh hiển thị thông báo trùng lặp
+                        backgroundColor: '#28a745',  // Màu nền xanh lá cây cho thông báo thành công
+                        iconClass: 'toast-success',  // Icon thành công
+                    });
+                } else {
+                    // Thông báo lỗi đẹp mắt
+                    toastr.error('Có lỗi xảy ra, vui lòng thử lại!', 'Thông báo', {
+                        positionClass: 'toast-bottom-right',  // Vị trí thông báo
+                        timeOut: 5000,  // Thời gian thông báo hiển thị
+                        progressBar: true,  // Hiển thị thanh tiến trình
+                        closeButton: true,  // Hiển thị nút đóng
+                        newestOnTop: true,  // Hiển thị thông báo mới nhất ở trên cùng
+                        preventDuplicates: true,  // Tránh hiển thị thông báo trùng lặp
+                        backgroundColor: '#dc3545',  // Màu nền đỏ cho thông báo lỗi
+                        iconClass: 'toast-error',  // Icon lỗi
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Thông báo lỗi với chi tiết lỗi
+                toastr.error('Lỗi: ' + error, 'Thông báo', {
+                    positionClass: 'toast-bottom-right',  // Vị trí thông báo
+                    timeOut: 5000,  // Thời gian thông báo hiển thị
+                    progressBar: true,  // Hiển thị thanh tiến trình
+                    closeButton: true,  // Hiển thị nút đóng
+                    newestOnTop: true,  // Hiển thị thông báo mới nhất ở trên cùng
+                    preventDuplicates: true,  // Tránh hiển thị thông báo trùng lặp
+                    backgroundColor: '#ffc107',  // Màu nền vàng cho thông báo cảnh báo
+                    iconClass: 'toast-warning',  // Icon cảnh báo
+                });
+            }
+        });
+    }
+</script>
 @endsection

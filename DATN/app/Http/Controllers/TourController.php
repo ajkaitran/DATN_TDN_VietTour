@@ -166,9 +166,29 @@ class TourController extends Controller
         return view('tour.edit', compact('tours', 'parentCategories', 'childCategories', 'types', 'startPlaces', 'itineraries', 'articles'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function quickUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $sale_off = $request->input('sale_off');
+        $price = $request->input('price');
+        $hot = $request->input('hot');
+        $home_page = $request->input('home_page');
+        $active = $request->input('active');
+
+        $tour = Product::find($id);
+        if ($tour) {
+            $tour->sale_off = $sale_off;
+            $tour->price = $price;
+            $tour->hot = $hot;
+            $tour->home_page = $home_page;
+            $tour->active = $active;
+            $tour->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
+    }
     public function destroy(string $id)
     {
         Product::where('id', $id)->delete();

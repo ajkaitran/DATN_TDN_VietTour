@@ -57,6 +57,11 @@ class AdminController extends Controller
         $fileName = time() . '_' . $file->getClientOriginalName();
         return $file->storeAs('AnhTaiKhoan', $fileName, 'public');
     }
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('admin.profile', compact('user'));
+    }
     public function login()
     {
         return view('admin.login');
@@ -93,6 +98,40 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Mật khẩu đã được thay đổi thành công');
     }
+    public function edit(int $id)
+    {
+        $user = auth()->user();
+        return view('admin.edit', compact('user'));
+    }
+    public function update(Request $request, $id)
+    {
+        $objTable = new User();
+        $idCheck = $objTable->loadIdUser($id);
+
+        if ($idCheck) {
+            $data = $request->except(['image']);
+            // Xử lý `image`
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $data['image'] = $this->uploadFile($request->file('image'));
+                $imageOld = $idCheck->image;
+            } else {
+                $data['image'] = $idCheck->image;
+            }
+            $res = $objTable->updateDataUser($data, $id);
+
+            if ($res) {
+                // Xóa file cũ `image` nếu có
+                if ($request->hasFile('image') && isset($imageOld) && Storage::disk('public')->exists($imageOld)) {
+                    Storage::disk('public')->delete($imageOld);
+                }
+                return redirect()->back()->with('success', 'Chỉnh sửa thành công');
+            } else {
+                return redirect()->back()->with('error', 'Chỉnh sửa không thành công');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Không tìm thấy id');
+        }
+    }
     public function quickUpdate(Request $request)
     {
         $id = $request->input('id');
@@ -111,23 +150,38 @@ class AdminController extends Controller
         return response()->json(['success' => false]);
     }
     public function destroy(string $id)
-    {
-        $objAdmin = new User();
-        $user = $objAdmin->loadIdUser($id);
-        if (!$user) {
-            return redirect()->back()->with('error', 'Không tìm thấy ID tài khoản.');
-        }
-        $imagePath = $user->image;
-        if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-            Storage::disk('public')->delete($imagePath);
-        }
-        $isDeleted = $objAdmin->deleteDataUser($id);
-        if ($isDeleted) {
-            return redirect()->back()->with('success', 'Xóa tài khoản thành công.');
-        } else {
-            return redirect()->back()->with('error', 'Xóa tài khoản không thành công.');
-        }
+{
+    $objAdmin = new User();
+    $user = $objAdmin->loadIdUser($id);
+
+    if (!$user) {
+        return redirect()->back()->with('error', 'Không tìm thấy ID tài khoản.');
     }
+
+    // Xóa hình ảnh nếu có
+    $imagePath = $user->image;
+    if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+        Storage::disk('public')->delete($imagePath);
+    }
+
+    // Kiểm tra nếu đang xóa tài khoản đăng nhập hiện tại
+    if (Auth::id() == $id) {
+        // Đăng xuất tài khoản
+        Auth::logout();
+        $objAdmin->deleteDataUser($id);
+
+        return redirect()->route('admin.login')->with('info', 'Tài khoản của bạn đã bị xóa. Bạn đã bị đăng xuất.');
+    }
+
+    // Xóa tài khoản khác
+    $isDeleted = $objAdmin->deleteDataUser($id);
+    if ($isDeleted) {
+        return redirect()->back()->with('success', 'Xóa tài khoản thành công.');
+    } else {
+        return redirect()->back()->with('error', 'Xóa tài khoản không thành công.');
+    }
+}
+
 
     public function signout(Request $request)
     {
