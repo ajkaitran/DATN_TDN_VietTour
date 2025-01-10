@@ -110,11 +110,11 @@
             @foreach($listTourCombo as $items)
             <div class="col my-3">
                 <div class="tour_card">
-                    <a class="tour_img" href="#">
+                    <a class="tour_img" href="{{route('home.detail',['id' => $items->id])}}">
                         <img src="{{ asset('storage/' . $items->image) }}" alt="hình ảnh" width="100">
                     </a>
                     <div class="tour_content">
-                        <a class="tour_name title_name" href="#">{{$items->name}}</a>
+                        <a class="tour_name title_name" href="{{route('home.detail',['id' => $items->id])}}">{{$items->name}}</a>
                         <div class="star">
                             @for ($i = 1; $i <= 5; $i++)
                                 @if ($i <=$items->star)
@@ -135,7 +135,7 @@
                                 </div>
                             </div>
                             <div class="col-5 d-flex justify-content-end align-items-center">
-                                <a class="btn_card" href="#">
+                                <a class="btn_card" href="{{ route('home.order', ['id' => $items->id]) }}">
                                     <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
                                 </a>
                             </div>

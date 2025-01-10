@@ -23,7 +23,10 @@ class DatabaseSeeder extends Seeder
         //     'password' => bcrypt('password'),
         // ]);
         $this->call([
-            AdminSeeder::class,
+            // AdminSeeder::class,
+            // UsersSeeder::class,
+            // ArticlesSeeder::class,
+            CommentsSeeder::class,
         ]);
     }
 }

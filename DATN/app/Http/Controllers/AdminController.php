@@ -23,13 +23,36 @@ class AdminController extends Controller
     {
         return view('admin.index');
     }
+    public function listUser()
+    {
+        $objAdmin = new User();
+        $this->view['listAdmin'] = $objAdmin->loadListUser();
+
+        $this->view['roles'] = [
+            2 => 'Thành viên',
+            3 => 'Khách hàng',
+        ];
+
+        return view('admin.listUser', $this->view);
+    }
+    public function listClient()
+    {
+        $objAdmin = new User();
+        $this->view['listAdmin'] = $objAdmin->loadListClient();
+
+        $this->view['roles'] = [
+            2 => 'Thành viên',
+            3 => 'Khách hàng',
+        ];
+
+        return view('admin.listClient', $this->view);
+    }
     public function register()
     {
         $objAdmin = new User();
         $this->view['listAdmin'] = $objAdmin->loadListAdmin();
 
         $this->view['roles'] = [
-            0 => 'Admin',
             1 => 'Quản lý',
             2 => 'Thành viên',
             3 => 'Khách hàng',
@@ -87,20 +110,61 @@ class AdminController extends Controller
     }
 
     public function postChange(ChangePasswordRequest $request)
-    {
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+{
+    if (Auth::check() && Auth::user()->role == 0) {
+        $user = User::find($request->user_id); 
+
+        if (!$user) {
+            return back()->withErrors(['error' => 'Người dùng không tồn tại!']);
         }
 
-        $admin = Auth::user();
-        $admin->password = Hash::make($request->new_password);
-        $admin->save();
+        // Kiểm tra mật khẩu hiện tại của người dùng Admin
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+        }
 
-        return redirect()->back()->with('success', 'Mật khẩu đã được thay đổi thành công');
+        // Kiểm tra xem mật khẩu mới có trùng với mật khẩu cũ không
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ của người dùng!']);
+        }
+
+        try {
+            // Cập nhật mật khẩu của người dùng khác
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return back()->with('success', 'Mật khẩu của người dùng đã được thay đổi thành công!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+        }
+    } else {
+        // Nếu người dùng không phải admin, chỉ cho phép thay đổi mật khẩu của chính họ
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+        }
+
+        // Kiểm tra mật khẩu mới có trùng với mật khẩu cũ không
+        if (Hash::check($request->new_password, Auth::user()->password)) {
+            return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ!']);
+        }
+
+        try {
+            // Cập nhật mật khẩu của người dùng hiện tại
+            $admin = Auth::user();
+            $admin->password = Hash::make($request->new_password);
+            $admin->save();
+
+            return back()->with('success', 'Mật khẩu đã được thay đổi thành công!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+        }
     }
+}
+
+
     public function edit(int $id)
     {
-        $user = auth()->user();
+        $user = User::find($id);
         return view('admin.edit', compact('user'));
     }
     public function update(Request $request, $id)
