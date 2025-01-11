@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\CategoryArticle\StoreCategoryArticleRequest;
 use App\Models\ArticleCategory;
+use Illuminate\Http\Request;
 
 class CategoryArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = ArticleCategory::all();
+        $search = $request->input('search');
+        $query = ArticleCategory::query();
+
+        if ($search) {
+            $query->where('category_name', 'like', '%' . $search . '%');
+        }
+
+        $data = $query->get();
         return view('categoryArticle.index', compact('data'));
     }
 

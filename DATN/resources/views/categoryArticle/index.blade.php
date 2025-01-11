@@ -29,6 +29,15 @@
 
     <div class="box_content">
         <a class="box_link" href="{{ route('categoryArticle.create') }}">Thêm danh mục bài viết</a>
+        <form action="{{ route('categoryArticle.index') }}" method="GET" class="mb-3 ml-1 row">
+            <div class="col-4">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm danh mục bài viết..."
+                    value="{{ request('search') }}">
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </form>
         <div class="content px-3">
             <table class="table table-strped">
                 <thead class="thead">
