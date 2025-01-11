@@ -23,7 +23,8 @@
 </div>
 @endif
 <main class="p-8 bg-gray-100">
-    <form action="{{ route('home.storeOrder') }}" method="POST" class="space-y-4">
+    <form method="POST" class="space-y-4" id="orderForm">
+        @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
             <div class="bg-white p-6 rounded shadow">
@@ -35,23 +36,23 @@
                             <input type="checkbox" class="form-checkbox" />
                             <span>Xác nhận gửi cho số được gửi qua email này.</span>
                         </label>
-                        <input type="email" name="customer_info_email" value="{{$user->email}}" id="customer_info_email" placeholder="Email" class="w-full p-2 border rounded" />
+                        <input type="email" name="customer_info_email" value="{{$user->email ?? ""}}" id="customer_info_email" placeholder="Email" class="w-full p-2 border rounded" />
                     </div>
                     <div>
                         <label class="flex items-center space-x-2">
                             <input type="checkbox" class="form-checkbox" />
                             <span>Chúng tôi sẽ liên hệ với quý khách qua SĐT này.</span>
                         </label>
-                        <input type="text" name="customer_info_phone" value="{{$user->phone}}" id="customer_info_phone" placeholder="Số điện thoại" class="w-full p-2 border rounded" />
+                        <input type="text" name="customer_info_phone" value="{{$user->phone ?? ""}}" id="customer_info_phone" placeholder="Số điện thoại" class="w-full p-2 border rounded" />
                     </div>
                     <div>
-                        <input type="text" name="customer_info_full_name" value="{{$user->name}}" id="customer_info_full_name" placeholder="Họ và tên" class="w-full p-2 border rounded" />
+                        <input type="text" name="customer_info_full_name" value="{{$user->name ?? ""}}" id="customer_info_full_name" placeholder="Họ và tên" class="w-full p-2 border rounded" />
                     </div>
                     <div>
                         <input type="text" name="customer_info_address" id="customer_info_address" placeholder="Địa chỉ" class="w-full p-2 border rounded" />
                     </div>
                 </div>
-                <textarea placeholder="Yêu cầu thêm" class="w-full p-2 border rounded h-24"></textarea>
+                <textarea placeholder="Yêu cầu thêm" class="w-full p-2 border rounded h-24 mt-3"></textarea>
                 <div class="flex items-center space-x-2">
                     <input type="checkbox" class="form-checkbox" />
                     <span>Đặt trước giữ chỗ, thanh toán sau. Dễ dàng, thuận tiện, nhanh chóng!</span>
@@ -68,7 +69,7 @@
                         </div>
                         <div>
                             <label>Số lượng</label>
-                            <select id="quantity" class="w-full p-2 border rounded">
+                            <select id="quantity" class="w-full p-2 border rounded" name="quantity">
                                 @foreach(range(1, 15) as $i)
                                 <option value="{{ $i }}">{{ $i }}</option>
                                 @endforeach
@@ -102,4 +103,5 @@
         </div>
     </form>
 </main>
+
 @endsection

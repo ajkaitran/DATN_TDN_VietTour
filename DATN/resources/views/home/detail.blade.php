@@ -197,7 +197,15 @@
                 <div class="text-gray-700 mb-2">Lịch khởi hành: Hàng ngày</div>
                 <div class="text-gray-700 mb-4">Phương tiện: {{$item->transport}}</div>
                 <button class="bg-blue-500 text-white py-2 px-4 rounded w-full mb-4">
-                    <a href="{{route('home.order',['id' => $item->id])}}">Đặt Ngay</a>
+                    @auth
+                        @if(in_array(auth()->user()->role, [2, 3]))
+                            <a href="{{route('home.order',['id' => $item->id])}}">Đặt Ngay</a>
+                        @else
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đặt Ngay</a>
+                        @endif
+                    @else
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đặt Ngay</a>
+                    @endauth
                 </button>
                 <div class="text-center text-gray-700 mb-4">Giữ chỗ ngay bây giờ - Tính tiền sau</div>
                 <!-- <div class="flex items-center justify-center mb-4">

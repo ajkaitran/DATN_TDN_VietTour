@@ -59,7 +59,7 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="?controller=Admin&action=list_order">Danh sách đơn hàng</a>
+                <a class="collapse-item" href="{{ route('admin.listOrder') }}">Danh sách đơn hàng</a>
             </div>
         </div>
     </li>

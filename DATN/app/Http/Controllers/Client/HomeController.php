@@ -196,34 +196,53 @@ class HomeController extends Controller
         $login = $request->input('login');
         $password = $request->input('password');
 
+        // Xác định trường cần dùng để đăng nhập: email hoặc username
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if (Auth::attempt([$field => $login, 'password' => $password])) {
-            $user = Auth::user();
+        // Thử đăng nhập với guard 'web' (dành cho User thông thường)
+        if (Auth::guard('web')->attempt([$field => $login, 'password' => $password])) {
+            $user = Auth::guard('web')->user();
+
+            // Kiểm tra trạng thái của tài khoản
             if ($user->status != 1) {
-                Auth::logout();
+                Auth::guard('web')->logout();
                 return redirect()->back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
             }
-            if (!in_array($user->role, [2, 3, 4])) {
-                Auth::logout();
+
+            // Kiểm tra role (2 hoặc 3 là hợp lệ cho User thông thường)
+            if (!in_array($user->role, [2, 3])) {
+                Auth::guard('web')->logout();
                 return redirect()->back()->with('error', 'Tài khoản không tồn tại.');
             }
+
+            // Đăng nhập thành công, chuyển hướng đến trang chính
             return redirect()->route('home.index');
-        } else {
-            return redirect()->back()
-                ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
-                ->withInput($request->only('login'));
         }
+
+        return redirect()->back()
+            ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
+            ->withInput($request->only('login'));
     }
+
 
     public function signout(Request $request)
     {
-        if (Auth::check()) {
-            Log::info('User logged out', ['user_id' => Auth::id(), 'ip' => $request->ip()]);
-            Auth::logout();
+        if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+
+            Log::info('User logged out', [
+                'user_id' => $user->id,
+                'role' => $user->role,
+                'ip' => $request->ip(),
+            ]);
+
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
             return redirect()->route('home.index')->with('success', 'Bạn đã đăng xuất thành công!');
         }
 
-        return redirect()->route('home.index')->with('error', 'Bạn chưa đăng nhập!');
+        return redirect()->route('home.modal.login')->with('error', 'Bạn chưa đăng nhập!');
     }
 }

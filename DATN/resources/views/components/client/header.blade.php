@@ -52,23 +52,37 @@
                 <i class="fa-solid fa-user fs-4"></i>
             </button>
             <ul class="header_user">
-                @guest
-                <li class="user_item">
-                    <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng Nhập</a>
-                </li>
-                <li class="user_item">
-                    <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalRegister">Đăng Ký</a>
-                </li>
+                @auth
+                    {{-- Nếu user đã đăng nhập --}}
+                    @if(in_array(auth()->user()->role, [2, 3]))
+                        {{-- Người dùng có role là 2 hoặc 3 --}}
+                        <li class="user_item">
+                            <a class="user_link" href="#">Thông Tin Chung</a>
+                        </li>
+                        <li class="user_item">
+                            <a class="user_link" href="{{ route('home.modal.logout') }}" 
+                                onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">Đăng Xuất</a>
+                        </li>
+                    @else
+                        {{-- Người dùng không thuộc role 2 hoặc 3 --}}
+                        <li class="user_item">
+                            <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng Nhập</a>
+                        </li>
+                        <li class="user_item">
+                            <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalRegister">Đăng Ký</a>
+                        </li>
+                    @endif
                 @else
-                <li class="user_item">
-                    <a class="user_link" href="#">Thông Tin Chung</a>
-                </li>
-                <li class="user_item">
-                    <a class="user_link" href="{{ route('home.modal.signout') }}"
-                        onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">Đăng Xuất</a>
-                </li>
-                @endguest
+                    {{-- Nếu user chưa đăng nhập --}}
+                    <li class="user_item">
+                        <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng Nhập</a>
+                    </li>
+                    <li class="user_item">
+                        <a class="user_link" href="#" data-bs-toggle="modal" data-bs-target="#ModalRegister">Đăng Ký</a>
+                    </li>
+                @endauth
             </ul>
+            
         </div>
         <a class="header_contact" href="tel:1900 4692">
             <i class="fa-solid fa-phone-volume fs-4"></i>

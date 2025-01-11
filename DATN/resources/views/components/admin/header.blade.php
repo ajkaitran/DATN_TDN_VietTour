@@ -184,7 +184,7 @@
                     Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <form action="{{ route('admin.signout') }}" method="POST">
+                <form action="{{ route('admin.logout') }}" method="POST">
                     @csrf
                     <button class="dropdown-item" type="submit"
                         onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?')">

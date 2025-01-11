@@ -102,4 +102,36 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTotalPrice();
     });
     
+    $("#orderForm").submit(function(e) {
+        e.preventDefault();
+        const formData = $(this).serialize();
+    
+        $.ajax({
+            url: "/storeOrder",
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                if ($.isEmptyObject(data.errors)) {
+                    // Hiển thị thông báo thành công
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Đặt Tour thành công!",
+                        icon: "success"
+                    }).then(() => {
+                        // Reset form sau khi hiển thị thông báo
+                        $("#orderForm")[0].reset();
+                    });
+                } else {
+                    // Hiển thị thông báo lỗi
+                    Swal.fire({
+                        title: "Oops!",
+                        text: "Đặt Tour không thành công!",
+                        icon: "error"
+                    });
+                }
+            }
+        });
+    });
+    
+
 CKEDITOR.replace('editor');

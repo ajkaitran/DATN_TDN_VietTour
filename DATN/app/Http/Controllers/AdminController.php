@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use App\Http\Requests\Admin\User\ChangePasswordRequest;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductCategoryType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,6 +50,47 @@ class AdminController extends Controller
         ];
 
         return view('admin.listClient', $this->view);
+    }
+    public function listOrder(Request $request)
+    {
+        $objClient = new User();
+        $query = Product::query(); // Khởi tạo query
+        $objOrder = new Order();
+
+        // Lọc theo tên tour
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        $tours = $query->paginate(5);
+        $this->view['listOrder'] = $objOrder->with('product')->paginate(5);
+        $this->view['users'] = $objClient->get();
+        $this->view['payments'] = [
+            1 => 'Thanh Toán Trực Tuyến',
+            2 => 'Thanh Toán Momo',
+        ];
+        $this->view['status'] = [
+            1 => 'Chưa Thanh Toán',
+            2 => 'Đã Thanh Toán',
+            3 => 'Dã Hủy',
+        ];
+
+        return view('admin.listOrder', compact('tours'), $this->view);
+    }
+    public function quickUpdateOrder(Request $request)
+    {
+        $id = $request->input('id');
+        $status = $request->input('status');
+
+        $user = User::find($id);
+        if ($user) {
+            $user->status = $status;
+            $user->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
     }
     public function register()
     {
@@ -93,17 +138,30 @@ class AdminController extends Controller
     {
         $login = $request->input('login');
         $password = $request->input('password');
-
+    
+        // Xác định trường cần dùng để đăng nhập: email hoặc username
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if (Auth::attempt([$field => $login, 'password' => $password])) {
+        // Nếu không đăng nhập được với guard 'web', thử đăng nhập với guard 'admin'
+        if (Auth::guard('admin')->attempt([$field => $login, 'password' => $password])) {
+            $admin = Auth::guard('admin')->user();
+    
+            // Kiểm tra trạng thái của tài khoản Admin
+            if ($admin->status != 1) {
+                Auth::guard('admin')->logout();
+                return redirect()->back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
+            }
+            if (!in_array($admin->role, [0, 1])) {
+                Auth::guard('admin')->logout();
+                return redirect()->back()->with('error', 'Bạn không có quyền truy cập.');
+            }
             return redirect()->route('admin.index');
-        } else {
-            return redirect()->back()
-                ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
-                ->withInput($request->only('login'));
         }
+        return redirect()->back()
+            ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
+            ->withInput($request->only('login'));
     }
+    
     public function changePassword()
     {
         return view('admin.changePassword');
@@ -214,44 +272,52 @@ class AdminController extends Controller
         return response()->json(['success' => false]);
     }
     public function destroy(string $id)
-{
-    $objAdmin = new User();
-    $user = $objAdmin->loadIdUser($id);
+    {
+        $objAdmin = new User();
+        $user = $objAdmin->loadIdUser($id);
 
-    if (!$user) {
-        return redirect()->back()->with('error', 'Không tìm thấy ID tài khoản.');
+        if (!$user) {
+            return redirect()->back()->with('error', 'Không tìm thấy ID tài khoản.');
+        }
+
+        // Xóa hình ảnh nếu có
+        $imagePath = $user->image;
+        if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+            Storage::disk('public')->delete($imagePath);
+        }
+
+        // Kiểm tra nếu đang xóa tài khoản đăng nhập hiện tại
+        if (Auth::id() == $id) {
+            // Đăng xuất tài khoản
+            Auth::logout();
+            $objAdmin->deleteDataUser($id);
+
+            return redirect()->route('admin.login')->with('info', 'Tài khoản của bạn đã bị xóa. Bạn đã bị đăng xuất.');
+        }
+
+        // Xóa tài khoản khác
+        $isDeleted = $objAdmin->deleteDataUser($id);
+        if ($isDeleted) {
+            return redirect()->back()->with('success', 'Xóa tài khoản thành công.');
+        } else {
+            return redirect()->back()->with('error', 'Xóa tài khoản không thành công.');
+        }
     }
-
-    // Xóa hình ảnh nếu có
-    $imagePath = $user->image;
-    if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-        Storage::disk('public')->delete($imagePath);
-    }
-
-    // Kiểm tra nếu đang xóa tài khoản đăng nhập hiện tại
-    if (Auth::id() == $id) {
-        // Đăng xuất tài khoản
-        Auth::logout();
-        $objAdmin->deleteDataUser($id);
-
-        return redirect()->route('admin.login')->with('info', 'Tài khoản của bạn đã bị xóa. Bạn đã bị đăng xuất.');
-    }
-
-    // Xóa tài khoản khác
-    $isDeleted = $objAdmin->deleteDataUser($id);
-    if ($isDeleted) {
-        return redirect()->back()->with('success', 'Xóa tài khoản thành công.');
-    } else {
-        return redirect()->back()->with('error', 'Xóa tài khoản không thành công.');
-    }
-}
-
-
     public function signout(Request $request)
     {
-        if (Auth::check()) {
-            Log::info('User logged out', ['user_id' => Auth::id(), 'ip' => $request->ip()]);
-            Auth::logout();
+        if (Auth::guard('admin')->check()) {
+            $admin = Auth::guard('admin')->user();
+
+            Log::info('Admin logged out', [
+                'admin_id' => $admin->id,
+                'role' => $admin->role,
+                'ip' => $request->ip(),
+            ]);
+
+            Auth::guard('admin')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
             return redirect()->route('admin.login')->with('success', 'Bạn đã đăng xuất thành công!');
         }
 
