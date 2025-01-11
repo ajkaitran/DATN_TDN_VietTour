@@ -43,7 +43,7 @@ return new class extends Migration
             $table->boolean('hot')->default(0); // Xác định tour này có được làm nổi bật không (ví dụ: tour hot)
             $table->boolean('home_page')->default(0); // Combo tour hiển thị trang chủ
             $table->boolean('active')->default(0); // Trạng thái tour còn hoạt động hay không
-            $table->string('tags', 500)->nullable(); // Từ khóa tìm kiếm cho tour (dễ dàng tìm kiếm trên website)
+            $table->string('tags', 500)->nullable(); // Số lượng người trong một tour
             $table->string('url', 1000)->nullable(); // URL dẫn đến trang chi tiết tour sản phẩm
             $table->string('title', 500)->nullable(); // Tiêu đề của combo tour
             $table->text('detailed_description')->nullable(); // Mô tả chi tiết về tour

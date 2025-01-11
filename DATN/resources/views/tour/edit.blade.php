@@ -94,7 +94,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Điểm Tham Quan</label>
-                        <input type="url" class="form-control w-75" name="attractions"
+                        <input type="" class="form-control w-75" name="attractions"
                             value="{{ $tours->attractions }}">
                     </div>
                     <div class="form-group">
@@ -232,8 +232,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form_ext w-25" for="slogan">Tag</label>
-                    <input type="text" class="form-control w-75" id="" name="tags"
+                    <label class="form_ext w-25" for="slogan">Số lượng người</label>
+                    <input type="number" class="form-control w-75" id="" name="tags"
                         value="{{ $tours->tags }}">
                 </div>
                 <div class="form-group">
