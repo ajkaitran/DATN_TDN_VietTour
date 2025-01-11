@@ -14,11 +14,26 @@ class TourCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = ProductCategory::paginate(5);
+        $search = $request->input('search');
+        $type = $request->input('type');
+
+        $query = ProductCategory::query();
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        if ($type) {
+            $query->where('type', $type);
+        }
+
+        $data = $query->paginate(5)->appends($request->all());
+
         $typeTour = ProductCategoryType::all();
-        return view('tourCategory.index', compact('data', 'typeTour'));
+
+        return view('tourCategory.index', compact('data', 'typeTour', 'search', 'type'));
     }
 
     /**

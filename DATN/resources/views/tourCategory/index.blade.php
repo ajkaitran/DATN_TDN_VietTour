@@ -28,6 +28,13 @@
     @endif
 
     <div class="box_content">
+        <form action="{{ route('tourCategory.index') }}" method="GET" class="mb-3 col-6">
+            <div class="input-group flex justify-content-end">
+                <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm tên danh mục..."
+                    value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </form>
         <a class="box_link" href="{{ route('tourCategory.create') }}">Thêm danh mục tour</a>
         <div class="content px-3">
             <table class="table table-strped">
@@ -50,17 +57,22 @@
                             <td><img src="{{ Storage::url('categoryTour/' . $items->image) }}" alt=""
                                     class="object-fit-cover w-100"></td>
                             <td>
-                                <input type="checkbox" id="active_{{ $items->id }}" {{ $items->active == 1 ? 'checked' : '' }}>
+                                <input type="checkbox" id="active_{{ $items->id }}"
+                                    {{ $items->active == 1 ? 'checked' : '' }}>
                             </td>
                             <td>
-                                <input type="checkbox" id="hot_{{ $items->id }}" {{ $items->hot == 1 ? 'checked' : '' }}>
+                                <input type="checkbox" id="hot_{{ $items->id }}"
+                                    {{ $items->hot == 1 ? 'checked' : '' }}>
                             </td>
                             <td>
-                                <input type="checkbox" id="home_page_{{ $items->id }}" {{ $items->home_page == 1 ? 'checked' : '' }}>
+                                <input type="checkbox" id="home_page_{{ $items->id }}"
+                                    {{ $items->home_page == 1 ? 'checked' : '' }}>
                             </td>
-                            <td class="d-flex py-5"> 
-                                <a class="btn btn-primary mr-2" href="javascript:;" onclick="updateCate({{ $items->id }})">Cập nhật</a>
-                                <a class="btn btn-warning mr-2" href="{{ route('tourCategory.edit', ['id' => $items->id]) }}">Sửa</a>
+                            <td class="d-flex py-5">
+                                <a class="btn btn-primary mr-2" href="javascript:;"
+                                    onclick="updateCate({{ $items->id }})">Cập nhật</a>
+                                <a class="btn btn-warning mr-2"
+                                    href="{{ route('tourCategory.edit', ['id' => $items->id]) }}">Sửa</a>
                                 <form action="{{ route('tourCategory.destroy', ['id' => $items->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -71,68 +83,70 @@
                     @endforeach
                 </tbody>
             </table>
-            {{$data->links()}}
+            {{ $data->links() }}
         </div>
     </div>
-<script>
-    function updateCate(id) {
-        // Lấy giá trị từ các trường input
-        var active = $('#active_' + id).prop('checked') ? 1 : 0; // Lấy trạng thái của checkbox (1: checked, 0: unchecked)
-        var hot = $('#hot_' + id).prop('checked') ? 1 : 0; // Lấy trạng thái của checkbox (1: checked, 0: unchecked)
-        var home_page = $('#home_page_' + id).prop('checked') ? 1 : 0; // Lấy trạng thái của checkbox (1: checked, 0: unchecked)
-    
-        $.ajax({
-            url: '{{ route('tourCategory.quickUpdate') }}', // Đường dẫn đến route xử lý cập nhật
-            type: 'POST',
-            data: {
-                id: id,
-                active: active,
-                hot: hot,
-                home_page: home_page,
-                _token: '{{ csrf_token() }}' // CSRF token để bảo mật
-            },
-            success: function(response) {
-                if (response.success) {
-                    // Thông báo thành công đẹp mắt
-                    toastr.success('Cập nhật thành công!', 'Thông báo', {
-                        positionClass: 'toast-bottom-right',  // Vị trí thông báo
-                        timeOut: 5000,  // Thời gian thông báo hiển thị
-                        progressBar: true,  // Hiển thị thanh tiến trình
-                        closeButton: true,  // Hiển thị nút đóng
-                        newestOnTop: true,  // Hiển thị thông báo mới nhất ở trên cùng
-                        preventDuplicates: true,  // Tránh hiển thị thông báo trùng lặp
-                        backgroundColor: '#28a745',  // Màu nền xanh lá cây cho thông báo thành công
-                        iconClass: 'toast-success',  // Icon thành công
-                    });
-                } else {
-                    // Thông báo lỗi đẹp mắt
-                    toastr.error('Có lỗi xảy ra, vui lòng thử lại!', 'Thông báo', {
-                        positionClass: 'toast-bottom-right',  // Vị trí thông báo
-                        timeOut: 5000,  // Thời gian thông báo hiển thị
-                        progressBar: true,  // Hiển thị thanh tiến trình
-                        closeButton: true,  // Hiển thị nút đóng
-                        newestOnTop: true,  // Hiển thị thông báo mới nhất ở trên cùng
-                        preventDuplicates: true,  // Tránh hiển thị thông báo trùng lặp
-                        backgroundColor: '#dc3545',  // Màu nền đỏ cho thông báo lỗi
-                        iconClass: 'toast-error',  // Icon lỗi
+    <script>
+        function updateCate(id) {
+            // Lấy giá trị từ các trường input
+            var active = $('#active_' + id).prop('checked') ? 1 :
+                0; // Lấy trạng thái của checkbox (1: checked, 0: unchecked)
+            var hot = $('#hot_' + id).prop('checked') ? 1 : 0; // Lấy trạng thái của checkbox (1: checked, 0: unchecked)
+            var home_page = $('#home_page_' + id).prop('checked') ? 1 :
+                0; // Lấy trạng thái của checkbox (1: checked, 0: unchecked)
+
+            $.ajax({
+                url: '{{ route('tourCategory.quickUpdate') }}', // Đường dẫn đến route xử lý cập nhật
+                type: 'POST',
+                data: {
+                    id: id,
+                    active: active,
+                    hot: hot,
+                    home_page: home_page,
+                    _token: '{{ csrf_token() }}' // CSRF token để bảo mật
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Thông báo thành công đẹp mắt
+                        toastr.success('Cập nhật thành công!', 'Thông báo', {
+                            positionClass: 'toast-bottom-right', // Vị trí thông báo
+                            timeOut: 5000, // Thời gian thông báo hiển thị
+                            progressBar: true, // Hiển thị thanh tiến trình
+                            closeButton: true, // Hiển thị nút đóng
+                            newestOnTop: true, // Hiển thị thông báo mới nhất ở trên cùng
+                            preventDuplicates: true, // Tránh hiển thị thông báo trùng lặp
+                            backgroundColor: '#28a745', // Màu nền xanh lá cây cho thông báo thành công
+                            iconClass: 'toast-success', // Icon thành công
+                        });
+                    } else {
+                        // Thông báo lỗi đẹp mắt
+                        toastr.error('Có lỗi xảy ra, vui lòng thử lại!', 'Thông báo', {
+                            positionClass: 'toast-bottom-right', // Vị trí thông báo
+                            timeOut: 5000, // Thời gian thông báo hiển thị
+                            progressBar: true, // Hiển thị thanh tiến trình
+                            closeButton: true, // Hiển thị nút đóng
+                            newestOnTop: true, // Hiển thị thông báo mới nhất ở trên cùng
+                            preventDuplicates: true, // Tránh hiển thị thông báo trùng lặp
+                            backgroundColor: '#dc3545', // Màu nền đỏ cho thông báo lỗi
+                            iconClass: 'toast-error', // Icon lỗi
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Thông báo lỗi với chi tiết lỗi
+                    toastr.error('Lỗi: ' + error, 'Thông báo', {
+                        positionClass: 'toast-bottom-right', // Vị trí thông báo
+                        timeOut: 5000, // Thời gian thông báo hiển thị
+                        progressBar: true, // Hiển thị thanh tiến trình
+                        closeButton: true, // Hiển thị nút đóng
+                        newestOnTop: true, // Hiển thị thông báo mới nhất ở trên cùng
+                        preventDuplicates: true, // Tránh hiển thị thông báo trùng lặp
+                        backgroundColor: '#ffc107', // Màu nền vàng cho thông báo cảnh báo
+                        iconClass: 'toast-warning', // Icon cảnh báo
                     });
                 }
-            },
-            error: function(xhr, status, error) {
-                // Thông báo lỗi với chi tiết lỗi
-                toastr.error('Lỗi: ' + error, 'Thông báo', {
-                    positionClass: 'toast-bottom-right',  // Vị trí thông báo
-                    timeOut: 5000,  // Thời gian thông báo hiển thị
-                    progressBar: true,  // Hiển thị thanh tiến trình
-                    closeButton: true,  // Hiển thị nút đóng
-                    newestOnTop: true,  // Hiển thị thông báo mới nhất ở trên cùng
-                    preventDuplicates: true,  // Tránh hiển thị thông báo trùng lặp
-                    backgroundColor: '#ffc107',  // Màu nền vàng cho thông báo cảnh báo
-                    iconClass: 'toast-warning',  // Icon cảnh báo
-                });
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 
 @endsection
