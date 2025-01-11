@@ -215,8 +215,8 @@
                         {{ old('active') == 1 ? 'checked' : '' }}>
                 </div>
                 <div class="form-group">
-                    <label class="form_ext w-25" for="slogan">Tag</label>
-                    <input type="text" class="form-control w-75" id="" name="tags"
+                    <label class="form_ext w-25" for="slogan">Số lượng người </label>
+                    <input type="number" class="form-control w-75" id="" name="tags"
                         value="">
                 </div>
                 <div class="form-group">
