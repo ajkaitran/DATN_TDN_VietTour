@@ -38,19 +38,23 @@ Route::prefix('/')->group(function () {
     Route::post('register', [HomeController::class, 'postRegister'])->name('home.modal.postRegister');
     Route::get('login', [HomeController::class, 'login'])->name('home.modal.login');
     Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
-    Route::match(['get', 'post'], 'signout', [HomeController::class, 'signout'])->name('home.modal.signout');
-    Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
-    Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
+    Route::match(['get', 'post'], 'logout', [HomeController::class, 'signout'])->name('home.modal.logout');
+    Route::middleware('auth:web')->group(function () {
+        Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
+        Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
+    });
 });
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('login', [AdminController::class, 'postLogin'])->name('admin.postLogin');
-    Route::middleware('admin')->group(function () {
+    Route::middleware('auth:admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
         Route::get('register', [AdminController::class, 'register'])->name('admin.register');
         Route::post('register', [AdminController::class, 'postRegister'])->name('admin.postRegister');
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
         Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
+        Route::get('list-order', [AdminController::class, 'listOrder'])->name('admin.listOrder');
+        Route::post('quick-update-order', [AdminController::class, 'quickUpdateOrder'])->name('admin.quickUpdateOrder');
         Route::get('list-user', [AdminController::class, 'listUser'])->name('admin.listUser');
         Route::get('list-client', [AdminController::class, 'listClient'])->name('admin.listClient');
         Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
@@ -58,10 +62,10 @@ Route::prefix('admin')->group(function () {
         Route::put('update/{id}', [AdminController::class, 'update'])->name('admin.update');
         Route::post('quick-update', [AdminController::class, 'quickUpdate'])->name('admin.quickUpdate');
         Route::match(['get', 'post'],'destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
-        Route::match(['get', 'post'], 'signout', [AdminController::class, 'signout'])->name('admin.signout');
+        Route::match(['get', 'post'], 'admin/logout', [AdminController::class, 'signout'])->name('admin.logout');
     });
 });
-Route::prefix('admin/article')->middleware('admin')->group(function () {
+Route::prefix('admin/article')->middleware('auth:admin')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('article.index');
     Route::get('/create', [ArticleController::class, 'create'])->name('article.create');
     Route::post('/store', [ArticleController::class, 'store'])->name('article.store');
@@ -69,7 +73,7 @@ Route::prefix('admin/article')->middleware('admin')->group(function () {
     Route::put('/{id}', [ArticleController::class, 'update'])->name('article.update');
     Route::delete('/{id}', [ArticleController::class, 'destroy'])->name('article.destroy');
 });
-Route::prefix('admin/banner')->middleware('admin')->group(function () {
+Route::prefix('admin/banner')->middleware('auth:admin')->group(function () {
     Route::get('/', [BannerController::class, 'index'])->name('banner.index');
     Route::get('/create', [BannerController::class, 'create'])->name('banner.create');
     Route::post('/store', [BannerController::class, 'store'])->name('banner.store');
@@ -78,14 +82,14 @@ Route::prefix('admin/banner')->middleware('admin')->group(function () {
     Route::post('quick-update', [BannerController::class, 'quickUpdate'])->name('banner.quickUpdate');
     Route::delete('/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
 });
-Route::prefix('admin/tourType')->middleware('admin')->group(function () {
+Route::prefix('admin/tourType')->middleware('auth:admin')->group(function () {
     Route::get('/', [TourTypeController::class, 'index'])->name('tourType.index');
     Route::match(['GET', 'POST'], '/create', [TourTypeController::class, 'create'])->name('tourType.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourTypeController::class, 'edit'])->name('tourType.edit');
     Route::post('quick-update', [TourTypeController::class, 'quickUpdate'])->name('tourType.quickUpdate');
     Route::get('/{id}', [TourTypeController::class, 'destroy'])->name('tourType.destroy');
 });
-Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
+Route::prefix('admin/tourCategory')->middleware('auth:admin')->group(function () {
     Route::get('/', [TourCategoryController::class, 'index'])->name('tourCategory.index');
     Route::get('/create', [TourCategoryController::class, 'create'])->name('tourCategory.create');
     Route::post('/store', [TourCategoryController::class, 'store'])->name('tourCategory.store');
@@ -94,7 +98,7 @@ Route::prefix('admin/tourCategory')->middleware('admin')->group(function () {
     Route::post('quick-update', [TourCategoryController::class, 'quickUpdate'])->name('tourCategory.quickUpdate');
     Route::delete('/{id}', [TourCategoryController::class, 'destroy'])->name('tourCategory.destroy');
 });
-Route::prefix('admin/tour')->middleware('admin')->group(function () {
+Route::prefix('admin/tour')->middleware('auth:admin')->group(function () {
     Route::get('/', [TourController::class, 'index'])->name('tour.index');
     Route::match(['GET', 'POST'], '/create', [TourController::class, 'create'])->name('tour.create');
     Route::match(['GET', 'POST'], '/edit/{id}', [TourController::class, 'edit'])->name('tour.edit');
@@ -102,7 +106,7 @@ Route::prefix('admin/tour')->middleware('admin')->group(function () {
     Route::get('/{id}', [TourController::class, 'destroy'])->name('tour.destroy');
 });
 
-Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
+Route::prefix('admin/startPlace')->middleware('auth:admin')->group(function () {
     Route::get('/', [StartPlaceController::class, 'index'])->name('startPlace.index');
     Route::get('/create', [StartPlaceController::class, 'create'])->name('startPlace.create');
     Route::post('/store', [StartPlaceController::class, 'store'])->name('startPlace.store');
@@ -110,7 +114,7 @@ Route::prefix('admin/startPlace')->middleware('admin')->group(function () {
     Route::put('/{id}', [StartPlaceController::class, 'update'])->name('startPlace.update');
     Route::delete('/{id}', [StartPlaceController::class, 'destroy'])->name('startPlace.destroy');
 });
-Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
+Route::prefix('admin/feedBack')->middleware('auth:admin')->group(function () {
     Route::get('/', [FeedBackController::class, 'index'])->name('feedback.index');
     Route::get('/create', [FeedBackController::class, 'create'])->name('feedback.create');
     Route::post('/store', [FeedBackController::class, 'store'])->name('feedback.store');
@@ -119,11 +123,11 @@ Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::delete('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
 });
 
-Route::prefix('admin/comments')->middleware('admin')->group(function () {
+Route::prefix('admin/comments')->middleware('auth:admin')->group(function () {
     Route::get('/', [CommentController::class, 'index'])->name('comment.index');
 });
 
-Route::prefix('admin/articleCategory')->middleware('admin')->group(function () {
+Route::prefix('admin/articleCategory')->middleware('auth:admin')->group(function () {
     Route::get('/', [CategoryArticleController::class, 'index'])->name('categoryArticle.index');
     Route::get('/create', [CategoryArticleController::class, 'create'])->name('categoryArticle.create');
     Route::post('/store', [CategoryArticleController::class, 'store'])->name('categoryArticle.store');

@@ -41,9 +41,21 @@
                                     </div>
                                 </div>
                                 <div class="col-5 d-flex justify-content-end align-items-center">
-                                    <a class="btn_card" href="{{ route('home.order', ['id' => $item->id]) }}">
-                                        <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
-                                    </a>
+                                    @auth
+                                        @if(in_array(auth()->user()->role, [2, 3]))
+                                            <a class="btn_card" href="{{ route('home.order', ['id' => $items->id]) }}">
+                                                <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
+                                            </a>
+                                        @else
+                                            <a class="btn_card" href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">
+                                                <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
+                                            </a>
+                                        @endif
+                                    @else
+                                        <a class="btn_card" href="#" data-bs-toggle="modal" data-bs-target="#ModalLogin">
+                                            <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>

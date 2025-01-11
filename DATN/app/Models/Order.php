@@ -27,9 +27,19 @@ class Order extends Model
         'customer_info_phone',
         'product_id',
     ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
     public function insertDataOrder($params){
-        $params['Status'] = 1;
+        $params['oder_code'] = rand(100000, 999999);
+        $params['payment'] = 1;
+        $params['transport_date'] = now();
+        $params['discount_code'] = null;
+        $params['viewed'] = 0;
+        $params['status'] = 1;
         $res = Order::query()->create($params);
         return $res;
     }
+    
 }
