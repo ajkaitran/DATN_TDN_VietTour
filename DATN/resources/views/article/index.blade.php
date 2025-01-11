@@ -28,6 +28,13 @@
 
     <div class="box_content">
         <a class="box_link" href="{{ route('article.create') }}">Thêm Bài viết</a>
+        <form action="{{ route('article.index') }}" method="GET" class="mb-3 col-6">
+            <div class="input-group flex justify-content-end">
+                <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm bài viết..."
+                    value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+        </form>
         <div class="content px-3">
             <table class="table table-striped mt-4">
                 <thead class="thead">
@@ -74,7 +81,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{$articles->links()}}
+            {{ $articles->links() }}
         </div>
     </div>
 

@@ -14,9 +14,19 @@ class ArticleController extends Controller
 {
     public function __construct(private ImageService $imageService) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::paginate(5);
+        $search = $request->input('search');
+
+        $query = Article::query();
+
+        if ($search) {
+            $query->where('subject', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        }
+
+        $articles = $query->paginate(5);
+
         return view('article.index', compact('articles'));
     }
 
