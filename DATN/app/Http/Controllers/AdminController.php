@@ -112,7 +112,7 @@ class AdminController extends Controller
     public function postChange(ChangePasswordRequest $request)
 {
     if (Auth::check() && Auth::user()->role == 0) {
-        $user = User::find($request->user_id); 
+        $user = User::find($request->user_id);
 
         if (!$user) {
             return back()->withErrors(['error' => 'Người dùng không tồn tại!']);

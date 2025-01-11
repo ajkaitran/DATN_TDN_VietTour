@@ -17,6 +17,8 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $active = $request->input('active');
+        $category = $request->input('category');
 
         $query = Article::query();
 
@@ -25,10 +27,20 @@ class ArticleController extends Controller
                 ->orWhere('description', 'like', '%' . $search . '%');
         }
 
-        $articles = $query->paginate(5);
+        if ($active !== null) {
+            $query->where('active', $active);
+        }
 
-        return view('article.index', compact('articles'));
+        if ($category) {
+            $query->where('article_category_id', $category);
+        }
+
+        $articles = $query->paginate(5);
+        $categories = ArticleCategory::all();
+
+        return view('article.index', compact('articles', 'categories'));
     }
+
 
     public function create()
     {

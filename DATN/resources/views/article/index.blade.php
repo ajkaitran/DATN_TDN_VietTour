@@ -27,14 +27,32 @@
     @endif
 
     <div class="box_content">
-        <a class="box_link" href="{{ route('article.create') }}">Thêm Bài viết</a>
-        <form action="{{ route('article.index') }}" method="GET" class="mb-3 col-6">
-            <div class="input-group flex justify-content-end">
-                <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm bài viết..."
+        <form action="{{ route('article.index') }}" method="GET" class="mb-3 ml-1 row">
+            <div class="col-4">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bài viết..."
                     value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+            <div class="col-3">
+                <select name="active" class="form-control">
+                    <option value="">-- Lọc theo trạng thái --</option>
+                    <option value="1" {{ request('active') == '1' ? 'selected' : '' }}>Hoạt động</option>
+                    <option value="0" {{ request('active') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select name="category" class="form-control">
+                    <option value="">-- Lọc theo danh mục bài viết --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                            {{ $category->category_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Lọc</button>
             </div>
         </form>
+        <a class="box_link" href="{{ route('article.create') }}">Thêm Bài viết</a>
         <div class="content px-3">
             <table class="table table-striped mt-4">
                 <thead class="thead">

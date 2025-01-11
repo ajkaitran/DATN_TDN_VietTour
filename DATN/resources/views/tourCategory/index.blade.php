@@ -28,7 +28,7 @@
     @endif
 
     <div class="box_content">
-        <form action="{{ route('tourCategory.index') }}" method="GET" class="mb-3 row">
+        <form action="{{ route('tourCategory.index') }}" method="GET" class="mb-3 ml-1 row">
             <div class="col-4">
                 <input type="text" name="search" class="form-control" placeholder="Tìm kiếm tên danh mục..."
                     value="{{ request('search') }}">
