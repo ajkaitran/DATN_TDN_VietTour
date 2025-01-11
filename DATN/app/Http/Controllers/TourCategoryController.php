@@ -17,23 +17,26 @@ class TourCategoryController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $type = $request->input('type');
+        $active = $request->input('active');
+        $hot = $request->input('hot');
 
         $query = ProductCategory::query();
 
         if ($search) {
-            $query->where('name', 'like', "%{$search}%");
+            $query->where('name', 'like', '%' . $search . '%');
         }
 
-        if ($type) {
-            $query->where('type', $type);
+        if ($active !== null) {
+            $query->where('active', $active);
         }
 
-        $data = $query->paginate(5)->appends($request->all());
+        if ($hot !== null) {
+            $query->where('hot', $hot);
+        }
 
-        $typeTour = ProductCategoryType::all();
+        $data = $query->paginate(10);
 
-        return view('tourCategory.index', compact('data', 'typeTour', 'search', 'type'));
+        return view('tourCategory.index', compact('data'));
     }
 
     /**

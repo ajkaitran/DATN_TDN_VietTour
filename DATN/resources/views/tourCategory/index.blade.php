@@ -28,11 +28,27 @@
     @endif
 
     <div class="box_content">
-        <form action="{{ route('tourCategory.index') }}" method="GET" class="mb-3 col-6">
-            <div class="input-group flex justify-content-end">
-                <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm tên danh mục..."
+        <form action="{{ route('tourCategory.index') }}" method="GET" class="mb-3 row">
+            <div class="col-4">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm tên danh mục..."
                     value="{{ request('search') }}">
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </div>
+            <div class="col-3">
+                <select name="active" class="form-control">
+                    <option value="">-- Lọc theo trạng thái --</option>
+                    <option value="1" {{ request('active') == '1' ? 'selected' : '' }}>Hoạt động</option>
+                    <option value="0" {{ request('active') == '0' ? 'selected' : '' }}>Không hoạt động</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select name="hot" class="form-control">
+                    <option value="">-- Lọc theo nổi bật --</option>
+                    <option value="1" {{ request('hot') == '1' ? 'selected' : '' }}>Nổi bật</option>
+                    <option value="0" {{ request('hot') == '0' ? 'selected' : '' }}>Không nổi bật</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Lọc</button>
             </div>
         </form>
         <a class="box_link" href="{{ route('tourCategory.create') }}">Thêm danh mục tour</a>
