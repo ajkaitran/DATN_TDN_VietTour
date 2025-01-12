@@ -4,7 +4,6 @@ namespace App\Service\Admin;
 
 use App\Models\ProductCategory;
 use App\Service\Common\ImageService;
-use Illuminate\Support\Facades\Storage;
 
 class TourCategoryService
 {
@@ -14,6 +13,7 @@ class TourCategoryService
   {
     $active = isset($data['active']) ? 1 : 0;
     $hot = isset($data['hot']) ? 1 : 0;
+    $homePage = isset($data['home_page']) ? 1 : 0;
     if ($data['image']) {
       $imageName = $this->imageService->uploadImage($data['image'], 'categoryTour');
     }
@@ -22,7 +22,8 @@ class TourCategoryService
       ...$data,
       'image' => $imageName ?? null,
       'active' => $active,
-      'hot' => $hot
+      'hot' => $hot,
+      'home_page' => $homePage
     ]);
   }
 
@@ -31,6 +32,7 @@ class TourCategoryService
     $category = ProductCategory::find($id);
     $active = isset($data['active']) ? 1 : 0;
     $hot = isset($data['hot']) ? 1 : 0;
+    $homePage = isset($data['home_page']) ? 1 : 0;
 
     if ($data['image']) {
       $imageName = $this->imageService->uploadImage($data['image'], 'categoryTour');
@@ -41,7 +43,8 @@ class TourCategoryService
       ...$data,
       'image' => $imageName ?? $category->image,
       'active' => $active,
-      'hot' => $hot
+      'hot' => $hot,
+      'home_page' => $homePage
     ]);
   }
 

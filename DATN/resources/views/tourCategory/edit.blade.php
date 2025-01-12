@@ -90,9 +90,11 @@
                     <div class="form-group">
                         <label for="" class="form_ext w-45">Danh mục tour</label>
                         <select class="form-control  w-75" aria-label="Default select example" name="parent_id">
-                            <option value="" {{ $category->parent_id == null ? 'selected' : '' }}>Danh mục cha</option>
+                            <option value="" {{ $category->parent_id == null ? 'selected' : '' }}>Danh mục cha
+                            </option>
                             @foreach ($categories as $cate)
-                                <option value="{{ $cate->id }}"{{ $category->parent_id == $cate->id ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $cate->id }}"{{ $category->parent_id == $cate->id ? 'selected' : '' }}>
                                     {{ $cate->name }}</option>
                             @endforeach
                         </select>
@@ -106,6 +108,11 @@
                         <label for="" class="form_ext w-45">Hiển thị nổi bật</label>
                         <input class="w-75" type="checkbox" name="hot" value="1"
                             {{ $category->hot == 1 ? 'checked' : '' }}>
+                    </div>
+                    <div class="form_check">
+                        <label for="" class="form_ext w-45">Menu</label>
+                        <input class="w-75" type="checkbox" name="home_page" value="1"
+                            {{ $category->home_page == 1 ? 'checked' : '' }}>
                     </div>
                 </div>
                 <div class="mx-auto">

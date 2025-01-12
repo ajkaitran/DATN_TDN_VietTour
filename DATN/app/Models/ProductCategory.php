@@ -19,13 +19,14 @@ class ProductCategory extends Model
         'sort',
         'active',
         'hot',
-        'home_page', 
+        'home_page',
         'parent_id',
         'hotline',
         'meta_title',
         'meta_description',
         'type',
         'time_get_temp',
+        'home_page',
     ];
     public function children()
     {

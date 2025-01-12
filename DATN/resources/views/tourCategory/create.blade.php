@@ -102,6 +102,11 @@
                         <label for="" class="form_ext w-45">Hiển thị nổi bật</label>
                         <input class="w-75" type="checkbox" name="hot" value="{{ old('hot') ? '1' : '' }}">
                     </div>
+                    <div class="form_check">
+                        <label for="" class="form_ext w-45">Menu</label>
+                        <input type="checkbox" class="w-75" name="home_page" id=""
+                            value="{{ old('home_page') ? '1' : '' }}">
+                    </div>
                 </div>
                 <div class="mx-auto">
                     <button type="submit" class="btn btn-success">Thêm mới</button>
