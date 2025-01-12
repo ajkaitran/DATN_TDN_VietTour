@@ -25,7 +25,6 @@ class StoreCategoryArticleRequest extends FormRequest
             'category_name' => 'required|string',
             'category_sort' => 'required|string',
             'type_post' => 'required|string',
-            'url' => 'required|string|url',
         ];
     }
 
@@ -38,9 +37,6 @@ class StoreCategoryArticleRequest extends FormRequest
             'category_sort.string' => 'Số thứ tự phải là chuổi',
             'type_post.required' => 'Vui lòng chọn loại bài viết',
             'type_post.string' => 'Loại bài viết phải là chuổi',
-            'url.required' => 'Vui lòng nhập url',
-            'url.string' => 'Url phải là chuổi',
-            'url.url' => 'Url phải là url',
         ];
     }
 }

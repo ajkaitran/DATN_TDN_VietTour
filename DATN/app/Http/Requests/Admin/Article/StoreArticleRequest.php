@@ -25,7 +25,6 @@ class StoreArticleRequest extends FormRequest
             'subject' => 'required',
             'description' => 'required',
             'body' => 'required',
-            'url' => 'required|url',
             'image' => 'required|image',
         ];
     }
@@ -41,8 +40,6 @@ class StoreArticleRequest extends FormRequest
             'subject.required' => 'Tiêu đề bài viết không được để trống',
             'description.required' => 'Trích dẫn ngắn không được để trống',
             'body.required' => 'Nội dung bài viết không được để trống',
-            'url.required' => 'Url không được để trống',
-            'url.url' => 'Url không hợp lệ',
             'image.required' => 'Hình ảnh không được để trống',
             'image.image' => 'Hình ảnh không hợp lệ',
         ];
