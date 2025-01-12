@@ -20,6 +20,7 @@ use App\Models\ArticleCategory;
 use App\Models\Feedback;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -93,13 +94,11 @@ class HomeController extends Controller
             $query->whereIn('category_type_id', $request->type);
         }
 
-        // Lọc theo điểm đi (nếu có)
         if ($request->has('from') && $request->from != '') {
-            $query->where('start_places_id', $request->from); // Đảm bảo `start_id` là tên cột đúng
+            $query->where('start_places_id', $request->from); 
         }
-        // Lấy kết quả
         $tours = $query->paginate(6);
-        // Trả dữ liệu về view
+     
         return view('home.tourLog', compact('tours', 'category_type', 'starts'),$this->view);
     }
     public function getToursByCategory($category_type_id)
@@ -108,6 +107,17 @@ class HomeController extends Controller
         $category = ProductCategoryType::findOrFail($category_type_id);
         return view('home.tourByCate', compact('tours', 'category'));
     }
+    public function getBlogById($id)
+    {
+        $article = Article::with('articleCategory')->findOrFail($id);
+
+        $relatedArticles = Article::where('article_category_id', $article->article_category_id)
+            ->where('id', '!=', $id)
+            ->take(5)
+            ->get();
+        return view('home.blogDetail', compact('article', 'relatedArticles'));
+    }
+
     public function detail($id)
     {
         // Lấy thông tin sản phẩm
@@ -182,6 +192,7 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'Đăng ký tài khoản không thành công!');
         }
     }
+    
     public function uploadFile($file)
     {
         $fileName = time() . '_' . $file->getClientOriginalName();
@@ -245,4 +256,41 @@ class HomeController extends Controller
 
         return redirect()->route('home.modal.login')->with('error', 'Bạn chưa đăng nhập!');
     }
+
+    public function monthlyStatistics(Request $request)
+    {
+        $year = $request->input('year', now()->year);
+
+        $statistics = Order::select(
+            DB::raw('MONTH(created_at) as month'),                         
+            DB::raw('COUNT(*) as total_orders'),                               
+            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'), 
+            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders'),   
+            DB::raw('SUM(CASE WHEN status = 1 THEN price * quantity ELSE 0 END) as total_pending'), 
+            DB::raw('SUM(CASE WHEN status = 2 THEN price * quantity ELSE 0 END) as total_paid')     
+        )
+            ->whereYear('created_at', $year) 
+            ->whereNotIn('status', [3])       
+            ->groupBy(DB::raw('MONTH(created_at)')) 
+            ->orderBy(DB::raw('MONTH(created_at)')) 
+            ->get();
+
+        $monthlyStatistics = collect(range(1, 12))->map(function ($month) use ($statistics) {
+            $data = $statistics->firstWhere('month', $month);
+            return [
+                'month' => $month,
+                'total_orders' => $data->total_orders ?? 0,         
+                'pending_orders' => $data->pending_orders ?? 0,      
+                'paid_orders' => $data->paid_orders ?? 0,           
+                'total_pending' => $data->total_pending ?? 0,        
+                'total_paid' => $data->total_paid ?? 0,             
+            ];
+        });
+        return view('admin.orderStatistics', [
+            'monthlyStatistics' => $monthlyStatistics,
+            'year' => $year,
+        ]);
+    }
+    
+    
 }

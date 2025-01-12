@@ -32,6 +32,7 @@ Route::prefix('/')->group(function () {
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');
     Route::get('/tourlog/{id}', [HomeController::class, 'tourLog'])->name('home.tourLog');
     Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog');
+    Route::get('/blogDetail/{id}', [HomeController::class, 'getBlogById'])->name('home.blogDetail');
     Route::get('/category/{category_type}', [HomeController::class, 'getToursByCategory'])->name('home.tourByCate');
     Route::get('tour', [HomeController::class, 'tour'])->name('home.tour');
     Route::get('register', [HomeController::class, 'register'])->name('home.modal.register');
@@ -40,8 +41,8 @@ Route::prefix('/')->group(function () {
     Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
     Route::match(['get', 'post'], 'logout', [HomeController::class, 'signout'])->name('home.modal.logout');
     Route::middleware('auth:web')->group(function () {
-        Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
-        Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
+    Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
+    Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
     });
 });
 Route::prefix('admin')->group(function () {
@@ -54,6 +55,7 @@ Route::prefix('admin')->group(function () {
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
         Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
         Route::get('list-order', [AdminController::class, 'listOrder'])->name('admin.listOrder');
+        Route::get('/orderstatistics', [HomeController::class, 'monthlyStatistics'])->name('admin.orderStatistics');
         Route::post('quick-update-order', [AdminController::class, 'quickUpdateOrder'])->name('admin.quickUpdateOrder');
         Route::get('list-user', [AdminController::class, 'listUser'])->name('admin.listUser');
         Route::get('list-client', [AdminController::class, 'listClient'])->name('admin.listClient');
