@@ -44,8 +44,8 @@
                 <a class="collapse-item" href="{{ route('admin.listUser') }}">Danh sách thành viên</a>
                 <a class="collapse-item" href="{{ route('admin.listClient') }}">Danh sách khách hàng</a>
                 {{-- <a class="collapse-item" href="{{ route('admin.signout') }}"
-                    onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">
-                    Đăng xuất
+                onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">
+                Đăng xuất
                 </a> --}}
             </div>
         </div>
@@ -60,6 +60,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('admin.listOrder') }}">Danh sách đơn hàng</a>
+                <a class="collapse-item" href="{{ route('admin.orderStatistics') }}">Thống kê đơn hàng</a>
             </div>
         </div>
     </li>

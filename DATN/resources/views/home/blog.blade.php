@@ -8,21 +8,10 @@
 
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
-        <!-- Breadcrumb -->
-        <div class="text-sm text-gray-600 mb-4">
-            <a class="text-blue-500" href="#">
-                <i class="fas fa-home">
-                </i>
-                Trang chủ
-            </a>>
-            Blog du lịch
-        </div>
-        <!-- Main Content -->
         <h1 class="text-center text-blue-600 text-2xl font-bold mb-4">
             BLOG DU LỊCH
         </h1>
         <div class="flex flex-col lg:flex-row ">
-            <!-- Search Sidebar -->
             <div class="w-full lg:w-1/4 mb-4 lg:mb-0 mr-3">
                 <div class="bg-white p-4 rounded-lg shadow">
                     <h2 class="text-blue-600 text-lg font-bold mb-4">
@@ -45,19 +34,20 @@
                     </form>
                 </div>
             </div>
-            <!-- Blog Content -->
             <div class="w-full lg:w-3/4">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach($blog as $items)
                     <div class="bg-white rounded-lg shadow overflow-hidden">
-                        <img alt="A beautiful traditional Chinese building by a lake" class="w-full h-48 object-cover" height="400" src="{{ Storage::url('article/' . $items->image) }}" width="600" />
+                        <a href="{{ route('home.blogDetail', ['id' => $items->id]) }}"><img alt="A beautiful traditional Chinese building by a lake" class="w-full h-48 object-cover" height="400" src="{{ Storage::url('article/' . $items->image) }}" width="600" /></a>
                         <div class="p-4">
                             <h2 class="text-blue-500 text-sm font-semibold mb-2">
                                 {{$items->articleCategory->category_name}}
                             </h2>
-                            <h3 class="text-gray-800 font-bold mb-2 article_title">
-                                {{$items->subject}}
-                            </h3>
+                            <a href="{{ route('home.blogDetail', ['id' => $items->id]) }}">
+                                <h3 class="text-gray-800 font-bold mb-2 article_title">
+                                    {{$items->subject}}
+                                </h3>
+                            </a>
                             <p class="text-gray-600 text-sm article_content">
                                 {{$items->description}}
                             </p>
