@@ -93,11 +93,11 @@ class TourController extends Controller
                     }
                 }
 
-                session()->flash('success', 'tour created successfully');
+                session()->flash('success', 'tthêm mới tour thành công');
                 return redirect()->route('tour.index');
             }
 
-            session()->flash('error', 'Error creating tour');
+            session()->flash('error', 'Thêm mới tour bị lỗi');
             return back();
         }
 
@@ -158,7 +158,7 @@ class TourController extends Controller
 
             // Hiển thị thông báo và quay lại trang danh sách
             if ($result) {
-                session()->flash('success', 'Sửa phản hồi thành công');
+                session()->flash('success', 'Sửa tour thành công');
                 return redirect()->route('tour.index');
             }
         }
