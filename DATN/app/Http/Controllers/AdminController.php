@@ -82,10 +82,10 @@ class AdminController extends Controller
         $id = $request->input('id');
         $status = $request->input('status');
 
-        $user = User::find($id);
-        if ($user) {
-            $user->status = $status;
-            $user->save();
+        $order = Order::find($id);
+        if ($order) {
+            $order->status = $status;
+            $order->save();
 
             return response()->json(['success' => true]);
         }
@@ -138,21 +138,16 @@ class AdminController extends Controller
     {
         $login = $request->input('login');
         $password = $request->input('password');
-    
-        // Xác định trường cần dùng để đăng nhập: email hoặc username
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-        // Nếu không đăng nhập được với guard 'web', thử đăng nhập với guard 'admin'
-        if (Auth::guard('admin')->attempt([$field => $login, 'password' => $password])) {
-            $admin = Auth::guard('admin')->user();
+        if (Auth::attempt([$field => $login, 'password' => $password])) {
+            $admin = Auth::user();
     
-            // Kiểm tra trạng thái của tài khoản Admin
             if ($admin->status != 1) {
-                Auth::guard('admin')->logout();
+                Auth::logout();
                 return redirect()->back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
             }
             if (!in_array($admin->role, [0, 1])) {
-                Auth::guard('admin')->logout();
+                Auth::logout();
                 return redirect()->back()->with('error', 'Bạn không có quyền truy cập.');
             }
             return redirect()->route('admin.index');
@@ -305,19 +300,9 @@ class AdminController extends Controller
     }
     public function signout(Request $request)
     {
-        if (Auth::guard('admin')->check()) {
-            $admin = Auth::guard('admin')->user();
-
-            Log::info('Admin logged out', [
-                'admin_id' => $admin->id,
-                'role' => $admin->role,
-                'ip' => $request->ip(),
-            ]);
-
-            Auth::guard('admin')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
+        if (Auth::check()) {
+            Log::info('User logged out', ['user_id' => Auth::id(), 'ip' => $request->ip()]);
+            Auth::logout();
             return redirect()->route('admin.login')->with('success', 'Bạn đã đăng xuất thành công!');
         }
 
