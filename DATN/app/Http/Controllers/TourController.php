@@ -41,7 +41,7 @@ class TourController extends Controller
             $query->where('product_category_id', $request->product_category_id);
         }
 
-        $tours = $query->paginate(5);
+        $tours = $query->paginate(5)->appends($request->all());
 
         // Lấy các danh mục và loại tour
         $ProductCategories = ProductCategory::all();
