@@ -52,8 +52,8 @@ class AdminController extends Controller
         return view('admin.listClient', $this->view);
     }
     // hiện thị danh sách đon hàng 
-    public function listOrder(Request $request)
-{
+    public function listOrder(Request $request){
+        
     $objClient = new User();
     $query = Order::query()->with('product'); // Query từ bảng Order và liên kết với bảng Product
 
@@ -85,7 +85,7 @@ class AdminController extends Controller
     }
 
     // Lấy danh sách đơn hàng sau khi lọc
-    $listOrder = $query->paginate(5);
+    $listOrder = $query->paginate(5)->appends($request->all());
 
     // Chuẩn bị dữ liệu cho view
     $this->view['listOrder'] = $listOrder;
