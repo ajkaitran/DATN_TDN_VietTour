@@ -26,46 +26,47 @@
 </div>
 @endif
 <div class="box_content">
-    <form action="{{ route('tour.index') }}" method="GET">
-        <div class="row mx-auto">
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Tên Khách Hàng" name="name" value="{{ request('name') }}">
-                </div>
+<form action="{{ route('admin.listOrder') }}" method="GET">
+    <div class="row mx-auto">
+        <div class="col-6">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Tên Khách Hàng" name="customer_name" value="{{ request('customer_name') }}">
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Tên Tour" name="name" value="{{ request('name') }}">
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Mã Đơn Hàng" name="name" value="{{ request('name') }}">
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <select class="form-control" name="category_type_id" id="category_type_id">
-                        <option value="">Phương Thức Thanh Toán</option>
-                        @foreach($payments as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <select class="form-control" name="category_type_id" id="category_type_id">
-                        <option value="">Trạng Thái Đơn Hàng</option>
-                        @foreach($payments as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <button type="submit" class="box_log">Lọc dữ liệu</button>
         </div>
-    </form>
+        <div class="col-6">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Tên Tour" name="tour_name" value="{{ request('tour_name') }}">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Mã Đơn Hàng" name="order_code" value="{{ request('order_code') }}">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <select class="form-control" name="payment_method">
+                    <option value="">Phương Thức Thanh Toán</option>
+                    @foreach($payments as $key => $value)
+                        <option value="{{ $key }}" {{ request('payment_method') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <select class="form-control" name="status">
+                    <option value="">Trạng Thái Đơn Hàng</option>
+                    @foreach($status as $key => $value)
+                        <option value="{{ $key }}" {{ request('status') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc dữ liệu</button>
+    </div>
+</form>
+
 
 </div>
 <div class="box_content">
