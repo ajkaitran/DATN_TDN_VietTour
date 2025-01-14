@@ -51,32 +51,57 @@ class AdminController extends Controller
 
         return view('admin.listClient', $this->view);
     }
+    // hiện thị danh sách đon hàng 
     public function listOrder(Request $request)
-    {
-        $objClient = new User();
-        $query = Product::query(); // Khởi tạo query
-        $objOrder = new Order();
+{
+    $objClient = new User();
+    $query = Order::query()->with('product'); // Query từ bảng Order và liên kết với bảng Product
 
-        // Lọc theo tên tour
-        if ($request->filled('name')) {
-            $query->where('name', 'like', '%' . $request->name . '%');
-        }
-
-        $tours = $query->paginate(5);
-        $this->view['listOrder'] = $objOrder->with('product')->paginate(5);
-        $this->view['users'] = $objClient->get();
-        $this->view['payments'] = [
-            1 => 'Thanh Toán Trực Tuyến',
-            2 => 'Thanh Toán Momo',
-        ];
-        $this->view['status'] = [
-            1 => 'Chưa Thanh Toán',
-            2 => 'Đã Thanh Toán',
-            3 => 'Dã Hủy',
-        ];
-
-        return view('admin.listOrder', compact('tours'), $this->view);
+    // Lọc theo tên khách hàng
+    if ($request->filled('customer_name')) {
+        $query->where('customer_info_full_name', 'like', '%' . $request->customer_name . '%');
     }
+
+    // Lọc theo tên tour
+    if ($request->filled('tour_name')) {
+        $query->whereHas('product', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->tour_name . '%');
+        });
+    }
+
+    // Lọc theo mã đơn hàng
+    if ($request->filled('order_code')) {
+        $query->where('oder_code', 'like', '%' . $request->order_code . '%');
+    }
+
+    // Lọc theo phương thức thanh toán
+    if ($request->filled('payment_method')) {
+        $query->where('payment', $request->payment_method);
+    }
+
+    // Lọc theo trạng thái đơn hàng
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    // Lấy danh sách đơn hàng sau khi lọc
+    $listOrder = $query->paginate(5);
+
+    // Chuẩn bị dữ liệu cho view
+    $this->view['listOrder'] = $listOrder;
+    $this->view['users'] = $objClient->get();
+    $this->view['payments'] = [
+        1 => 'Thanh Toán Trực Tuyến',
+        2 => 'Thanh Toán Momo',
+    ];
+    $this->view['status'] = [
+        1 => 'Chưa Thanh Toán',
+        2 => 'Đã Thanh Toán',
+        3 => 'Đã Hủy',
+    ];
+
+    return view('admin.listOrder', $this->view);
+}
     public function quickUpdateOrder(Request $request)
     {
         $id = $request->input('id');
