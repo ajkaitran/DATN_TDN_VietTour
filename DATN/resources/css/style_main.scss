@@ -266,6 +266,11 @@ p{
     margin: 15px 0;
     font-weight: 700;
 }
+.title_order{
+    color: #0080ff;
+    font-size: 24px;
+    font-weight: 800;
+}
 .location{
     position: relative;
     text-align: center;
@@ -1010,6 +1015,7 @@ input[type="text"] {
     outline: none;
 }
 
+
 .tbody-item-column{
     display: flex;
     flex-direction: column;
@@ -1023,6 +1029,36 @@ input[type="text"] {
     display: flex;
     gap: 15px;
     align-items: center;
+}
+.label_input{
+    color: #006af5;
+    font-weight: 500;
+    font-size: 18px;
+}
+.input_item{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin: 10px 0;
+    i{
+        width: 11%;
+        padding: 11px;        
+        background-color: $blue1;
+        color: white;
+
+    }
+    input{
+        width: 88%;
+        outline: none;
+        border: 1px solid #d1d3e2;
+        height: calc(1.5em + 0.75rem + 2px);
+    }
+    select{
+        width: 88%;
+        outline: none;
+        border: 1px solid #d1d3e2;
+        height: calc(1.5em + 0.75rem + 2px);
+    }
 }
 .index_1{
     padding: 20px 0;

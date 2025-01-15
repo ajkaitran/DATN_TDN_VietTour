@@ -123,7 +123,7 @@
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Phương Tiện Di Chuyển</label>
                         <input type="text" class="form-control w-75" name="transport"
-                            value="{{ $tours->schedule }}">
+                            value="{{ $tours->transport }}">
                     </div>
                     <div class="form-group">
                         <label class="form_ext w-25" for="">Khách Sạn Mấy Sao</label>

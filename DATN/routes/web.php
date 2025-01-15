@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AssessController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryArticleController;
 use App\Http\Controllers\TourTypeController;
@@ -30,6 +31,7 @@ Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/searchTour', [HomeController::class, 'searchTour'])->name('home.searchTour');
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('home.detail');
+    Route::post('/comments/{id}', [HomeController::class, 'store'])->name('home.comment');
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');
     Route::get('/tourlog/{id}', [HomeController::class, 'tourLog'])->name('home.tourLog');
     Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog');
@@ -41,6 +43,7 @@ Route::prefix('/')->group(function () {
     Route::get('login', [HomeController::class, 'login'])->name('home.modal.login');
     Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
     Route::match(['get', 'post'], 'logout', [HomeController::class, 'signout'])->name('home.modal.logout');
+    Route::post('danh-gia', [HomeController::class, 'storeAssess'])->name('home.storeAssess');
     Route::middleware('auth:web')->group(function () {
         Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
         Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
@@ -63,7 +66,7 @@ Route::prefix('admin')->group(function () {
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
         Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
         Route::get('list-order', [AdminController::class, 'listOrder'])->name('admin.listOrder');
-        Route::get('/orderstatistics', [HomeController::class, 'monthlyStatistics'])->name('admin.orderStatistics');
+        Route::get('/orderstatistics', [HomeController::class, 'statistics'])->name('admin.orderStatistics');
         Route::post('quick-update-order', [AdminController::class, 'quickUpdateOrder'])->name('admin.quickUpdateOrder');
         Route::get('list-user', [AdminController::class, 'listUser'])->name('admin.listUser');
         Route::get('list-client', [AdminController::class, 'listClient'])->name('admin.listClient');
@@ -133,8 +136,13 @@ Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::delete('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
 });
 
+Route::prefix('admin/assess')->middleware('admin')->group(function () {
+    Route::get('/', [AssessController::class, 'index'])->name('assess.index');
+});
+
 Route::prefix('admin/comments')->middleware('admin')->group(function () {
     Route::get('/', [CommentController::class, 'index'])->name('comment.index');
+    Route::put('/{id}', [CommentController::class, 'update'])->name('comment.update');
 });
 
 Route::prefix('admin/articleCategory')->middleware('admin')->group(function () {
