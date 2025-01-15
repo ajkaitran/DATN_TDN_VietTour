@@ -100,13 +100,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <label class="label_input">Ngày về*</label>
                                 <div class="input_item">
                                     <i class="fa-solid fa-calendar-days" style="width: 15%;"></i>
                                     <input type="date"name="return_date" placeholder="dd/mm/yyyy" required>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between">

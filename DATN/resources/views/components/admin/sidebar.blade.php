@@ -121,12 +121,12 @@
     </li>
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4"
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
             <span>Quản lý quảng cáo</span>
         </a>
-        <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('banner.index') }}">Danh sách quảng cáo</a>
                 <a class="collapse-item" href="{{ route('banner.create') }}">Thêm mới quảng cáo</a>
