@@ -17,6 +17,7 @@ use App\Models\Article;
 use App\Models\Banner;
 use App\Models\Feedback;
 use App\Models\ProductCategoryType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,14 +30,27 @@ class AdminController extends Controller
     }
     public function index()
     {
+        $today = Carbon::now();
+
+        // Cập nhật trạng thái "Đang thực hiện" cho đơn hàng
+        Order::where('status', 3) // 1: Chưa bắt đầu
+            ->whereDate('transport_date', '<=', $today)
+            ->whereDate('return_date', '>=', $today)
+            ->update(['status' => 4]); // 2: Đang thực hiện
+
+        // Cập nhật trạng thái "Hoàn thành" cho đơn hàng
+        Order::where('status', 4) // 2: Đang thực hiện
+            ->whereDate('return_date', '<', $today)
+            ->update(['status' => 5]); // 3: Hoàn thành
+
         $userCount = User::where('role', '2')->count();
         $adminCount = User::whereIn('role', [0, 1])->count();
         $productCount = Product::count();
         $orderCount = Order::count();
         $commentCount = Comment::count();
-        $articleCount =Article ::count();
+        $articleCount = Article::count();
         $feedbackCount = Feedback::count();
-        return view('admin.index', compact('userCount', 'adminCount', 'productCount', 'orderCount', 'commentCount','articleCount','feedbackCount'));
+        return view('admin.index', compact('userCount', 'adminCount', 'productCount', 'orderCount', 'commentCount', 'articleCount', 'feedbackCount'));
     }
     public function listUser()
     {
@@ -63,59 +77,60 @@ class AdminController extends Controller
         return view('admin.listClient', $this->view);
     }
     // hiện thị danh sách đon hàng 
-    public function listOrder(Request $request){
-        
-    $objClient = new User();
-    $query = Order::query()->with('product')->orderBy('created_at', 'desc'); // Query từ bảng Order và liên kết với bảng Product
+    public function listOrder(Request $request)
+    {
 
-    // Lọc theo tên khách hàng
-    if ($request->filled('customer_name')) {
-        $query->where('customer_info_full_name', 'like', '%' . $request->customer_name . '%');
+        $objClient = new User();
+        $query = Order::query()->with('product')->orderBy('created_at', 'desc'); // Query từ bảng Order và liên kết với bảng Product
+
+        // Lọc theo tên khách hàng
+        if ($request->filled('customer_name')) {
+            $query->where('customer_info_full_name', 'like', '%' . $request->customer_name . '%');
+        }
+
+        // Lọc theo tên tour
+        if ($request->filled('tour_name')) {
+            $query->whereHas('product', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->tour_name . '%');
+            });
+        }
+
+        // Lọc theo mã đơn hàng
+        if ($request->filled('order_code')) {
+            $query->where('oder_code', 'like', '%' . $request->order_code . '%');
+        }
+
+        // Lọc theo phương thức thanh toán
+        if ($request->filled('payment_method')) {
+            $query->where('payment', $request->payment_method);
+        }
+
+        // Lọc theo trạng thái đơn hàng
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Lấy danh sách đơn hàng sau khi lọc
+        $listOrder = $query->paginate(5)->appends($request->all());
+
+        // Chuẩn bị dữ liệu cho view
+        $this->view['listOrder'] = $listOrder;
+        $this->view['users'] = $objClient->get();
+        $this->view['payments'] = [
+            1 => 'Thanh Toán Trực Tuyến',
+            2 => 'Thanh Toán Momo',
+        ];
+        $this->view['status'] = [
+            1 => 'Chưa Thanh Toán',
+            2 => 'Thanh Toán Thành Công',
+            3 => 'Đã Xác Nhận',
+            4 => 'Đang thực hiện',
+            5 => 'Đã hoàn thành',
+            6 => 'Đã hủy',
+        ];
+
+        return view('admin.listOrder', $this->view);
     }
-
-    // Lọc theo tên tour
-    if ($request->filled('tour_name')) {
-        $query->whereHas('product', function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->tour_name . '%');
-        });
-    }
-
-    // Lọc theo mã đơn hàng
-    if ($request->filled('order_code')) {
-        $query->where('oder_code', 'like', '%' . $request->order_code . '%');
-    }
-
-    // Lọc theo phương thức thanh toán
-    if ($request->filled('payment_method')) {
-        $query->where('payment', $request->payment_method);
-    }
-
-    // Lọc theo trạng thái đơn hàng
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    // Lấy danh sách đơn hàng sau khi lọc
-    $listOrder = $query->paginate(5)->appends($request->all());
-
-    // Chuẩn bị dữ liệu cho view
-    $this->view['listOrder'] = $listOrder;
-    $this->view['users'] = $objClient->get();
-    $this->view['payments'] = [
-        1 => 'Thanh Toán Trực Tuyến',
-        2 => 'Thanh Toán Momo',
-    ];
-    $this->view['status'] = [
-        1 => 'Chưa Thanh Toán',
-        2 => 'Thanh Toán Thành Công',
-        3 => 'Đã Xác Nhận',
-        4 => 'Đang thực hiện',
-        5 => 'Đã hoàn thành',
-        6 => 'Đã hủy',
-    ];
-
-    return view('admin.listOrder', $this->view);
-}
     public function quickUpdateOrder(Request $request)
     {
         $id = $request->input('id');
@@ -180,7 +195,7 @@ class AdminController extends Controller
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (Auth::attempt([$field => $login, 'password' => $password])) {
             $admin = Auth::user();
-    
+
             if ($admin->status != 1) {
                 Auth::logout();
                 return redirect()->back()->with('error', 'Tài khoản của bạn chưa được kích hoạt.');
@@ -195,63 +210,63 @@ class AdminController extends Controller
             ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
             ->withInput($request->only('login'));
     }
-    
+
     public function changePassword()
     {
         return view('admin.changePassword');
     }
 
     public function postChange(ChangePasswordRequest $request)
-{
-    if (Auth::check() && Auth::user()->role == 0) {
-        $user = User::find($request->user_id);
+    {
+        if (Auth::check() && Auth::user()->role == 0) {
+            $user = User::find($request->user_id);
 
-        if (!$user) {
-            return back()->withErrors(['error' => 'Người dùng không tồn tại!']);
-        }
+            if (!$user) {
+                return back()->withErrors(['error' => 'Người dùng không tồn tại!']);
+            }
 
-        // Kiểm tra mật khẩu hiện tại của người dùng Admin
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
-        }
+            // Kiểm tra mật khẩu hiện tại của người dùng Admin
+            if (!Hash::check($request->current_password, Auth::user()->password)) {
+                return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+            }
 
-        // Kiểm tra xem mật khẩu mới có trùng với mật khẩu cũ không
-        if (Hash::check($request->new_password, $user->password)) {
-            return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ của người dùng!']);
-        }
+            // Kiểm tra xem mật khẩu mới có trùng với mật khẩu cũ không
+            if (Hash::check($request->new_password, $user->password)) {
+                return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ của người dùng!']);
+            }
 
-        try {
-            // Cập nhật mật khẩu của người dùng khác
-            $user->password = Hash::make($request->new_password);
-            $user->save();
+            try {
+                // Cập nhật mật khẩu của người dùng khác
+                $user->password = Hash::make($request->new_password);
+                $user->save();
 
-            return back()->with('success', 'Mật khẩu của người dùng đã được thay đổi thành công!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
-        }
-    } else {
-        // Nếu người dùng không phải admin, chỉ cho phép thay đổi mật khẩu của chính họ
-        if (!Hash::check($request->current_password, Auth::user()->password)) {
-            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
-        }
+                return back()->with('success', 'Mật khẩu của người dùng đã được thay đổi thành công!');
+            } catch (\Exception $e) {
+                return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+            }
+        } else {
+            // Nếu người dùng không phải admin, chỉ cho phép thay đổi mật khẩu của chính họ
+            if (!Hash::check($request->current_password, Auth::user()->password)) {
+                return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+            }
 
-        // Kiểm tra mật khẩu mới có trùng với mật khẩu cũ không
-        if (Hash::check($request->new_password, Auth::user()->password)) {
-            return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ!']);
-        }
+            // Kiểm tra mật khẩu mới có trùng với mật khẩu cũ không
+            if (Hash::check($request->new_password, Auth::user()->password)) {
+                return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ!']);
+            }
 
-        try {
-            // Cập nhật mật khẩu của người dùng hiện tại
-            $admin = Auth::user();
-            $admin->password = Hash::make($request->new_password);
-            $admin->save();
+            try {
+                // Cập nhật mật khẩu của người dùng hiện tại
+                $admin = Auth::user();
+                $admin->password = Hash::make($request->new_password);
+                $admin->save();
 
-            return back()->with('success', 'Mật khẩu đã được thay đổi thành công!');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+                return back()->with('success', 'Mật khẩu đã được thay đổi thành công!');
+            } catch (\Exception $e) {
+                return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+            }
         }
     }
-}
 
 
     public function edit(int $id)

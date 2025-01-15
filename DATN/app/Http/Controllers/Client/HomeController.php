@@ -35,6 +35,19 @@ class HomeController extends Controller
     }
     public function index()
     {
+        $today = Carbon::now();
+
+        // Cập nhật trạng thái "Đang thực hiện" cho đơn hàng
+        Order::where('status', 3) // 1: Chưa bắt đầu
+            ->whereDate('transport_date', '<=', $today)
+            ->whereDate('return_date', '>=', $today)
+            ->update(['status' => 4]); // 2: Đang thực hiện
+
+        // Cập nhật trạng thái "Hoàn thành" cho đơn hàng
+        Order::where('status', 4) // 2: Đang thực hiện
+            ->whereDate('return_date', '<', $today)
+            ->update(['status' => 5]); // 3: Hoàn thành
+
         $objBanner = new Banner();
         $objTourCate = new ProductCategory();
         $objTour = new Product();
@@ -272,8 +285,6 @@ class HomeController extends Controller
 
         return redirect()->back()->with('error', 'Tour không hợp lệ!');
     }
-
-
 
     public function register()
     {
