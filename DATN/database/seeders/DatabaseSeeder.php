@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             // AdminSeeder::class,
             // UsersSeeder::class,
             // ArticlesSeeder::class,
-            CommentsSeeder::class,
+            // CommentsSeeder::class,
+            OrdersTableSeeder::class,
         ]);
     }
 }

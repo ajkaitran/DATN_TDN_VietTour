@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use App\Models\ArticleCategory;
+use App\Models\Assess;
+use App\Models\Comment;
 use App\Models\Feedback;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -112,12 +114,12 @@ class HomeController extends Controller
     public function getBlogById($id)
     {
         $article = Article::with('articleCategory')->findOrFail($id);
-
+        $comments = Comment::where('article_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->get();
         $relatedArticles = Article::where('article_category_id', $article->article_category_id)
             ->where('id', '!=', $id)
             ->take(5)
             ->get();
-        return view('home.blogDetail', compact('article', 'relatedArticles'));
+        return view('home.blogDetail', compact('article', 'relatedArticles', 'comments'));
     }
 
     public function detail($id)
@@ -125,7 +127,6 @@ class HomeController extends Controller
         // Lấy thông tin sản phẩm
         $item = Product::with('itineraries')->findOrFail($id);
         $otherTours = Product::where('id', '!=', $id)->take(5)->get();
-
         // Trả về view kèm dữ liệu
         return view('home.detail', compact('item', 'otherTours'));
     }
@@ -134,7 +135,6 @@ class HomeController extends Controller
         // Lấy tất cả bài viết và thể loại bài viết
         $blog = Article::with('articleCategory');
         $articleCategory = ArticleCategory::all();
-
         // Kiểm tra nếu có tham số tìm kiếm
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
@@ -370,11 +370,14 @@ class HomeController extends Controller
         return redirect()->route('home.index')->with('error', 'Bạn chưa đăng nhập!');
     }
 
-    public function monthlyStatistics(Request $request)
+    public function statistics(Request $request)
     {
         $year = $request->input('year', now()->year);
 
-        $statistics = Order::select(
+
+        // Thống kê theo tháng
+        $monthlyStatistics = Order::select(
+
             DB::raw('MONTH(created_at) as month'),
             DB::raw('COUNT(*) as total_orders'),
             DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'),
@@ -388,8 +391,8 @@ class HomeController extends Controller
             ->orderBy(DB::raw('MONTH(created_at)'))
             ->get();
 
-        $monthlyStatistics = collect(range(1, 12))->map(function ($month) use ($statistics) {
-            $data = $statistics->firstWhere('month', $month);
+        $monthlyStatistics = collect(range(1, 12))->map(function ($month) use ($monthlyStatistics) {
+            $data = $monthlyStatistics->firstWhere('month', $month);
             return [
                 'month' => $month,
                 'total_orders' => $data->total_orders ?? 0,
@@ -399,9 +402,63 @@ class HomeController extends Controller
                 'total_paid' => $data->total_paid ?? 0,
             ];
         });
+
+        // Thống kê theo ngày
+        $dailyStatistics = $this->dailyStatistics($year);
+
         return view('admin.orderStatistics', [
             'monthlyStatistics' => $monthlyStatistics,
+            'dailyStatistics' => $dailyStatistics,
             'year' => $year,
+            'monthlyStatisticsJSON' => json_encode($monthlyStatistics),
+            'dailyStatisticsJSON' => json_encode($dailyStatistics),
         ]);
+    }
+    public function dailyStatistics($year)
+    {
+        // Thống kê theo ngày
+        $dailyStatistics = Order::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('COUNT(*) as total_orders'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders')
+        )
+            ->whereYear('created_at', $year)
+            ->whereNotIn('status', [3])
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy(DB::raw('DATE(created_at)'))
+            ->get();
+
+        return $dailyStatistics;
+    }
+
+    public function storeAssess(Request $request)
+    {
+        $validated = $request->validate([
+            'star' => 'required|numeric|min:1|max:5',
+            'content' => 'required|string',
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        try {
+            $assess = new Assess();
+            $assess->star = $validated['star'];
+            $assess->content = $validated['content'];
+            $assess->order_id = $validated['order_id'];
+            $assess->user_id = auth()->id();
+            $assess->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đánh giá đã được lưu thành công!',
+                'data' => $assess,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi lưu đánh giá.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

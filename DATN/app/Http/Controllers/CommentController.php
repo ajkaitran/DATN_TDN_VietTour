@@ -29,5 +29,12 @@ class CommentController extends Controller
         $this->view['listComment'] = $objComment->loadListComment($filters);
         return view('comment.index', $this->view);
     }
+
+    public function update($id){
+        $comment = Comment::find($id);
+        $comment->status =!$comment->status;
+        $comment->save();
+        return redirect()->route('comment.index')->with('success', 'Cập nhật trạng thái thành công');
+    }
 }
 
