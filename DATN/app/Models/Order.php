@@ -37,7 +37,8 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function insertDataOrder($params){
+    public function insertDataOrder($params)
+    {
         $params['oder_code'] = rand(100000, 999999);
         $params['payment'] = 1;
         $params['transport_date'] = now();
@@ -48,5 +49,14 @@ class Order extends Model
         $res = Order::query()->create($params);
         return $res;
     }
-    
+
+    public function Assess()
+    {
+        return $this->hasOne(Assess::class, 'order_id');
+    }
+
+    public function isAssessed()
+    {
+        return $this->Assess()->exists();
+    }
 }

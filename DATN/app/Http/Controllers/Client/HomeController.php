@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use App\Models\ArticleCategory;
+use App\Models\Assess;
 use App\Models\Comment;
 use App\Models\Feedback;
 use Illuminate\Support\Facades\Log;
@@ -112,12 +113,12 @@ class HomeController extends Controller
     public function getBlogById($id)
     {
         $article = Article::with('articleCategory')->findOrFail($id);
-        $comments = Comment::where('article_id', $id)->where('status', 1)->orderBy('created_at','DESC')->get();
+        $comments = Comment::where('article_id', $id)->where('status', 1)->orderBy('created_at', 'DESC')->get();
         $relatedArticles = Article::where('article_category_id', $article->article_category_id)
             ->where('id', '!=', $id)
             ->take(5)
             ->get();
-        return view('home.blogDetail', compact('article', 'relatedArticles','comments'));
+        return view('home.blogDetail', compact('article', 'relatedArticles', 'comments'));
     }
 
     public function detail($id)
@@ -396,4 +397,33 @@ class HomeController extends Controller
         return $dailyStatistics;
     }
 
+    public function storeAssess(Request $request)
+    {
+        $validated = $request->validate([
+            'star' => 'required|numeric|min:1|max:5',
+            'content' => 'required|string',
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        try {
+            $assess = new Assess();
+            $assess->star = $validated['star'];
+            $assess->content = $validated['content'];
+            $assess->order_id = $validated['order_id'];
+            $assess->user_id = auth()->id();
+            $assess->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Đánh giá đã được lưu thành công!',
+                'data' => $assess,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi lưu đánh giá.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

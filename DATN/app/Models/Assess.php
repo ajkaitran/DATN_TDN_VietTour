@@ -14,6 +14,7 @@ class Assess extends Model
 
     protected $fillable = [
         'order_id',
+        'user_id',
         'content',
         'star',
     ];
@@ -21,5 +22,10 @@ class Assess extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
