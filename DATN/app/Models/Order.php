@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Order extends Model
 {
@@ -33,30 +34,15 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+
+    public function itinerary()
+    {
+        return $this->hasManyThrough(Itinerary::class, Product::class, 'product_id', 'id', 'product_id', 'id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function insertDataOrder($params)
-    {
-        $params['oder_code'] = rand(100000, 999999);
-        $params['payment'] = 1;
-        $params['transport_date'] = now();
-        $params['discount_code'] = null;
-        $params['viewed'] = 0;
-        $params['status'] = 1;
-        $params['user_id'] = auth()->id();
-        $res = Order::query()->create($params);
-        return $res;
-    }
 
-    public function Assess()
-    {
-        return $this->hasOne(Assess::class, 'order_id');
-    }
-
-    public function isAssessed()
-    {
-        return $this->Assess()->exists();
-    }
 }
