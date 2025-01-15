@@ -19,6 +19,7 @@ use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use App\Models\ArticleCategory;
 use App\Models\Feedback;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +73,7 @@ class HomeController extends Controller
         return view('home.searchTour', compact('items'));
     }
     public function tourLog(Request $request, $id)
-    {  
+    {
         $objBanner = new Banner();
         $category_type = ProductCategory::findOrFail($id);
         $objTourCate = new ProductCategory();
@@ -96,11 +97,11 @@ class HomeController extends Controller
         }
 
         if ($request->has('from') && $request->from != '') {
-            $query->where('start_places_id', $request->from); 
+            $query->where('start_places_id', $request->from);
         }
         $tours = $query->paginate(6);
-     
-        return view('home.tourLog', compact('tours', 'category_type', 'starts'),$this->view);
+
+        return view('home.tourLog', compact('tours', 'category_type', 'starts'), $this->view);
     }
     public function getToursByCategory($category_type_id)
     {
@@ -209,18 +210,50 @@ class HomeController extends Controller
     {
         $this->view['user'] = auth()->user();
         $tour = Product::findOrFail($id);
-        return view('home.order', compact('tour'),$this->view);
+        return view('home.order', compact('tour'), $this->view);
     }
     public function storeOrder(Request $request)
     {
-        $objOrder = new Order();
-        $res = $objOrder->insertDataOrder($request->all());
-        if ($res) {
-            return redirect()->route('home.profile')->with('success', 'Đặt tour thành công!');
-        } else {
-            return redirect()->back()->with('error', 'Đặt tour không thành công!');
+        // Lấy dữ liệu từ form
+        $params = $request->all();
+
+        // Tạo mã đơn hàng
+        $params['oder_code'] = 'ODR-' . strtoupper(uniqid()); // Tạo mã đơn hàng ngẫu nhiên
+
+        // Thiết lập giá trị mặc định cho trường 'viewed'
+        $params['viewed'] = 0;  // Mặc định là chưa xem (0)
+
+        // Tìm tour dựa trên product_id
+        $tour = Product::find($params['product_id']);
+
+        if ($tour) {
+            // Lấy số lượng lịch trình của tour
+            $daysInTour = $tour->itineraries->count();
+
+            // Tính ngày kết thúc
+            $startDate = Carbon::parse($params['transport_date']);
+            $endDate = $startDate->addDays($daysInTour - 1);
+
+            // Thêm ngày kết thúc vào params
+            $params['return_date'] = $endDate;
+            $params['status'] = 1;
+            $params['payment'] = 1;
+            $params['user_id'] = auth()->id(); // Người dùng đang đăng nhập
+
+            // Lưu đơn hàng vào cơ sở dữ liệu
+            $order = Order::create($params);
+
+            if ($order) {
+                return redirect()->route('home.profile')->with('success', 'Đặt tour thành công!');
+            } else {
+                return redirect()->back()->with('error', 'Đặt tour không thành công!');
+            }
         }
+
+        return redirect()->back()->with('error', 'Tour không hợp lệ!');
     }
+
+
 
     public function register()
     {
@@ -237,7 +270,7 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'Đăng ký tài khoản không thành công!');
         }
     }
-    
+
     public function uploadFile($file)
     {
         $fileName = time() . '_' . $file->getClientOriginalName();
@@ -342,28 +375,28 @@ class HomeController extends Controller
         $year = $request->input('year', now()->year);
 
         $statistics = Order::select(
-            DB::raw('MONTH(created_at) as month'),                         
-            DB::raw('COUNT(*) as total_orders'),                               
-            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'), 
-            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders'),   
-            DB::raw('SUM(CASE WHEN status = 1 THEN price * quantity ELSE 0 END) as total_pending'), 
-            DB::raw('SUM(CASE WHEN status = 2 THEN price * quantity ELSE 0 END) as total_paid')     
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total_orders'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN price * quantity ELSE 0 END) as total_pending'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN price * quantity ELSE 0 END) as total_paid')
         )
-            ->whereYear('created_at', $year) 
-            ->whereNotIn('status', [3])       
-            ->groupBy(DB::raw('MONTH(created_at)')) 
-            ->orderBy(DB::raw('MONTH(created_at)')) 
+            ->whereYear('created_at', $year)
+            ->whereNotIn('status', [3])
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy(DB::raw('MONTH(created_at)'))
             ->get();
 
         $monthlyStatistics = collect(range(1, 12))->map(function ($month) use ($statistics) {
             $data = $statistics->firstWhere('month', $month);
             return [
                 'month' => $month,
-                'total_orders' => $data->total_orders ?? 0,         
-                'pending_orders' => $data->pending_orders ?? 0,      
-                'paid_orders' => $data->paid_orders ?? 0,           
-                'total_pending' => $data->total_pending ?? 0,        
-                'total_paid' => $data->total_paid ?? 0,             
+                'total_orders' => $data->total_orders ?? 0,
+                'pending_orders' => $data->pending_orders ?? 0,
+                'paid_orders' => $data->paid_orders ?? 0,
+                'total_pending' => $data->total_pending ?? 0,
+                'total_paid' => $data->total_paid ?? 0,
             ];
         });
         return view('admin.orderStatistics', [
@@ -371,6 +404,4 @@ class HomeController extends Controller
             'year' => $year,
         ]);
     }
-    
-    
 }

@@ -72,7 +72,8 @@
                                         </div>
                                         <div class="tbody-item-flex">
                                             <p>Mã đơn hàng: {{ $items->oder_code }}</p>
-                                            <p>Ngày xuất phát: {{ \Carbon\Carbon::parse($items->created_at)->format('H:i d-m-Y') }}</p>
+                                            <p>Ngày xuất phát: {{ \Carbon\Carbon::parse($items->transport_date)->format('H:i d-m-Y') }}</p>
+                                            <p>Ngày kết thúc: {{ \Carbon\Carbon::parse($items->return_date)->format('d-m-Y') }}</p>
                                         </div>
                                         <div class="tbody-item-flex">
                                             <p>Số lượng: {{ $items->quantity }}</p>

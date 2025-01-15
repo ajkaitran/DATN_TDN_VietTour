@@ -23,7 +23,7 @@
 </div>
 @endif
 <main class="p-8 bg-gray-100">
-    <form method="POST" class="space-y-4" id="orderForm">
+    <form method="POST" action="{{ route('home.storeOrder') }}" class="space-y-4" id="">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
@@ -57,6 +57,7 @@
                     <input type="checkbox" class="form-checkbox" />
                     <span>Đặt trước giữ chỗ, thanh toán sau. Dễ dàng, thuận tiện, nhanh chóng!</span>
                 </div>
+                <input type="hidden" name="product_id" value="{{ $tour->id }}" />
                 <button type="submit" class="w-full bg-red-500 text-white p-2 rounded">HOÀN THÀNH</button>
             </div>
             <div class="bg-white p-6 rounded shadow">
@@ -65,7 +66,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label>Ngày khởi hành</label>
-                            <input type="date" class="w-full p-2 border rounded" />
+                            <input type="date" name="transport_date" class="w-full p-2 border rounded" />
                         </div>
                         <div>
                             <label>Số lượng</label>
