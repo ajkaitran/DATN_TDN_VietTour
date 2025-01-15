@@ -43,16 +43,17 @@
                                 <input type="email" name="customer_info_email" value="{{$user->email ?? ""}}" id="customer_info_email" placeholder="Email" required/>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <label class="label_input">Số điện thoại*</label>
-                            <label class="flex items-center space-x-2">
-                                <i class="fa fa-info-circle"></i>
-                                <span  style="font-size: 13px;">Chúng tôi sẽ liên hệ với quý khách qua SĐT này.</span>
-                            </label>
-                            <div class="input_item">
-                                <i class="fa-solid fa-phone"></i>
-                                <input type="text" name="customer_info_phone" value="{{$user->phone ?? ""}}" id="customer_info_phone" placeholder="Số điện thoại" required />
-                            </div>
+                        <!-- <div>
+                            <label>Ngày khởi hành</label>
+                            <input type="date" name="transport_date" class="w-full p-2 border rounded" />
+                        </div> -->
+                        <div>
+                            <label>Số lượng</label>
+                            <select id="quantity" class="w-full p-2 border rounded" name="quantity">
+                                @foreach(range(1, 15) as $i)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-6">
                             <label class="label_input">Họ và tên*</label>
@@ -138,4 +139,4 @@
     </div>
 </section>
 
-@endsection
+<!-- @endsection -->
