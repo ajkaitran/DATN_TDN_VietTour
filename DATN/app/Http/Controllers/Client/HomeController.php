@@ -21,6 +21,7 @@ use App\Models\ArticleCategory;
 use App\Models\Assess;
 use App\Models\Comment;
 use App\Models\Feedback;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -213,14 +214,46 @@ class HomeController extends Controller
     }
     public function storeOrder(Request $request)
     {
-        $objOrder = new Order();
-        $res = $objOrder->insertDataOrder($request->all());
-        if ($res) {
-            return redirect()->route('home.profile')->with('success', 'Đặt tour thành công!');
-        } else {
-            return redirect()->back()->with('error', 'Đặt tour không thành công!');
+        // Lấy dữ liệu từ form
+        $params = $request->all();
+
+        // Tạo mã đơn hàng
+        $params['oder_code'] = 'ODR-' . strtoupper(uniqid()); // Tạo mã đơn hàng ngẫu nhiên
+
+        // Thiết lập giá trị mặc định cho trường 'viewed'
+        $params['viewed'] = 0;  // Mặc định là chưa xem (0)
+
+        // Tìm tour dựa trên product_id
+        $tour = Product::find($params['product_id']);
+
+        if ($tour) {
+            // Lấy số lượng lịch trình của tour
+            $daysInTour = $tour->itineraries->count();
+
+            // Tính ngày kết thúc
+            $startDate = Carbon::parse($params['transport_date']);
+            $endDate = $startDate->addDays($daysInTour - 1);
+
+            // Thêm ngày kết thúc vào params
+            $params['return_date'] = $endDate;
+            $params['status'] = 1;
+            $params['payment'] = 1;
+            $params['user_id'] = auth()->id(); // Người dùng đang đăng nhập
+
+            // Lưu đơn hàng vào cơ sở dữ liệu
+            $order = Order::create($params);
+
+            if ($order) {
+                return redirect()->route('home.profile')->with('success', 'Đặt tour thành công!');
+            } else {
+                return redirect()->back()->with('error', 'Đặt tour không thành công!');
+            }
         }
+
+        return redirect()->back()->with('error', 'Tour không hợp lệ!');
     }
+
+
 
     public function register()
     {
@@ -341,8 +374,10 @@ class HomeController extends Controller
     {
         $year = $request->input('year', now()->year);
 
+
         // Thống kê theo tháng
         $monthlyStatistics = Order::select(
+
             DB::raw('MONTH(created_at) as month'),
             DB::raw('COUNT(*) as total_orders'),
             DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'),

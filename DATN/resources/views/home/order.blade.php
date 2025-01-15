@@ -22,6 +22,7 @@
     {{ session('error') }}
 </div>
 @endif
+
 <section class="m-5">
     <div class="container">
 
