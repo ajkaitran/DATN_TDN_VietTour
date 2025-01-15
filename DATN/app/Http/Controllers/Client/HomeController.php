@@ -104,7 +104,7 @@ class HomeController extends Controller
     }
     public function getToursByCategory($category_type_id)
     {
-        $tours = Product::where('category_type_id', $category_type_id)->paginate(8);
+        $tours = Product::where('category_type_id', $category_type_id)->where('active', 1)->paginate(8);
         $category = ProductCategoryType::findOrFail($category_type_id);
         return view('home.tourByCate', compact('tours', 'category'));
     }
@@ -162,6 +162,15 @@ class HomeController extends Controller
         $user = auth()->user();
         $objOrder = new Order();
         $this->view['listOrder'] = $objOrder->with('product')->where('user_id', $user->id)->paginate(5);
+        $this->view['payments'] = [
+            1 => 'Thanh Toán Trực Tuyến',
+            2 => 'Thanh Toán Momo',
+        ];
+        $this->view['status'] = [
+            1 => 'Chưa Thanh Toán',
+            2 => 'Đã Thanh Toán',
+            3 => 'Đã Hủy',
+        ];
         return view('home.profile', compact('user'), $this->view);
     }
     public function updateUser(Request $request, $id)
@@ -230,6 +239,10 @@ class HomeController extends Controller
     {
         $fileName = time() . '_' . $file->getClientOriginalName();
         return $file->storeAs('AnhTaiKhoan', $fileName, 'public');
+    }
+    public function checkout()
+    {
+        return view('home.modal.checkout');
     }
     public function login()
     {

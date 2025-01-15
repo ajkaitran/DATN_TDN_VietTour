@@ -55,7 +55,7 @@ class AdminController extends Controller
     public function listOrder(Request $request){
         
     $objClient = new User();
-    $query = Order::query()->with('product'); // Query từ bảng Order và liên kết với bảng Product
+    $query = Order::query()->with('product')->orderBy('created_at', 'desc'); // Query từ bảng Order và liên kết với bảng Product
 
     // Lọc theo tên khách hàng
     if ($request->filled('customer_name')) {
