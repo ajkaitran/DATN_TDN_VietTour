@@ -34,6 +34,7 @@
                     <tr>
                         <th style="width: 50px;" scope="col">STT</th>
                         <th style="width: 150px;" scope="col">Mã Đơn hàng</th>
+                        <th style="width: 100px;" scope="col">Tên người dùng</th>
                         <th style="width: 250px;" scope="col">Nội dung</th>
                         <th style="width: 100px;" scope="col">Số Sao</th>
                     </tr>
@@ -43,6 +44,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->order_id }}</td>
+                            <td>{{ $item->user->name }}</td>
                             <td>{{ $item->content ?? 'Không có nội dung' }}</td>
                             <td>
                                 @for ($i = 1; $i <= 5; $i++)

@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('assess', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('user_id');
             $table->text('content');
             $table->unsignedTinyInteger('star');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
