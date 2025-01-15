@@ -321,40 +321,68 @@ class HomeController extends Controller
         return redirect()->route('home.index')->with('error', 'Bạn chưa đăng nhập!');
     }
 
-    public function monthlyStatistics(Request $request)
+    public function statistics(Request $request)
     {
         $year = $request->input('year', now()->year);
 
-        $statistics = Order::select(
-            DB::raw('MONTH(created_at) as month'),                         
-            DB::raw('COUNT(*) as total_orders'),                               
-            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'), 
-            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders'),   
-            DB::raw('SUM(CASE WHEN status = 1 THEN price * quantity ELSE 0 END) as total_pending'), 
-            DB::raw('SUM(CASE WHEN status = 2 THEN price * quantity ELSE 0 END) as total_paid')     
+        // Thống kê theo tháng
+        $monthlyStatistics = Order::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total_orders'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN price * quantity ELSE 0 END) as total_pending'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN price * quantity ELSE 0 END) as total_paid')
         )
-            ->whereYear('created_at', $year) 
-            ->whereNotIn('status', [3])       
-            ->groupBy(DB::raw('MONTH(created_at)')) 
-            ->orderBy(DB::raw('MONTH(created_at)')) 
+            ->whereYear('created_at', $year)
+            ->whereNotIn('status', [3])
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy(DB::raw('MONTH(created_at)'))
             ->get();
 
-        $monthlyStatistics = collect(range(1, 12))->map(function ($month) use ($statistics) {
-            $data = $statistics->firstWhere('month', $month);
+        $monthlyStatistics = collect(range(1, 12))->map(function ($month) use ($monthlyStatistics) {
+            $data = $monthlyStatistics->firstWhere('month', $month);
             return [
                 'month' => $month,
-                'total_orders' => $data->total_orders ?? 0,         
-                'pending_orders' => $data->pending_orders ?? 0,      
-                'paid_orders' => $data->paid_orders ?? 0,           
-                'total_pending' => $data->total_pending ?? 0,        
-                'total_paid' => $data->total_paid ?? 0,             
+                'total_orders' => $data->total_orders ?? 0,
+                'pending_orders' => $data->pending_orders ?? 0,
+                'paid_orders' => $data->paid_orders ?? 0,
+                'total_pending' => $data->total_pending ?? 0,
+                'total_paid' => $data->total_paid ?? 0,
             ];
         });
+
+        // Thống kê theo ngày
+        $dailyStatistics = $this->dailyStatistics($year);
+
         return view('admin.orderStatistics', [
             'monthlyStatistics' => $monthlyStatistics,
+            'dailyStatistics' => $dailyStatistics,
             'year' => $year,
+            'monthlyStatisticsJSON' => json_encode($monthlyStatistics),
+            'dailyStatisticsJSON' => json_encode($dailyStatistics),
         ]);
     }
+
+    public function dailyStatistics($year)
+    {
+        // Thống kê theo ngày
+        $dailyStatistics = Order::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('COUNT(*) as total_orders'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as pending_orders'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as paid_orders')
+        )
+            ->whereYear('created_at', $year)
+            ->whereNotIn('status', [3])
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy(DB::raw('DATE(created_at)'))
+            ->get();
+
+        return $dailyStatistics;
+    }
+
+
     
     
 }

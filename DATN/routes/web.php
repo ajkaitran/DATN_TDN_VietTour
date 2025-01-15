@@ -58,7 +58,7 @@ Route::prefix('admin')->group(function () {
         Route::get('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
         Route::put('change-password', [AdminController::class, 'postChange'])->name('admin.postChange');
         Route::get('list-order', [AdminController::class, 'listOrder'])->name('admin.listOrder');
-        Route::get('/orderstatistics', [HomeController::class, 'monthlyStatistics'])->name('admin.orderStatistics');
+        Route::get('/orderstatistics', [HomeController::class, 'statistics'])->name('admin.orderStatistics');
         Route::post('quick-update-order', [AdminController::class, 'quickUpdateOrder'])->name('admin.quickUpdateOrder');
         Route::get('list-user', [AdminController::class, 'listUser'])->name('admin.listUser');
         Route::get('list-client', [AdminController::class, 'listClient'])->name('admin.listClient');

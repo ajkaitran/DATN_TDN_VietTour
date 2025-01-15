@@ -12,6 +12,10 @@ use App\Http\Requests\Admin\User\ChangePasswordRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Comment;
+use App\Models\Article;
+use App\Models\Banner;
+use App\Models\Feedback;
 use App\Models\ProductCategoryType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +29,14 @@ class AdminController extends Controller
     }
     public function index()
     {
-        return view('admin.index');
+        $userCount = User::where('role', '2')->count();
+        $adminCount = User::whereIn('role', [0, 1])->count();
+        $productCount = Product::count();
+        $orderCount = Order::count();
+        $commentCount = Comment::count();
+        $articleCount =Article ::count();
+        $feedbackCount = Feedback::count();
+        return view('admin.index', compact('userCount', 'adminCount', 'productCount', 'orderCount', 'commentCount','articleCount','feedbackCount'));
     }
     public function listUser()
     {
