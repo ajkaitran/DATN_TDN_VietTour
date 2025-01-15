@@ -30,6 +30,7 @@ Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/searchTour', [HomeController::class, 'searchTour'])->name('home.searchTour');
     Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('home.detail');
+    Route::post('/comments/{id}', [HomeController::class, 'store'])->name('home.comment');
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');
     Route::get('/tourlog/{id}', [HomeController::class, 'tourLog'])->name('home.tourLog');
     Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog');
@@ -134,6 +135,7 @@ Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
 
 Route::prefix('admin/comments')->middleware('admin')->group(function () {
     Route::get('/', [CommentController::class, 'index'])->name('comment.index');
+    Route::put('/{id}', [CommentController::class, 'update'])->name('comment.update');
 });
 
 Route::prefix('admin/articleCategory')->middleware('admin')->group(function () {
