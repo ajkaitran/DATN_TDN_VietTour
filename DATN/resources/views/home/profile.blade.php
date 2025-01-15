@@ -79,8 +79,12 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a class="btn btn-success" href="#"data-bs-toggle="modal" data-bs-target="#ModalCheckout">Thanh Toán</a>
                                     <a class="btn btn-primary" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-success" href="#"data-bs-toggle="modal" data-bs-target="#ModalCheckout">Thanh Toán COD</a>
+                                    <form action="{{ route('home.onlineCheckout') }}" method="post">
+                                        @csrf
+                                        <button class="btn btn-danger" type="submit" name="payUrl">Thanh Toán Momo</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
