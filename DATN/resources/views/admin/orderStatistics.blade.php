@@ -14,7 +14,7 @@
         <button type="submit" class="box_log">Xác nhận</button>
     </div>
 </form>
-<div class="box_content">
+    <div class="box_content">
     <div class="content px-3">
         <table class="table table-striped mt-4">
             <thead class="thead">
@@ -42,5 +42,75 @@
         </table>
     </div>
 </div>
+
+  <h2>Thống kê theo tháng</h2>
+    <canvas id="monthlyChart" width="400" height="200"></canvas>
+
+    
+    <h2>Thống kê theo ngày</h2>
+    <canvas id="dailyChart" width="400" height="200"></canvas>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var monthlyData = {!! $monthlyStatisticsJSON !!};
+            var monthlyLabels = monthlyData.map(item => 'Tháng ' + item.month);
+
+            var ctxMonthly = document.getElementById('monthlyChart');
+            if (ctxMonthly) {
+                var ctxMonthlyChart = ctxMonthly.getContext('2d');
+                var monthlyChart = new Chart(ctxMonthlyChart, {
+                    type: 'bar',
+                    data: {
+                        labels: monthlyLabels,
+                        datasets: [
+                            {
+                                label: 'Tổng đơn hàng',
+                                data: monthlyData.map(item => item.total_orders),
+                                backgroundColor: 'blue',
+                            },
+                            {
+                                label: 'Số đơn chờ xử lý',
+                                data: monthlyData.map(item => item.pending_orders),
+                                backgroundColor: 'orange',
+                            },
+                            {
+                                label: 'Số đơn đã thanh toán',
+                                data: monthlyData.map(item => item.paid_orders),
+                                backgroundColor: 'green',
+                            },
+                            {
+                                label: 'Doanh thu',
+                                data: monthlyData.map(item => item.total_paid),
+                                backgroundColor: 'red',
+                            },
+                           
+                        ]
+                    }
+                });
+            }
+
+            var dailyData = {!! $dailyStatisticsJSON !!};
+            var dailyLabels = dailyData.map(item => item.date);
+
+            var ctxDaily = document.getElementById('dailyChart');
+            if (ctxDaily) {
+                var ctxDailyChart = ctxDaily.getContext('2d');
+                var dailyChart = new Chart(ctxDailyChart, {
+                    type: 'line',
+                    data: {
+                        labels: dailyLabels,
+                        datasets: [
+                            {
+                                label: 'Tổng đơn hàng',
+                                data: dailyData.map(item => item.total_orders),
+                                borderColor: 'purple',
+                                fill: false,
+                            }
+                        ]
+                    }
+                });
+            }
+        });
+    </script>
 
 @endsection
