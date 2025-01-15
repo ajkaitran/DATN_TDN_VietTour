@@ -924,12 +924,15 @@ header{
         }
     }
 }
+.bg_main{
+    background: #38b6ff!important;
+}
 .modal-content {
     width: 100%;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
     text-align: center;
-    background: #38b6ff;
+    background-color: white;
 
     .form_group {
         text-align: start;

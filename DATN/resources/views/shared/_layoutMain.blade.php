@@ -22,6 +22,7 @@
     @include('home.modal.login')
     @include('home.modal.register')
     @include('home.modal.checkout')
+    @include('home.modal.orderDetail')
     <main class="main_form">
         @yield("content")
     </main>
