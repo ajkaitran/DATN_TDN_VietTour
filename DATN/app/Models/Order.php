@@ -44,5 +44,14 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function Assess()
+    {
+        return $this->hasOne(Assess::class, 'order_id');
+    }
+
+    public function isAssessed()
+    {
+        return $this->Assess()->exists();
+    }
 
 }
