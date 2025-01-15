@@ -82,21 +82,29 @@
                                 </td>
                                 <td>
                                     @if ($items->status == 1) <!-- Chưa thanh toán -->
-                                    <a class="btn btn-primary" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
-                                    <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#ModalCheckout">Thanh Toán COD</a>
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-secondary mb-2" href="#" data-bs-toggle="modal" data-bs-target="#ModalCheckout">Thanh Toán COD</a>
                                     <form action="{{ route('home.onlineCheckout') }}" method="post">
                                         @csrf
+                                        <input type="hidden" name="oder_code" value="{{ $items->oder_code }}">
                                         <button class="btn btn-danger" type="submit" name="payUrl">Thanh Toán Momo</button>
                                     </form>
+
                                     @elseif ($items->status == 2) <!-- Đã thanh toán -->
-                                    <p>Đang chờ xử lý</p>
-                                    <a class="btn btn-primary" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-success">Đang chờ xử lý</a>
                                     @elseif ($items->status == 3) <!-- Đã hủy -->
-                                    <p>Thanh toán thành công</p>
-                                    <a class="btn btn-primary" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-success">Thanh toán thành công</a>
                                     @elseif ($items->status == 4) <!-- Đã hủy -->
-                                    <p>Đã huỷ</p>
-                                    <a class="btn btn-primary" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <p>Tour đang được diễn ra</p>
+                                    @elseif ($items->status == 5) <!-- Đã hủy -->
+                                    <p class="btn btn-primary">Tour đã hoàn thành</p>
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    @elseif ($items->status == 6) <!-- Đã hủy -->
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <p class="btn btn-danger">Đã huỷ tour</p>
                                     @endif
                                 </td>
                             </tr>

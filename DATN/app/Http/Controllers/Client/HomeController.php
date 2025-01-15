@@ -170,7 +170,7 @@ class HomeController extends Controller
             1 => 'Chưa Thanh Toán',
             2 => 'chờ xử lý',
             3 => 'thanh toán thành công',
-            4 => 'Tour đang được diwwnx ra',
+            4 => 'Tour đang được diễn ra',
             5 => 'Tour đã hoàn thành',
             6 => 'Tour đã hủy',
         ];
