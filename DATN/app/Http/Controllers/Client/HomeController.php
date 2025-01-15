@@ -162,15 +162,15 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $objOrder = new Order();
-        $this->view['listOrder'] = $objOrder->with('product')->where('user_id', $user->id)->paginate(5);
+        $this->view['listOrder'] = $objOrder->with('product')->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(5);
         $this->view['payments'] = [
             1 => 'Thanh Toán Trực Tuyến',
             2 => 'Thanh Toán Momo',
         ];
         $this->view['status'] = [
             1 => 'Chưa Thanh Toán',
-            2 => 'chờ xử lý',
-            3 => 'thanh toán thành công',
+            2 => 'Chờ xử lý',
+            3 => 'Thanh toán thành công',
             4 => 'Tour đang được diễn ra',
             5 => 'Tour đã hoàn thành',
             6 => 'Tour đã hủy',

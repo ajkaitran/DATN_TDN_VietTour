@@ -170,9 +170,9 @@
                                         <td>
                                             @if ($items->status == 1)
                                                 <!-- Chưa thanh toán -->
-                                                <a class="btn btn-primary"
+                                                <a class="btn btn-primary mb-2"
                                                     href="{{ route('home.detail', ['id' => $items->id]) }}">Chi Tiết</a>
-                                                <a class="btn btn-success" href="#" data-bs-toggle="modal"
+                                                <a class="btn btn-success mb-2" href="#" data-bs-toggle="modal"
                                                     data-bs-target="#ModalCheckout">Thanh Toán COD</a>
                                                 <form action="{{ route('home.onlineCheckout') }}" method="post">
                                                     @csrf
