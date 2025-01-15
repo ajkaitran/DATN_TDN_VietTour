@@ -47,6 +47,7 @@ Route::prefix('/')->group(function () {
         Route::get('profile', [HomeController::class, 'profile'])->name('home.profile');
         Route::put('change-password', [HomeController::class, 'postChange'])->name('home.postChange');
         Route::put('update/{id}', [HomeController::class, 'updateUser'])->name('home.update');
+        Route::post('online-checkout', [OnlineCheckoutController::class, 'online_checkout'])->name('home.onlineCheckout');
         Route::get('checkout', [HomeController::class, 'checkout'])->name('home.modal.checkout');
         Route::post('checkout', [HomeController::class, 'postCheckout'])->name('home.modal.postCheckout');
     });

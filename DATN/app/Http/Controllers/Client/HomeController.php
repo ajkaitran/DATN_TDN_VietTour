@@ -213,7 +213,7 @@ class HomeController extends Controller
         $objOrder = new Order();
         $res = $objOrder->insertDataOrder($request->all());
         if ($res) {
-            return redirect()->back()->with('success', 'Đặt tour thành công!');
+            return redirect()->route('home.profile')->with('success', 'Đặt tour thành công!');
         } else {
             return redirect()->back()->with('error', 'Đặt tour không thành công!');
         }
