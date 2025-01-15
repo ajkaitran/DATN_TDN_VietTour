@@ -43,7 +43,7 @@
                                 <div class="col-5 d-flex justify-content-end align-items-center">
                                     @auth
                                         @if(in_array(auth()->user()->role, [2, 3]))
-                                            <a class="btn_card" href="{{ route('home.order', ['id' => $items->id]) }}">
+                                            <a class="btn_card" href="{{ route('home.order', ['id' => $item->id]) }}">
                                                 <i class="fa-regular fa-calendar-circle-plus"></i> Đặt Tour
                                             </a>
                                         @else

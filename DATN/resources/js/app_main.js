@@ -133,5 +133,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     
+//tabs
+$(document).ready(function () {
+    const tabLinks = $('.tab-link');
+    const tabContents = $('.tab-content');
 
+    // Xử lý sự kiện click vào tab
+    tabLinks.on('click', function (e) {
+        e.preventDefault();
+
+        // Xóa class active khỏi tất cả các tab
+        tabLinks.removeClass('active');
+        tabContents.removeClass('active');
+
+        // Thêm class active cho tab được chọn
+        $(this).addClass('active');
+        const target = $($(this).attr('href')); // Lấy nội dung tab tương ứng
+        target.addClass('active');
+    });
+
+    // Kích hoạt tab đầu tiên mặc định
+    // if (tabLinks.length > 0) {
+    //     tabLinks.first().trigger('click');
+    // }
+});
 CKEDITOR.replace('editor');

@@ -57,7 +57,7 @@
                     @if(in_array(auth()->user()->role, [2, 3]))
                         {{-- Người dùng có role là 2 hoặc 3 --}}
                         <li class="user_item">
-                            <a class="user_link" href="#">Thông Tin Chung</a>
+                            <a class="user_link" href="{{ route('home.profile')}}">Thông Tin Chung</a>
                         </li>
                         <li class="user_item">
                             <a class="user_link" href="{{ route('home.modal.logout') }}" 

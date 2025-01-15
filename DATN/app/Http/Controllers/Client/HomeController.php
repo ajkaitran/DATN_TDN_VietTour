@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\ChangePasswordRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Banner;
@@ -156,9 +157,41 @@ class HomeController extends Controller
     {
         return view('home.about');
     }
-    public function order()
+    public function profile()
     {
-        return view('home.order');
+        $user = auth()->user();
+        $objOrder = new Order();
+        $this->view['listOrder'] = $objOrder->with('product')->where('user_id', $user->id)->paginate(5);
+        return view('home.profile', compact('user'), $this->view);
+    }
+    public function updateUser(Request $request, $id)
+    {
+        $objTable = new User();
+        $idCheck = $objTable->loadIdUser($id);
+
+        if ($idCheck) {
+            $data = $request->except(['image']);
+            // Xử lý `image`
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $data['image'] = $this->uploadFile($request->file('image'));
+                $imageOld = $idCheck->image;
+            } else {
+                $data['image'] = $idCheck->image;
+            }
+            $res = $objTable->updateDataUser($data, $id);
+
+            if ($res) {
+                // Xóa file cũ `image` nếu có
+                if ($request->hasFile('image') && isset($imageOld) && Storage::disk('public')->exists($imageOld)) {
+                    Storage::disk('public')->delete($imageOld);
+                }
+                return redirect()->back()->with('success', 'Chỉnh sửa thành công');
+            } else {
+                return redirect()->back()->with('error', 'Chỉnh sửa không thành công');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Không tìm thấy id');
+        }
     }
     public function orderTour($id)
     {
@@ -224,6 +257,57 @@ class HomeController extends Controller
             return redirect()->back()
                 ->with('error', 'Tài khoản hoặc mật khẩu không chính xác.')
                 ->withInput($request->only('login'));
+        }
+    }
+    public function postChange(ChangePasswordRequest $request)
+    {
+        if (Auth::check() && Auth::user()->role == 0) {
+            $user = User::find($request->user_id);
+
+            if (!$user) {
+                return back()->withErrors(['error' => 'Người dùng không tồn tại!']);
+            }
+
+            // Kiểm tra mật khẩu hiện tại của người dùng Admin
+            if (!Hash::check($request->current_password, Auth::user()->password)) {
+                return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+            }
+
+            // Kiểm tra xem mật khẩu mới có trùng với mật khẩu cũ không
+            if (Hash::check($request->new_password, $user->password)) {
+                return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ của người dùng!']);
+            }
+
+            try {
+                // Cập nhật mật khẩu của người dùng khác
+                $user->password = Hash::make($request->new_password);
+                $user->save();
+
+                return back()->with('success', 'Mật khẩu của người dùng đã được thay đổi thành công!');
+            } catch (\Exception $e) {
+                return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+            }
+        } else {
+            // Nếu người dùng không phải admin, chỉ cho phép thay đổi mật khẩu của chính họ
+            if (!Hash::check($request->current_password, Auth::user()->password)) {
+                return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác!']);
+            }
+
+            // Kiểm tra mật khẩu mới có trùng với mật khẩu cũ không
+            if (Hash::check($request->new_password, Auth::user()->password)) {
+                return back()->withErrors(['new_password' => 'Mật khẩu mới không thể trùng với mật khẩu cũ!']);
+            }
+
+            try {
+                // Cập nhật mật khẩu của người dùng hiện tại
+                $admin = Auth::user();
+                $admin->password = Hash::make($request->new_password);
+                $admin->save();
+
+                return back()->with('success', 'Mật khẩu đã được thay đổi thành công!');
+            } catch (\Exception $e) {
+                return back()->withErrors(['error' => 'Có lỗi xảy ra, vui lòng thử lại!']);
+            }
         }
     }
     public function signout(Request $request)
