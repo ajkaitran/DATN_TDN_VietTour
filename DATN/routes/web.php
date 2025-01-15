@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AssessController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryArticleController;
 use App\Http\Controllers\TourTypeController;
@@ -132,6 +133,10 @@ Route::prefix('admin/feedBack')->middleware('admin')->group(function () {
     Route::get('/{id}/edit', [FeedBackController::class, 'edit'])->name('feedback.edit');
     Route::put('/{id}', [FeedBackController::class, 'update'])->name('feedback.update');
     Route::delete('/{id}', [FeedBackController::class, 'destroy'])->name('feedback.destroy');
+});
+
+Route::prefix('admin/assess')->middleware('admin')->group(function () {
+    Route::get('/', [AssessController::class, 'index'])->name('assess.index');
 });
 
 Route::prefix('admin/comments')->middleware('admin')->group(function () {

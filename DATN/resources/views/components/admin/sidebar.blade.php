@@ -1,11 +1,10 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center my-3"
-        href="{{ route('home.index') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center my-3" href="{{ route('home.index') }}">
         <div class="sidebar-brand-icon d-lg-none">
-            <img src="{{ url('images/Logo_VietTour (2).png') }}"
-                style="width: 100%; height: 100px; object-fit: cover;" alt="">
+            <img src="{{ url('images/Logo_VietTour (2).png') }}" style="width: 100%; height: 100px; object-fit: cover;"
+                alt="">
         </div>
         <div class="sidebar-brand-text mx-3"><img src="{{ url('images/Logo_VietTour (1).png') }}"
                 style="width: 100%; object-fit: cover; padding: 15px;" alt="ảnh logo"></div>
@@ -72,13 +71,12 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>Quản lý Tour/Combo</span>
         </a>
-        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
-            data-parent="#accordionSidebar">
+        <div id="collapsePages1" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{route('tourType.index')}}">Loại Tour</a>
-                <a class="collapse-item" href="{{route('tourCategory.index')}}">Danh mục Tour</a>
-                <a class="collapse-item" href="{{route('tour.index')}}">Danh sách Tour</a>
-                <a class="collapse-item" href="{{route('startPlace.index')}}">Điểm xuất phát</a>
+                <a class="collapse-item" href="{{ route('tourType.index') }}">Loại Tour</a>
+                <a class="collapse-item" href="{{ route('tourCategory.index') }}">Danh mục Tour</a>
+                <a class="collapse-item" href="{{ route('tour.index') }}">Danh sách Tour</a>
+                <a class="collapse-item" href="{{ route('startPlace.index') }}">Điểm xuất phát</a>
             </div>
         </div>
     </li>
@@ -89,8 +87,7 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>Quản lý bài viết</span>
         </a>
-        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages"
-            data-parent="#accordionSidebar">
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('article.index') }}">Danh sách bài viết</a>
                 <a class="collapse-item" href="{{ route('categoryArticle.index') }}">Danh mục bài viết</a>
@@ -103,11 +100,22 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>Quản lý phản hồi</span>
         </a>
-        <div id="collapsePages3" class="collapse" aria-labelledby="headingPages"
-            data-parent="#accordionSidebar">
+        <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('feedback.index') }}">Danh sách phản hồi</a>
                 <a class="collapse-item" href="{{ route('feedback.create') }}">Thêm mới phản hồi</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4"
+            aria-expanded="true" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Quản lý đánh giá</span>
+        </a>
+        <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('assess.index') }}">Danh sách đánh giá</a>
             </div>
         </div>
     </li>
@@ -118,8 +126,7 @@
             <i class="fas fa-fw fa-folder"></i>
             <span>Quản lý quảng cáo</span>
         </a>
-        <div id="collapsePages4" class="collapse" aria-labelledby="headingPages"
-            data-parent="#accordionSidebar">
+        <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('banner.index') }}">Danh sách quảng cáo</a>
                 <a class="collapse-item" href="{{ route('banner.create') }}">Thêm mới quảng cáo</a>
