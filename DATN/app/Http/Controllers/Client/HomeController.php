@@ -168,8 +168,11 @@ class HomeController extends Controller
         ];
         $this->view['status'] = [
             1 => 'Chưa Thanh Toán',
-            2 => 'Đã Thanh Toán',
-            3 => 'Đã Hủy',
+            2 => 'chờ xử lý',
+            3 => 'thanh toán thành công',
+            4 => 'Tour đang được diwwnx ra',
+            5 => 'Tour đã hoàn thành',
+            6 => 'Tour đã hủy',
         ];
         return view('home.profile', compact('user'), $this->view);
     }
