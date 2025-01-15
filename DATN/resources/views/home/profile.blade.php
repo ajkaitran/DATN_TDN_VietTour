@@ -71,20 +71,23 @@
                                                 <p><strong>{{ $items->product->name ?? 'Không có tên tour' }}</strong></p>
                                                 <div class="tbody-item-flex">
                                                     <p>{{ $items->customer_info_full_name ?? 'Khách hàng tiềm năng' }}</p>
-                                                    <p>Hình thức thanh toán:
-                                                        {{ $payments[$items->payment] ?? 'Không xác định' }}</p>
+                                                    <p>Mã đơn hàng: {{ $items->oder_code }}</p>
                                                 </div>
                                                 <div class="tbody-item-flex">
-                                                    <p>Mã đơn hàng: {{ $items->oder_code }}</p>
                                                     <p>Ngày xuất phát:
-                                                        {{ \Carbon\Carbon::parse($items->created_at)->format('H:i d-m-Y') }}
+                                                        {{ \Carbon\Carbon::parse($items->transport_date)->format('d-m-Y') }}
+                                                    </p>
+                                                    <p>Ngày về:
+                                                        {{ \Carbon\Carbon::parse($items->return_date)->format('d-m-Y') }}
                                                     </p>
                                                 </div>
                                                 <div class="tbody-item-flex">
                                                     <p>Số lượng: {{ $items->quantity }}</p>
+                                                    <p>Hình thức thanh toán:
+                                                        {{ $payments[$items->payment] ?? 'Không xác định' }}</p>
+                                                    </div>
+                                                    <div class="tbody-item-flex">
                                                     <p>Tổng tiền: {{ number_format($items->price, 0, ',', '.') }}đ</p>
-                                                </div>
-                                                <div class="tbody-item-flex">
                                                     <p>Trang thái: {{ $status[$items->status] ?? 'Không xác định' }}</p>
                                                 </div>
                                             </div>
