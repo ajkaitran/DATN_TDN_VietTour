@@ -29,27 +29,29 @@ class OnlineCheckoutController extends Controller
 
     public function online_checkout(Request $request)
     {
-        // Kiểm tra nếu request POST có dữ liệu
         if ($request->isMethod('post')) {
+            $oderCode = $request->input('oder_code'); // Lấy mã đơn hàng từ form
+            $order = Order::where('oder_code', $oderCode)->first(); // Sử dụng đúng tên cột
+
+            if (!$order) {
+                return back()->withErrors(['msg' => 'Không tìm thấy đơn hàng. Vui lòng thử lại.']);
+            }
+
             $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
             $partnerCode = 'MOMOBKUN20180529';
             $accessKey = 'klm05TvNBzhg7h7j';
             $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
 
-            // Dữ liệu giao dịch
             $orderInfo = "Thanh toán qua MoMo";
-            $amount = "10000";
-            $orderId = time(); // Sử dụng timestamp để đảm bảo unique
-            $redirectUrl = route('payment.callback'); // Sử dụng route() để lấy URL callback
-            $ipnUrl = route('payment.callback'); // IPN URL cho MoMo
+            $amount = $order->price; // Lấy giá trị từ cơ sở dữ liệu
+            $orderId = $oderCode; // Sử dụng `oder_code` làm mã đơn hàng
+            $redirectUrl = route('payment.callback');
+            $ipnUrl = route('payment.callback');
+            $extraData = "";
 
-            // Lấy extraData từ form hoặc để trống
-            $extraData = $request->input('extraData', '');
-
-            $requestId = time(); // Sử dụng timestamp
+            $requestId = time();
             $requestType = "payWithATM";
 
-            // Tạo signature
             $rawHash = "accessKey=" . $accessKey .
                 "&amount=" . $amount .
                 "&extraData=" . $extraData .
@@ -79,47 +81,40 @@ class OnlineCheckoutController extends Controller
                 'signature' => $signature
             ];
 
-            // Gửi request đến MoMo
             $result = $this->execPostRequest($endpoint, json_encode($data));
-            $jsonResult = json_decode($result, true); // Decode JSON
+            $jsonResult = json_decode($result, true);
 
-            // Kiểm tra và chuyển hướng nếu thành công
             if (isset($jsonResult['payUrl'])) {
                 return redirect($jsonResult['payUrl']);
             }
 
-            // Trường hợp lỗi
             return back()->withErrors(['msg' => 'Không thể tạo giao dịch. Vui lòng thử lại.']);
         }
 
-        return view('online_checkout'); // Hiển thị form nếu không phải POST
+        return view('online_checkout');
     }
+
 
     public function paymentCallback(Request $request)
-{
-    // Lấy dữ liệu callback từ MoMo
-    $data = $request->all();
+    {
+        $data = $request->all();
 
-    // Log dữ liệu để kiểm tra (nếu cần)
-    Log::info('MoMo Callback Data:', $data);
+        Log::info('MoMo Callback Data:', $data);
 
-    // Kiểm tra mã kết quả (resultCode) từ MoMo
-    $resultCode = $data['resultCode']; // Mã kết quả từ MoMo
+        $resultCode = $data['resultCode'];
 
-    // Kiểm tra kết quả giao dịch
-    if ($resultCode == 0) { // Thành công
-        // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
-        $order = Order::where('oder_code', $data['orderId'])->first();
+        if ($resultCode == 0) { // Giao dịch thành công
+            $order = Order::where('oder_code', $data['orderId'])->first(); // Sử dụng đúng `oder_code`
 
-        if ($order) {
-            $order->status = 2; // Trạng thái "Đang chờ xử lý"
-            $order->save();
-            return redirect()->route('home.profile')->with('success', 'Thanh toán thành công!');
+            if ($order) {
+                $order->status = 2; // Trạng thái "Đang chờ xử lý"
+                $order->save();
+                return redirect()->route('home.profile')->with('success', 'Thanh toán thành công!');
+            }
+
+            return redirect()->route('home.profile')->with('error', 'Không tìm thấy đơn hàng. Vui lòng thử lại.');
         }
+
+        return redirect()->route('home.profile')->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');
     }
-
-    // Giao dịch thất bại
-    return redirect()->route('home.profile')->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');
-}
-
 }
