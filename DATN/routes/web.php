@@ -45,6 +45,7 @@ Route::prefix('/')->group(function () {
     Route::match(['get', 'post'], 'logout', [HomeController::class, 'signout'])->name('home.modal.logout');
     Route::post('danh-gia', [HomeController::class, 'storeAssess'])->name('home.storeAssess');
     Route::middleware('auth:web')->group(function () {
+        Route::get('/orderDetail/{id}', [HomeController::class,'orderDetail'])->name('home.modal.orderDetail');
         Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
         Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
         Route::get('profile', [HomeController::class, 'profile'])->name('home.profile');

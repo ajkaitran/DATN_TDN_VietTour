@@ -219,6 +219,26 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'Không tìm thấy id');
         }
     }
+    public function orderDetail(){
+        $objClient = new User();
+        $listOrder = new Order();
+        $this->view['Order'] = $listOrder->with('product')->get();
+        $this->view['users'] = $objClient->get();
+        $this->view['payments'] = [
+            1 => 'Thanh Toán Trực Tuyến',
+            2 => 'Thanh Toán Momo',
+        ];
+        $this->view['status'] = [
+            1 => 'Chưa Thanh Toán',
+            2 => 'Thanh Toán Thành Công',
+            3 => 'Đã Xác Nhận',
+            4 => 'Đang thực hiện',
+            5 => 'Đã hoàn thành',
+            6 => 'Đã hủy',
+        ];
+
+        return view('home.modal.orderDetail', $this->view);
+    }
     public function orderTour($id)
     {
         $this->view['user'] = auth()->user();
