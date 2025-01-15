@@ -148,7 +148,7 @@ class HomeController extends Controller
         }
 
         // Phân trang kết quả tìm kiếm hoặc tất cả bài viết
-        $blog = $blog->where('active', 1)->paginate(6);
+        $blog = $blog->where('active', 1)->paginate(6)->appends($request->all());
 
         return view('home.blog', compact('blog', 'articleCategory'));
     }
