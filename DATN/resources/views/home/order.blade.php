@@ -68,6 +68,10 @@
                             <label>Ngày khởi hành</label>
                             <input type="date" name="transport_date" class="w-full p-2 border rounded" />
                         </div>
+                        <!-- <div>
+                            <label>Ngày khởi hành</label>
+                            <input type="date" name="transport_date" class="w-full p-2 border rounded" />
+                        </div> -->
                         <div>
                             <label>Số lượng</label>
                             <select id="quantity" class="w-full p-2 border rounded" name="quantity">
