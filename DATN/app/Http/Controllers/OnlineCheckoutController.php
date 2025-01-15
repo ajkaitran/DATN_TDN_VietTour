@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OnlineCheckoutController extends Controller
 {
@@ -38,8 +40,8 @@ class OnlineCheckoutController extends Controller
             $orderInfo = "Thanh toán qua MoMo";
             $amount = "10000";
             $orderId = time(); // Sử dụng timestamp để đảm bảo unique
-            $redirectUrl = "http://127.0.0.1:8000/profile";
-            $ipnUrl = "http://127.0.0.1:8000/profile";
+            $redirectUrl = route('payment.callback'); // Sử dụng route() để lấy URL callback
+            $ipnUrl = route('payment.callback'); // IPN URL cho MoMo
 
             // Lấy extraData từ form hoặc để trống
             $extraData = $request->input('extraData', '');
@@ -92,5 +94,32 @@ class OnlineCheckoutController extends Controller
 
         return view('online_checkout'); // Hiển thị form nếu không phải POST
     }
+
+    public function paymentCallback(Request $request)
+{
+    // Lấy dữ liệu callback từ MoMo
+    $data = $request->all();
+
+    // Log dữ liệu để kiểm tra (nếu cần)
+    Log::info('MoMo Callback Data:', $data);
+
+    // Kiểm tra mã kết quả (resultCode) từ MoMo
+    $resultCode = $data['resultCode']; // Mã kết quả từ MoMo
+
+    // Kiểm tra kết quả giao dịch
+    if ($resultCode == 0) { // Thành công
+        // Cập nhật trạng thái đơn hàng trong cơ sở dữ liệu
+        $order = Order::where('oder_code', $data['orderId'])->first();
+
+        if ($order) {
+            $order->status = 2; // Trạng thái "Đang chờ xử lý"
+            $order->save();
+            return redirect()->route('home.profile')->with('success', 'Thanh toán thành công!');
+        }
+    }
+
+    // Giao dịch thất bại
+    return redirect()->route('home.profile')->with('error', 'Thanh toán thất bại. Vui lòng thử lại.');
+}
 
 }

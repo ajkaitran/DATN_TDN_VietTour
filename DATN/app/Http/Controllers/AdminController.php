@@ -96,8 +96,11 @@ class AdminController extends Controller
     ];
     $this->view['status'] = [
         1 => 'Chưa Thanh Toán',
-        2 => 'Đã Thanh Toán',
-        3 => 'Đã Hủy',
+        2 => 'Thanh Toán Thành Công',
+        3 => 'Đã Xác Nhận',
+        4 => 'Đang thực hiện',
+        5 => 'Đã hoàn thành',
+        6 => 'Đã hủy',
     ];
 
     return view('admin.listOrder', $this->view);
