@@ -253,8 +253,6 @@ class HomeController extends Controller
         return redirect()->back()->with('error', 'Tour không hợp lệ!');
     }
 
-
-
     public function register()
     {
         return view('home.modal.register');
