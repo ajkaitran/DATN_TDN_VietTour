@@ -15,6 +15,7 @@ class Order extends Model
         'oder_code',
         'payment',
         'transport_date',
+        'return_date',
         'quantity',
         'price',
         'status',
@@ -26,6 +27,7 @@ class Order extends Model
         'customer_info_body',
         'customer_info_phone',
         'product_id',
+        'user_id',
     ];
     public function product()
     {

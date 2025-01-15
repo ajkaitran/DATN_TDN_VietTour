@@ -41,8 +41,11 @@ Route::prefix('/')->group(function () {
     Route::post('login', [HomeController::class, 'postLogin'])->name('home.modal.postLogin');
     Route::match(['get', 'post'], 'logout', [HomeController::class, 'signout'])->name('home.modal.logout');
     Route::middleware('auth:web')->group(function () {
-    Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
-    Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
+        Route::get('/order/{id}', [HomeController::class,'orderTour'])->name('home.order');
+        Route::post('/storeOrder', [HomeController::class, 'storeOrder'])->name('home.storeOrder');
+        Route::get('profile', [HomeController::class, 'profile'])->name('home.profile');
+        Route::put('change-password', [HomeController::class, 'postChange'])->name('home.postChange');
+        Route::put('update/{id}', [HomeController::class, 'updateUser'])->name('home.update');
     });
 });
 Route::prefix('admin')->group(function () {
