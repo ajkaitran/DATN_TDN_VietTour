@@ -12,6 +12,7 @@ use App\Http\Controllers\TourController;
 use App\Http\Controllers\ComboController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\OnlineCheckoutController;
 use App\Http\Controllers\StartPlaceController;
 
 /*
@@ -46,6 +47,8 @@ Route::prefix('/')->group(function () {
         Route::get('profile', [HomeController::class, 'profile'])->name('home.profile');
         Route::put('change-password', [HomeController::class, 'postChange'])->name('home.postChange');
         Route::put('update/{id}', [HomeController::class, 'updateUser'])->name('home.update');
+        Route::get('checkout', [HomeController::class, 'checkout'])->name('home.modal.checkout');
+        Route::post('checkout', [HomeController::class, 'postCheckout'])->name('home.modal.postCheckout');
     });
 });
 Route::prefix('admin')->group(function () {

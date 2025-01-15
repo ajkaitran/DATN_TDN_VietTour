@@ -21,6 +21,7 @@
     <x-client.header></x-client.header>
     @include('home.modal.login')
     @include('home.modal.register')
+    @include('home.modal.checkout')
     <main class="main_form">
         @yield("content")
     </main>
