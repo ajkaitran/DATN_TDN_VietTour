@@ -102,8 +102,8 @@
                                         data-bs-target="#ModalCheckout">Thanh Toán COD</a>
                                     <form action="{{ route('home.onlineCheckout') }}" method="post">
                                         @csrf
-                                        <button class="btn btn-danger" type="submit" name="payUrl">Thanh Toán
-                                            Momo</button>
+                                        <input type="hidden" name="oder_code" value="{{ $items->oder_code }}">
+                                        <button class="btn btn-danger" type="submit" name="payUrl">Thanh Toán Momo</button>
                                     </form>
                                     @elseif ($items->status == 2)
                                     <!-- Đã thanh toán -->
