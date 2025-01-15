@@ -33,6 +33,10 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
     public function insertDataOrder($params){
         $params['oder_code'] = rand(100000, 999999);
         $params['payment'] = 1;
@@ -40,6 +44,7 @@ class Order extends Model
         $params['discount_code'] = null;
         $params['viewed'] = 0;
         $params['status'] = 1;
+        $params['user_id'] = auth()->id();
         $res = Order::query()->create($params);
         return $res;
     }

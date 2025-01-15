@@ -39,7 +39,9 @@
                     <h2>{{$user->name}}</h2>
                 </div>
                 <ul class="list_tabs">
-                    <li><h3 class="list_title">Quản lý tài khoản</h3></li>
+                    <li>
+                        <h3 class="list_title">Quản lý tài khoản</h3>
+                    </li>
                     <li><a href="#tab1" class="tab-link active"><i class="fa-sharp fa-solid fa-file me-2"></i> Lịch sử giao dịch</a></li>
                     <li><a href="#tab2" class="tab-link"><i class="fa-sharp fa-solid fa-pen-to-square me-2"></i> Thông tin tài khoản</a></li>
                     <li><a href="#tab3" class="tab-link"><i class="fa-sharp fa-solid fa-key me-2"></i> Đổi mật khẩu</a></li>
@@ -79,23 +81,46 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a class="btn btn-success" href="">Thanh Toán</a>
-                                    <a class="btn btn-primary" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    @if ($items->status == 1) <!-- Chưa thanh toán -->
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-secondary mb-2" href="#" data-bs-toggle="modal" data-bs-target="#ModalCheckout">Thanh Toán COD</a>
+                                    <form action="{{ route('home.onlineCheckout') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="oder_code" value="{{ $items->oder_code }}">
+                                        <button class="btn btn-danger" type="submit" name="payUrl">Thanh Toán Momo</button>
+                                    </form>
+
+                                    @elseif ($items->status == 2) <!-- Đã thanh toán -->
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-success">Đang chờ xử lý</a>
+                                    @elseif ($items->status == 3) <!-- Đã hủy -->
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <a class="btn btn-success">Thanh toán thành công</a>
+                                    @elseif ($items->status == 4) <!-- Đã hủy -->
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <p>Tour đang được diễn ra</p>
+                                    @elseif ($items->status == 5) <!-- Đã hủy -->
+                                    <p class="btn btn-primary">Tour đã hoàn thành</p>
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    @elseif ($items->status == 6) <!-- Đã hủy -->
+                                    <a class="btn btn-primary mb-2" href="{{ route('home.detail', ['id'=>$items->id]) }}">Chi Tiết</a>
+                                    <p class="btn btn-danger">Đã huỷ tour</p>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                {{$listOrder->links()}}
+                    {{$listOrder->links()}}
                 </div>
                 <div id="tab2" class="tab-content">
                     <h1 class="title_bold">Thông tin tài khoản</h1>
                     <div class="d-flex justify-content-center mb-3">
                         <div class="box_avt">
                             @if (!empty($user->image))
-                                <img src="{{ Storage::url($user->image) }}" alt="Ảnh đại diện">
+                            <img src="{{ Storage::url($user->image) }}" alt="Ảnh đại diện">
                             @else
-                                <img src="{{ asset('images/avatar-mac-dinh.jpg') }}" alt="Ảnh mặc định">
+                            <img src="{{ asset('images/avatar-mac-dinh.jpg') }}" alt="Ảnh mặc định">
                             @endif
                         </div>
                     </div>
@@ -131,9 +156,9 @@
                         <div class="d-flex justify-content-center mb-3">
                             <div class="box_avt">
                                 @if (!empty($user->image))
-                                    <img id="avatarPreview" src="{{ Storage::url($user->image) }}" alt="Ảnh đại diện">
+                                <img id="avatarPreview" src="{{ Storage::url($user->image) }}" alt="Ảnh đại diện">
                                 @else
-                                    <img id="avatarPreview" src="{{ asset('images/avatar-mac-dinh.jpg') }}" alt="Ảnh mặc định">
+                                <img id="avatarPreview" src="{{ asset('images/avatar-mac-dinh.jpg') }}" alt="Ảnh mặc định">
                                 @endif
                                 <input type="file" name="image" id="imageUpload" class="d-none">
                                 <button type="button" class="btn-add-image" onclick="document.getElementById('imageUpload').click();"><i class="fa-solid fa-camera"></i></button>
@@ -142,17 +167,17 @@
                         <div class="form-group">
                             <label for="" class="form_ext w-25">Họ và Tên</label>
                             <input type="text" class="input-text form-control w-75" name="name"
-                                value="{{ $user->name }}" >
+                                value="{{ $user->name }}">
                         </div>
                         <div class="form-group">
                             <label for="" class="form_ext w-25">Tên Tài Khoản</label>
                             <input type="text" class="input-text form-control w-75" name="username"
-                                value="{{ $user->username }}" >
+                                value="{{ $user->username }}">
                         </div>
                         <div class="form-group">
                             <label for="" class="form_ext w-25">Email</label>
                             <input type="text" class="input-text form-control w-75" name="email"
-                                value="{{ $user->email }}" >
+                                value="{{ $user->email }}">
                         </div>
                         <div class="form-group">
                             <label for="" class="form_ext w-25">Số Điện Thoại</label>
@@ -170,22 +195,22 @@
                     <form action="{{ route('home.postChange') }}" method="POST">
                         @csrf
                         @method('PUT')
-                    <div class="form-group d-flex">
-                        <label for="current_password" class="form_ext">Mật khẩu hiện tại</label>
-                        <input type="password" class="input-text form-control w-75" name="current_password">
-                    </div>
-                    <div class="form-group d-flex">
-                        <label for="new_password" class="form_ext">Mật khẩu mới</label>
-                        <input type="password" class="input-text form-control w-75" name="new_password">
-                    </div>
-                    <div class="form-group d-flex">
-                        <label for="new_password_confirmation" class="form_ext">Xác nhận mật khẩu mới</label>
-                        <input type="password" class="input-text form-control w-75" name="new_password_confirmation">
-                    </div>
-                    <div class="form-group justify-content-start">
-                        <button type="submit" class="btn btn-success">Đổi mật khẩu</button>
-                        <button type="button" class="btn btn-secondary" onclick="history.back();">Quay lại</button>
-                    </div>
+                        <div class="form-group d-flex">
+                            <label for="current_password" class="form_ext">Mật khẩu hiện tại</label>
+                            <input type="password" class="input-text form-control w-75" name="current_password">
+                        </div>
+                        <div class="form-group d-flex">
+                            <label for="new_password" class="form_ext">Mật khẩu mới</label>
+                            <input type="password" class="input-text form-control w-75" name="new_password">
+                        </div>
+                        <div class="form-group d-flex">
+                            <label for="new_password_confirmation" class="form_ext">Xác nhận mật khẩu mới</label>
+                            <input type="password" class="input-text form-control w-75" name="new_password_confirmation">
+                        </div>
+                        <div class="form-group justify-content-start">
+                            <button type="submit" class="btn btn-success">Đổi mật khẩu</button>
+                            <button type="button" class="btn btn-secondary" onclick="history.back();">Quay lại</button>
+                        </div>
                     </form>
                 </div>
             </div>

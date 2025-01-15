@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\User\LoginRequest;
 use App\Http\Requests\Admin\User\RegisterRequest;
 use App\Models\ArticleCategory;
+use App\Models\Comment;
 use App\Models\Feedback;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -72,7 +73,7 @@ class HomeController extends Controller
         return view('home.searchTour', compact('items'));
     }
     public function tourLog(Request $request, $id)
-    {  
+    {
         $objBanner = new Banner();
         $category_type = ProductCategory::findOrFail($id);
         $objTourCate = new ProductCategory();
@@ -96,27 +97,27 @@ class HomeController extends Controller
         }
 
         if ($request->has('from') && $request->from != '') {
-            $query->where('start_places_id', $request->from); 
+            $query->where('start_places_id', $request->from);
         }
         $tours = $query->paginate(6);
-     
-        return view('home.tourLog', compact('tours', 'category_type', 'starts'),$this->view);
+
+        return view('home.tourLog', compact('tours', 'category_type', 'starts'), $this->view);
     }
     public function getToursByCategory($category_type_id)
     {
-        $tours = Product::where('category_type_id', $category_type_id)->paginate(8);
+        $tours = Product::where('category_type_id', $category_type_id)->where('active', 1)->paginate(8);
         $category = ProductCategoryType::findOrFail($category_type_id);
         return view('home.tourByCate', compact('tours', 'category'));
     }
     public function getBlogById($id)
     {
         $article = Article::with('articleCategory')->findOrFail($id);
-
+        $comments = Comment::where('article_id', $id)->where('status', 1)->orderBy('created_at','DESC')->get();
         $relatedArticles = Article::where('article_category_id', $article->article_category_id)
             ->where('id', '!=', $id)
             ->take(5)
             ->get();
-        return view('home.blogDetail', compact('article', 'relatedArticles'));
+        return view('home.blogDetail', compact('article', 'relatedArticles','comments'));
     }
 
     public function detail($id)
@@ -124,7 +125,6 @@ class HomeController extends Controller
         // Lấy thông tin sản phẩm
         $item = Product::with('itineraries')->findOrFail($id);
         $otherTours = Product::where('id', '!=', $id)->take(5)->get();
-
         // Trả về view kèm dữ liệu
         return view('home.detail', compact('item', 'otherTours'));
     }
@@ -133,7 +133,6 @@ class HomeController extends Controller
         // Lấy tất cả bài viết và thể loại bài viết
         $blog = Article::with('articleCategory');
         $articleCategory = ArticleCategory::all();
-
         // Kiểm tra nếu có tham số tìm kiếm
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
@@ -162,6 +161,18 @@ class HomeController extends Controller
         $user = auth()->user();
         $objOrder = new Order();
         $this->view['listOrder'] = $objOrder->with('product')->where('user_id', $user->id)->paginate(5);
+        $this->view['payments'] = [
+            1 => 'Thanh Toán Trực Tuyến',
+            2 => 'Thanh Toán Momo',
+        ];
+        $this->view['status'] = [
+            1 => 'Chưa Thanh Toán',
+            2 => 'chờ xử lý',
+            3 => 'thanh toán thành công',
+            4 => 'Tour đang được diễn ra',
+            5 => 'Tour đã hoàn thành',
+            6 => 'Tour đã hủy',
+        ];
         return view('home.profile', compact('user'), $this->view);
     }
     public function updateUser(Request $request, $id)
@@ -197,14 +208,14 @@ class HomeController extends Controller
     {
         $this->view['user'] = auth()->user();
         $tour = Product::findOrFail($id);
-        return view('home.order', compact('tour'),$this->view);
+        return view('home.order', compact('tour'), $this->view);
     }
     public function storeOrder(Request $request)
     {
         $objOrder = new Order();
         $res = $objOrder->insertDataOrder($request->all());
         if ($res) {
-            return redirect()->back()->with('success', 'Đặt tour thành công!');
+            return redirect()->route('home.profile')->with('success', 'Đặt tour thành công!');
         } else {
             return redirect()->back()->with('error', 'Đặt tour không thành công!');
         }
@@ -225,11 +236,15 @@ class HomeController extends Controller
             return redirect()->back()->with('error', 'Đăng ký tài khoản không thành công!');
         }
     }
-    
+
     public function uploadFile($file)
     {
         $fileName = time() . '_' . $file->getClientOriginalName();
         return $file->storeAs('AnhTaiKhoan', $fileName, 'public');
+    }
+    public function checkout()
+    {
+        return view('home.modal.checkout');
     }
     public function login()
     {
@@ -363,7 +378,6 @@ class HomeController extends Controller
             'dailyStatisticsJSON' => json_encode($dailyStatistics),
         ]);
     }
-
     public function dailyStatistics($year)
     {
         // Thống kê theo ngày
@@ -382,7 +396,4 @@ class HomeController extends Controller
         return $dailyStatistics;
     }
 
-
-    
-    
 }

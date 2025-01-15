@@ -66,7 +66,7 @@ class AdminController extends Controller
     public function listOrder(Request $request){
         
     $objClient = new User();
-    $query = Order::query()->with('product'); // Query từ bảng Order và liên kết với bảng Product
+    $query = Order::query()->with('product')->orderBy('created_at', 'desc'); // Query từ bảng Order và liên kết với bảng Product
 
     // Lọc theo tên khách hàng
     if ($request->filled('customer_name')) {
@@ -107,8 +107,11 @@ class AdminController extends Controller
     ];
     $this->view['status'] = [
         1 => 'Chưa Thanh Toán',
-        2 => 'Đã Thanh Toán',
-        3 => 'Đã Hủy',
+        2 => 'Thanh Toán Thành Công',
+        3 => 'Đã Xác Nhận',
+        4 => 'Đang thực hiện',
+        5 => 'Đã hoàn thành',
+        6 => 'Đã hủy',
     ];
 
     return view('admin.listOrder', $this->view);

@@ -34,7 +34,7 @@
             <select name="article_id" id="article_id" class="form-control mr-2">
                 <option value="">Tất cả bài viết</option>
                 @foreach($articles as $article)
-                <option value="{{ $article->id }}" 
+                <option value="{{ $article->id }}"
                     {{ request('article_id') == $article->id ? 'selected' : '' }}>
                     {{ $article->subject }}
                 </option>
@@ -64,13 +64,16 @@
                     <td>{{$items->loadAllArticle->subject}}</td>
                     <td>{{$items->loadAllUser->username}}</td>
                     <td>{{$items->content}}</td>
-
-                    <td>
-                        <input type="checkbox" {{ $items->status == 1 ? 'checked' : '' }}>
-                    </td>
-                    <td class="d-flex justify-content-around py-4">
-                        <a class="btn btn-primary" href="#">Cập nhật</a>
-                    </td>
+                    <form action="{{ route('comment.update', $items->id) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <td>
+                            <input type="checkbox" {{ $items->status == 1 ? 'checked' : '' }}>
+                        </td>
+                        <td class="d-flex justify-content-around py-4">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </td>
+                    </form>
                 </tr>
                 @endforeach
             </tbody>
