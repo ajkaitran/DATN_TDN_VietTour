@@ -26,7 +26,7 @@
 <section class="m-5">
     <div class="container">
 
-        <form method="POST" class="space-y-4" id="orderForm">
+        <form method="POST" action="{{ route('home.storeOrder') }}" class="space-y-4" id="">
             @csrf
             <div class="row gap-4 flex-nowrap">
                 <div class="col-7 bg-gray-100 p-3 ">
@@ -77,6 +77,7 @@
                         <i class="fa-solid fa-square-check"></i>
                         <span>Đặt trước giữ chỗ, thanh toán sau. Dễ dàng, thuận tiện, nhanh chóng!</span>
                     </div>
+                    <input type="hidden" name="product_id" value="{{ $tour->id }}" />
                     <button type="submit" class="w-full bg-red-500 text-white p-2 rounded">HOÀN THÀNH</button>
                 </div>
                 <div class="col-5 bg-gray-100 p-3">
@@ -101,13 +102,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div>
+                            <!-- <div>
                                 <label class="label_input">Ngày về*</label>
                                 <div class="input_item">
                                     <i class="fa-solid fa-calendar-days" style="width: 15%;"></i>
                                     <input type="date"name="return_date" placeholder="dd/mm/yyyy" required>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between">
